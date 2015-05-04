@@ -1,5 +1,6 @@
-# tabelsGen
-Python table generator and modifier
+# tablesGen
+Python table generator and modifier.
+
 For now it reads a csv file and modify it randomly using the following operations
 * Add random rows
 * Add random columns
