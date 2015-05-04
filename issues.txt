@@ -5,3 +5,9 @@ I tried to install it like this
 but then I got an error to get something from visual c++ compiler for python which I installed from here
  http://aka.ms/vcpython27
 I installed it then again got the numpy from the setting, project interpreter.
+
+4.5.2015
+# random array
+using new_row = random.sample(xrange(min_data, max_data), cols) like this is a problem
+because the range of data should be bigger than the cols
+"sample larger than population"

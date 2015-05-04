@@ -5,8 +5,8 @@ import random
 
 def add_row(my_array, index, new_row):
     # no out of range index
-    #the size of the new row should match the existing rows
-    #unless it's an empty array anyway
+    # the size of the new row should match the existing rows
+    # unless it's an empty array anyway
     if index <= len(my_array) and (len(my_array) == 0 or len(new_row) == len(my_array[0])):
         my_array = np.insert(my_array, index, new_row, axis=0)
     else:
@@ -18,7 +18,7 @@ def add_col(my_array, index, new_col):
     if (len(my_array) == 0 and index == 0) or (len(new_col) == len(my_array) and index <= len(my_array[0])):
         my_array = np.insert(my_array, index, new_col, axis=1)
         # my_array = np.insert(my_array, index, new_col)
-        #else:
+        # else:
         #     print("Error: size of new column")
     else:
         print("Error: out of range column insertion")
@@ -74,15 +74,16 @@ def randomly_change_table(table):
     min_data = 0
     max_data = 30
     largest_col = 3
-    if (change_type == ADD_ROW):
+    if change_type == ADD_ROW:
         index = random.randint(0, len(table))
         if len(table) > 0:
             new_row = random.sample(range(min_data, max_data), len(table[0]))
         else:
+            # table is empty
             new_row = random.sample(range(min_data, max_data), random.randint(1, largest_row))
         print("log: add a row in ", index, new_row)
         table = add_row(table, index, new_row)
-    elif (change_type == ADD_COL):
+    elif change_type == ADD_COL:
         if len(table) > 0:
             index = random.randint(0, len(table[0]))
             new_col = random.sample(range(min_data, max_data), len(table))
@@ -91,7 +92,7 @@ def randomly_change_table(table):
             new_col = random.sample(range(min_data, max_data), random.randint(1, largest_col))
         print("log: add a col in ", index, new_col)
         table = add_col(table, index, new_col)
-    elif (change_type == CH_CELL):
+    elif change_type == CH_CELL:
         if len(table) > 0:
             i = random.randint(0, len(table) - 1)
             j = random.randint(0, len(table[0]) - 1)
@@ -146,10 +147,10 @@ rand = random.uniform(-1, 100)
 table_1 = [[1]]
 table_2 = np.array( [[13, 0.1], [7.1, 3], [1, 4], [2, 3], [3, 3]])
 #table_3 might be from a file as it has to be big
-input_file = 'small_table_in.csv'
+input_file = '../data/small_table_in.csv'
 my_date = np.genfromtxt(input_file, delimiter=',')
 print("this is my data", my_date)
-output_file = "small_table_out.csv"
+output_file = "../data/small_table_out.csv"
 
 
 random.seed(100)
