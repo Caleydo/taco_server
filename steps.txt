@@ -1,0 +1,7 @@
+26.04.2015
+# I cannot import numpy (solved)
+I tried to install it like this
+ https://www.jetbrains.com/pycharm/help/installing-uninstalling-and-upgrading-packages.html#d110070e130
+but then I got an error to get something from visual c++ compiler for python which I installed from here
+ http://aka.ms/vcpython27
+I installed it then again got the numpy from the setting, project interpreter.
