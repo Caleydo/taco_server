@@ -42,3 +42,7 @@ a = create_table(100,200,0,99 , data_type=float)
 save_table(a, data_directory + 'big_table_in.csv')
 
 print(a, a.shape)
+
+# todo make it as a class or a script
+# todo add identifier for each row
+# todo add identifier for each column

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/tabelsGen.iml" filepath="$PROJECT_DIR$/.idea/tabelsGen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tablesGen/.idea/tablesGen.iml" filepath="$PROJECT_DIR$/../tablesGen/.idea/tablesGen.iml" />
     </modules>
   </component>
 </project>
