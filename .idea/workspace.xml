@@ -14,8 +14,9 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/tabelsGen$generator.coverage" NAME="generator Coverage Results" MODIFIED="1430736233342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Repository/PycharmProjects/tabelsGen/src" />
-    <SUITE FILE_PATH="coverage/tabelsGen$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1430732989959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Repository/PycharmProjects/tabelsGen" />
+    <SUITE FILE_PATH="coverage/tabelsGen$generator__1_.coverage" NAME="generator (1) Coverage Results" MODIFIED="1430745831268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../tablesGen/src" />
+    <SUITE FILE_PATH="coverage/tabelsGen$generator.coverage" NAME="generator Coverage Results" MODIFIED="1430736233342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/tabelsGen$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1430732989959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -30,7 +31,7 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="test1.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/test1.py">
+        <entry file="file://$PROJECT_DIR$/../tablesGen/src/test1.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-8.0" vertical-offset="1859" max-vertical-offset="3026">
               <caret line="123" column="1" selection-start-line="123" selection-start-column="1" selection-end-line="123" selection-end-column="92" />
@@ -42,10 +43,10 @@
         </entry>
       </file>
       <file leaf-file-name="generator.py" pinned="false" current-in-tab="true">
-        <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/generator.py">
+        <entry file="file://$PROJECT_DIR$/../tablesGen/src/generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8919492" vertical-offset="378" max-vertical-offset="901">
-              <caret line="47" column="37" selection-start-line="47" selection-start-column="37" selection-end-line="47" selection-end-column="37" />
+            <state vertical-scroll-proportion="1.8036118" vertical-offset="0" max-vertical-offset="918">
+              <caret line="47" column="60" selection-start-line="47" selection-start-column="60" selection-end-line="47" selection-end-column="60" />
               <folding>
                 <element signature="e#20#38#0" expanded="true" />
               </folding>
@@ -54,9 +55,9 @@
         </entry>
       </file>
       <file leaf-file-name="big_table_in.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/big_table_in.csv">
+        <entry file="file://$PROJECT_DIR$/../tablesGen/data/big_table_in.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1802">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="272">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -77,7 +78,7 @@
         </entry>
       </file>
       <file leaf-file-name="issues.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/issues.txt">
+        <entry file="file://$PROJECT_DIR$/../tablesGen/issues.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
               <caret line="12" column="31" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
@@ -91,13 +92,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/steps.txt" />
-        <option value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/small_table.csv" />
-        <option value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/small_table_in.csv" />
-        <option value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/test1.py" />
-        <option value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/issues.txt" />
-        <option value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/src/test1.py" />
-        <option value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/src/generator.py" />
+        <option value="$PROJECT_DIR$/steps.txt" />
+        <option value="$PROJECT_DIR$/small_table.csv" />
+        <option value="$PROJECT_DIR$/small_table_in.csv" />
+        <option value="$PROJECT_DIR$/test1.py" />
+        <option value="$PROJECT_DIR$/issues.txt" />
+        <option value="$PROJECT_DIR$/src/test1.py" />
+        <option value="$PROJECT_DIR$/src/generator.py" />
+        <option value="$PROJECT_DIR$/../tablesGen/src/generator.py" />
       </list>
     </option>
   </component>
@@ -152,6 +154,12 @@
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tabelsGen" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="tabelsGen" />
@@ -217,7 +225,7 @@
       <recent name="C:\Users\Reem\Repository\PycharmProjects\tabelsGen\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.generator">
+  <component name="RunManager" selected="Python.generator (1)">
     <configuration default="false" name="test1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -225,7 +233,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Repository/PycharmProjects/tabelsGen" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -247,13 +255,33 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="tabelsGen" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Repository/PycharmProjects/tabelsGen/src/generator.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/generator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="generator (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../tablesGen/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="tablesGen" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../tablesGen/src/generator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
@@ -448,14 +476,16 @@
       <envs />
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.test1" />
       <item index="1" class="java.lang.String" itemvalue="Python.generator" />
+      <item index="2" class="java.lang.String" itemvalue="Python.generator (1)" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.generator" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test1" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.generator (1)" />
+        <item index="1" class="java.lang.String" itemvalue="Python.generator" />
+        <item index="2" class="java.lang.String" itemvalue="Python.test1" />
       </list>
     </recent_temporary>
   </component>
@@ -494,7 +524,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -502,7 +532,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32885906" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18830334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -541,7 +571,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/test1.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/test1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3009">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -551,7 +581,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/medium_table_out.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/medium_table_out.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="136">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
@@ -559,7 +589,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="170">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
@@ -567,7 +597,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table_in.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table_in.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="221">
           <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
@@ -578,7 +608,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table_out.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table_out.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -589,7 +619,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/issues.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/issues.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
           <caret line="6" column="78" selection-start-line="6" selection-start-column="78" selection-end-line="6" selection-end-column="78" />
@@ -597,7 +627,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/test1.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/test1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3009">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -607,7 +637,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/medium_table_out.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/medium_table_out.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="136">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
@@ -615,7 +645,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="170">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
@@ -623,7 +653,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table_in.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table_in.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="221">
           <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
@@ -634,7 +664,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table_out.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table_out.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -645,7 +675,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/issues.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/issues.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
           <caret line="6" column="78" selection-start-line="6" selection-start-column="78" selection-end-line="6" selection-end-column="78" />
@@ -653,7 +683,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/test1.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/test1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2941">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -663,7 +693,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/medium_table_out.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/medium_table_out.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="204">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
@@ -674,7 +704,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="170">
           <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
@@ -682,7 +712,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/issues.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/issues.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
           <caret line="6" column="78" selection-start-line="6" selection-start-column="78" selection-end-line="6" selection-end-column="78" />
@@ -690,7 +720,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/test1.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/test1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2210">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -700,7 +730,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/medium_table_out.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/medium_table_out.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="272">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
@@ -711,7 +741,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="170">
           <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
@@ -719,7 +749,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/issues.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/issues.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
           <caret line="6" column="78" selection-start-line="6" selection-start-column="78" selection-end-line="6" selection-end-column="78" />
@@ -727,7 +757,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/test1.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/test1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1938">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -737,7 +767,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="170">
           <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
@@ -745,7 +775,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/issues.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/issues.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
           <caret line="6" column="78" selection-start-line="6" selection-start-column="78" selection-end-line="6" selection-end-column="78" />
@@ -753,7 +783,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/koko.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/koko.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="170">
           <caret line="0" column="1" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
@@ -767,7 +797,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/test1.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/test1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="100">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -777,7 +807,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/issues.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/issues.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
           <caret line="6" column="78" selection-start-line="6" selection-start-column="78" selection-end-line="6" selection-end-column="78" />
@@ -806,7 +836,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table_out.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table_out.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="472">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -817,7 +847,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="170">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
@@ -828,7 +858,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/small_table_in.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/small_table_in.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
           <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
@@ -839,7 +869,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/koko.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/koko.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.098981075" vertical-offset="0" max-vertical-offset="687">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
@@ -858,7 +888,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/issues.txt">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/issues.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
           <caret line="12" column="31" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
@@ -866,7 +896,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/medium_table_out.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/medium_table_out.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0720339" vertical-offset="0" max-vertical-offset="472">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
@@ -877,7 +907,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/__init__.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="717">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -885,7 +915,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/test1.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/test1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.0" vertical-offset="1859" max-vertical-offset="3026">
           <caret line="123" column="1" selection-start-line="123" selection-start-column="1" selection-end-line="123" selection-end-column="92" />
@@ -903,7 +933,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/data/big_table_in.csv">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/data/big_table_in.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -914,10 +944,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Repository/PycharmProjects/tablesGen/src/generator.py">
+    <entry file="file://$PROJECT_DIR$/../tablesGen/src/generator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8919492" vertical-offset="378" max-vertical-offset="901">
-          <caret line="47" column="37" selection-start-line="47" selection-start-column="37" selection-end-line="47" selection-end-column="37" />
+        <state vertical-scroll-proportion="1.8036118" vertical-offset="0" max-vertical-offset="918">
+          <caret line="47" column="60" selection-start-line="47" selection-start-column="60" selection-end-line="47" selection-end-column="60" />
           <folding>
             <element signature="e#20#38#0" expanded="true" />
           </folding>

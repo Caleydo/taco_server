@@ -17,10 +17,11 @@ def random_int_array(low, high, size):
 def create_table(rows, cols, min_data, max_data, data_type=int):
     table = []
     for i in range(rows):
+        new_row = [i]
         if data_type == int:
-            new_row = random_int_array(min_data, max_data, cols)
+            new_row += random_int_array(min_data, max_data, cols)
         else:
-            new_row = random_floats_array(min_data, max_data, cols)
+            new_row += random_floats_array(min_data, max_data, cols)
         table.append(new_row)
     return np.array(table)
 
@@ -38,11 +39,11 @@ def save_table(table, file_name, header=None):
 
 
 data_directory = '../data/'
-a = create_table(100,200,0,99 , data_type=float)
+a = create_table(10,2,0,99 , data_type=float)
 save_table(a, data_directory + 'big_table_in.csv')
 
 print(a, a.shape)
 
 # todo make it as a class or a script
-# todo add identifier for each row
+# todo notice that the row and column identifiers are floats
 # todo add identifier for each column
