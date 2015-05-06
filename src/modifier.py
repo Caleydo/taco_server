@@ -17,6 +17,7 @@ def add_row(my_array, index, new_row):
     return my_array
 
 
+# adds a new_col to the array in the specified index
 def add_col(my_array, index, new_col):
     if (len(my_array) == 0 and index == 0) or (len(new_col) == len(my_array) and index <= len(my_array[0])):
         my_array = np.insert(my_array, index, new_col, axis=1)
@@ -76,25 +77,31 @@ def randomly_change_table(table, min_data, max_data):
     largest_row = 10
     largest_col = 3
     length_table = table.shape[0]
-    width_table = table.shape[1]
+    width_table = table.shape[1] - 1 #because we have the index
+    latest_id = table[:, 0].max()
+    row_id = latest_id + 1
+    print(latest_id)
     if change_type == ADD_ROW:
         # todo change to consider that the first column is a header
         index = random.randint(0, length_table)
         if length_table > 0:
-            # todo consider that the first element is an id
-            new_row = gen.random_floats_array(min_data, max_data, width_table)
+            latest_id += 1
+            if width_table > 0:
+                new_row = [row_id] + gen.random_floats_array(min_data, max_data, width_table)
+            else:
+                new_row = [row_id]
         else:
             # table is empty
+            # recheck
             new_row = gen.random_floats_array(min_data, max_data, random.randint(1, largest_row))
-        #print("log: add a row in ", index, new_row)
-        # todo get the id instead of index for the log
-        log_message("add", "column", index, index, new_row)
+        log_message("add", "row", row_id, index, new_row)
         table = add_row(table, index, new_row)
     elif change_type == ADD_COL:
         if length_table > 0:
-            index = random.randint(0, width_table)
+            index = random.randint(1, width_table) #should not add at the beginning
             new_col = gen.random_floats_array(min_data, max_data, length_table)
         else:
+            # todo check index 0
             index = 0
             new_col = gen.random_floats_array(min_data, max_data, random.randint(1, largest_col))
         # todo get the id instead of index for the log
@@ -103,24 +110,21 @@ def randomly_change_table(table, min_data, max_data):
         table = add_col(table, index, new_col)
     elif change_type == CH_CELL:
         if length_table > 0:
+            #should not change the id
             i = random.randint(0, length_table - 1)
-            j = random.randint(0, width_table - 1)
+            j = random.randint(1, width_table - 1)
             new_value = random.uniform(min_data, max_data)
-            #print("log: change something somewhere ", i, j, new_value)
-            # todo get the id instead of index for the log
-            log_message("change", "cell", i, (i,j), new_value)
+            log_message("change", "cell", table[i,0], (i,j), new_value)
             table = change_cell(table, i, j, new_value)
         else:
             print("log: there's nothing to change")
     elif change_type == DEL_ROW:
         index = random.randint(0, length_table - 1)
-        #print("log: delete row ", index)
-        # todo get the id instead of index for the log
-        log_message("delete","row", index ,index, table[index])
+        log_message("delete","row", table[index,0] ,index, table[index])
         table = del_row(table, index)
     elif change_type == DEL_COL:
         if width_table > 0:
-            index = random.randint(0, width_table - 1)
+            index = random.randint(1, width_table - 1) #should not delete the first col
             #print("log: delete col ", index)
             # todo get the id instead of index for the log
             log_message("delete","column", index ,index, table[:,index])
@@ -140,7 +144,7 @@ in_file_name = 'big_table_in.csv'
 out_file_name = 'big_table_out.csv'
 log_file = data_directory + 'test.log'
 
-rows = 20
+rows = 12
 cols = 10
 min_data = 0
 max_data = 100
@@ -159,7 +163,7 @@ gen.save_table(big_table, data_directory + in_file_name )
 
 
 # the old testing
-random.seed(101)
+random.seed(10)
 num_of_changes = random.randint(2, 20)
 print("num of changes is ", num_of_changes - 1)
 for i in xrange(1, num_of_changes):
