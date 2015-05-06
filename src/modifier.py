@@ -1,8 +1,10 @@
 __author__ = 'Reem'
 import numpy as np
 import random
+import generator as gen
 
 
+# adds a new_row to the my_array in the specified index
 def add_row(my_array, index, new_row):
     # no out of range index
     # the size of the new row should match the existing rows
@@ -19,14 +21,14 @@ def add_col(my_array, index, new_col):
         my_array = np.insert(my_array, index, new_col, axis=1)
         # my_array = np.insert(my_array, index, new_col)
         # else:
-        #     print("Error: size of new column")
+        # print("Error: size of new column")
     else:
         print("Error: out of range column insertion")
     return my_array
 
 
 def change_cell(my_array, row, col, new_value):
-    if (row < len(my_array) and col < len(my_array[row])):
+    if row < len(my_array) and col < len(my_array[row]):
         # print(row,col)
         my_array[row][col] = new_value
     else:
@@ -63,7 +65,7 @@ def del_col(my_array, index):
     return my_array
 
 
-def randomly_change_table(table):
+def randomly_change_table(table, min_data, max_data):
     change_type = random.randint(1, 5)
     ADD_ROW = 1
     ADD_COL = 2
@@ -71,102 +73,69 @@ def randomly_change_table(table):
     DEL_ROW = 4
     DEL_COL = 5
     largest_row = 10
-    min_data = 0
-    max_data = 30
     largest_col = 3
+    length_table = table.shape[0]
+    width_table = table.shape[1]
     if change_type == ADD_ROW:
-        index = random.randint(0, len(table))
-        if len(table) > 0:
-            new_row = random.sample(range(min_data, max_data), len(table[0]))
+        # todo change to consider that the first column is a header
+        index = random.randint(0, length_table)
+        if length_table > 0:
+            # todo consider that the first element is an id
+            new_row = gen.random_floats_array(min_data, max_data, width_table)
         else:
             # table is empty
-            new_row = random.sample(range(min_data, max_data), random.randint(1, largest_row))
+            new_row = gen.random_floats_array(min_data, max_data, random.randint(1, largest_row))
         print("log: add a row in ", index, new_row)
         table = add_row(table, index, new_row)
     elif change_type == ADD_COL:
-        if len(table) > 0:
-            index = random.randint(0, len(table[0]))
-            new_col = random.sample(range(min_data, max_data), len(table))
+        if length_table > 0:
+            index = random.randint(0, width_table)
+            new_col = gen.random_floats_array(min_data, max_data, length_table)
         else:
             index = 0
-            new_col = random.sample(range(min_data, max_data), random.randint(1, largest_col))
+            new_col = gen.random_floats_array(min_data, max_data, random.randint(1, largest_col))
         print("log: add a col in ", index, new_col)
         table = add_col(table, index, new_col)
     elif change_type == CH_CELL:
-        if len(table) > 0:
-            i = random.randint(0, len(table) - 1)
-            j = random.randint(0, len(table[0]) - 1)
+        if length_table > 0:
+            i = random.randint(0, length_table - 1)
+            j = random.randint(0, width_table - 1)
             new_value = random.uniform(min_data, max_data)
             print("log: change something somewhere ", i, j, new_value)
             table = change_cell(table, i, j, new_value)
         else:
             print("log: there's nothing to change")
     elif change_type == DEL_ROW:
-        index = random.randint(0, len(table) - 1)
+        index = random.randint(0, length_table - 1)
         print("log: delete row ", index)
         table = del_row(table, index)
     elif change_type == DEL_COL:
-        index = random.randint(0, len(table[0]) - 1)
+        index = random.randint(0, width_table - 1)
         print("log: delete col ", index)
         table = del_col(table, index)
     return table
 
+# testing
+data_directory = '../data/'
+in_file_name = 'big_table_in.csv'
+out_file_name = 'big_table_out.csv'
 
-file_name = "../data/small_table.csv"
+rows = 100
+cols = 500
+min_data = 0
+max_data = 100
 
-my_array = np.array([[7.1, 3], [1, 4], [2, 3], [3, 3]])
-# this generates text all are strings
-#my_array = np.array([["col1","col2"],[1,4],[2,3],[3,3]])
-#np.savetxt(file_name,my_array, delimiter=',',fmt='%s')
+big_table = gen.create_table(rows, cols, min_data, max_data, data_type=float)
+gen.save_table(big_table, data_directory + in_file_name )
 
-#this generates a table where I write the header alone with comments nothing
-#more reasonable if the data is int or float
-#np.savetxt(file_name, my_array, delimiter=',', fmt='%.5f', header='col1,col2', comments='')
-np.savetxt(file_name, my_array, delimiter=',', fmt='%.5f')
-
-b = np.loadtxt(file_name, dtype=float, delimiter=',')
-
-#print(b)
-c = []
-
-my_array = change_cell(my_array, 3, 3, 88)
-my_array = add_col(my_array, 1, [2, 3, 4, 5])
-my_array = add_col(my_array, 1, [2.3, 3.3, 15, 55])
-my_array = add_row(my_array, 0, [15, 22.2, 7, 6])
-#print(my_array)
-
-random.seed(10)
-#rand = random.randint(0,100)
-#rand = random.randrange(0,100)
-rand = random.uniform(-1, 100)
-#print(rand)
-
-#1- create 3 initial tables
-#2- modify these tables randomly
-#3- save each of the new table in a file with a similar name
-table_1 = [[1]]
-table_2 = np.array( [[13, 0.1], [7.1, 3], [1, 4], [2, 3], [3, 3]])
-#table_3 might be from a file as it has to be big
-input_file = '../data/small_table_in.csv'
-my_date = np.genfromtxt(input_file, delimiter=',')
-print("this is my data", my_date)
-output_file = "../data/small_table_out.csv"
-
-
+# the old testing
 random.seed(100)
 num_of_changes = random.randint(2, 20)
 print("num of changes is ", num_of_changes - 1)
 for i in xrange(1, num_of_changes):
-    my_date = randomly_change_table(my_date)
-    print(my_date)
-#print(table_2)
+    big_table = randomly_change_table(big_table, min_data, max_data)
+    print(big_table)
 
-#save the result in a file
-np.savetxt(output_file, my_date, delimiter=',', fmt='%.6f')
+gen.save_table(big_table, data_directory + out_file_name)
 
-#TODO recheck the case of empty list
-#TODO save the log messages to a file
-#todo read data from a file
-#todo when the table is one column then adding anything doesn't work
-#todo changing a value gets an integer instead of a float!
-#todo error out of range changes?
+print(big_table, big_table.shape)
