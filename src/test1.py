@@ -165,8 +165,6 @@ for i in xrange(1, num_of_changes):
 np.savetxt(output_file, my_date, delimiter=',', fmt='%.6f')
 
 #TODO recheck the case of empty list
-#TODO save the log messages to a file
-#todo read data from a file
 #todo when the table is one column then adding anything doesn't work
 #todo changing a value gets an integer instead of a float!
 #todo error out of range changes?
