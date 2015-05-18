@@ -80,7 +80,6 @@ def randomly_change_table(table, min_data, max_data):
     width_table = table.shape[1] - 1 #because we have the index
     latest_id = table[:, 0].max()
     row_id = latest_id + 1
-    print(latest_id)
     if change_type == ADD_ROW:
         # todo change to consider that the first column is a header
         index = random.randint(0, length_table)
@@ -140,12 +139,12 @@ def log_message(operation, type, id, position, data, new_id=None):
 
 # testing
 data_directory = '../data/'
-in_file_name = 'big_table_in.csv'
-out_file_name = 'big_table_out.csv'
-log_file = data_directory + 'test.log'
+in_file_name = 'med_table_in.csv'
+out_file_name = 'med_table_out.csv'
+log_file = data_directory + 'med_table.log'
 
-rows = 12
-cols = 10
+rows = 50
+cols = 100
 min_data = 0
 max_data = 100
 
@@ -159,12 +158,16 @@ logging.basicConfig(level=logging.INFO,
                     filemode='w')
 
 big_table = gen.create_table(rows, cols, min_data, max_data, data_type=float)
-gen.save_table(big_table, data_directory + in_file_name )
+size = big_table.shape
+header = "id"
+for i in range(size[1]-1):
+    header += ", header"+ str(i)
+gen.save_table(big_table, data_directory + in_file_name , header=header)
 
 
 # the old testing
 random.seed(10)
-num_of_changes = random.randint(2, 20)
+num_of_changes = random.randint(2, 15)
 print("num of changes is ", num_of_changes - 1)
 for i in xrange(1, num_of_changes):
     big_table = randomly_change_table(big_table, min_data, max_data)
