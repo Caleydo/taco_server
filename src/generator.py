@@ -16,8 +16,12 @@ def random_int_array(low, high, size):
 # creates a homogeneous table
 def create_table(rows, cols, min_data, max_data, data_type=int):
     table = []
+    #generate the header
+    header_row = [0]
+    header_row += [x for x in range(cols)]
+    table.append(header_row)
     for i in range(rows+1):
-        new_row = [i]
+        new_row = [i+1]
         if data_type == int:
             # or can use insert function instead, but + is also working
             new_row += random_int_array(min_data, max_data, cols)
@@ -36,9 +40,10 @@ def save_table(table, file_name, header=None):
         np.savetxt(file_name, table, delimiter=',', fmt=fmt, header=header, comments='')
     else:
         # if there's no header
+        #fmt = '%r'
         np.savetxt(file_name, table, delimiter=',', fmt=fmt)
 
 
 # todo make it as a class or a script
-# todo notice that the row and column identifiers are floats
+# todo notice that the row identifiers are floats
 # todo add identifier for each column (could be the header?)
