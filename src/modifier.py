@@ -30,7 +30,10 @@ def add_col(my_array, index, new_col):
 
 
 def change_cell(my_array, row, col, new_value):
-    if row < len(my_array) and col < len(my_array[row]):
+    #consider that we don't change the IDs
+    if row == 0 or col == 0:
+        print("Error: changing IDs!")
+    elif row < len(my_array) and col < len(my_array[row]):
         # print(row,col)
         my_array[row][col] = new_value
     else:
@@ -81,8 +84,8 @@ def randomly_change_table(table, min_data, max_data):
     latest_id = table[:, 0].max()
     row_id = latest_id + 1
     if change_type == ADD_ROW:
-        # todo change to consider that the first column is a header
-        index = random.randint(0, length_table)
+        # 1 to consider that the first column is a header
+        index = random.randint(1, length_table)
         if length_table > 0:
             latest_id += 1
             if width_table > 0:
@@ -139,12 +142,12 @@ def log_message(operation, type, id, position, data, new_id=None):
 
 # testing
 data_directory = '../data/'
-in_file_name = 'med_table_in.csv'
-out_file_name = 'med_table_out.csv'
-log_file = data_directory + 'med_table.log'
+in_file_name = 'tiny_table_in.csv'
+out_file_name = 'tiny_table_out.csv'
+log_file = data_directory + 'tiny_table.log'
 
-rows = 50
-cols = 100
+rows = 8
+cols = 5
 min_data = 0
 max_data = 100
 
@@ -159,11 +162,16 @@ logging.basicConfig(level=logging.INFO,
 
 big_table = gen.create_table(rows, cols, min_data, max_data, data_type=float)
 size = big_table.shape
-header = "id"
-for i in range(size[1]-1):
-    header += ", header"+ str(i)
-gen.save_table(big_table, data_directory + in_file_name , header=header)
+#header = "id"
+#for i in range(size[1]-1):
+#    header += ", header"+ str(i)
+#gen.save_table(big_table, data_directory + in_file_name , header=header)
+gen.save_table(big_table, data_directory + in_file_name)
 
+#add the header to the table
+# (should be read from the file as a whole table but for now I add it manually)
+#big_table = np.insert(big_table, 0, header, axis=0)
+#print(big_table)
 
 # the old testing
 random.seed(10)
