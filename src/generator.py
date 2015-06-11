@@ -47,3 +47,4 @@ def save_table(table, file_name, header=None):
 # todo make it as a class or a script
 # todo notice that the row identifiers are floats
 # todo add identifier for each column (could be the header?)
+# todo add a header to the log file? (operation, row/column/cell, id, position, data)

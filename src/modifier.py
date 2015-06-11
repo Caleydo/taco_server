@@ -137,7 +137,7 @@ def randomly_change_table(table, min_data, max_data):
 
 
 def log_message(operation, type, id, position, data, new_id=None):
-    logging.info('\t%s\t%s\t%s\t%s\t%s', operation, type, id, position, data)
+    logging.info('%s\t%s\t%s\t%s\t%s', operation, type, id, position, data)
     return
 
 # testing
@@ -153,12 +153,18 @@ max_data = 100
 
 
 # the logging
+# logging.basicConfig(level=logging.INFO,
+#                     #format='%(message)s',
+#                     format='%(asctime)s\t%(message)s',
+#                     datefmt='%d-%m-%Y %H:%M:%S',
+#                     filename=log_file,
+#                     filemode='w')
 logging.basicConfig(level=logging.INFO,
-                    #format='%(message)s',
-                    format='%(asctime)s\t%(message)s',
-                    datefmt='%d-%m-%Y %H:%M:%S',
+                    format='%(message)s',
                     filename=log_file,
                     filemode='w')
+# add a header to the log (for now)
+log_message("operation","type", "id", "position", "data") #no new id for now
 
 big_table = gen.create_table(rows, cols, min_data, max_data, data_type=float)
 size = big_table.shape
@@ -184,3 +190,8 @@ for i in xrange(1, num_of_changes):
 gen.save_table(big_table, data_directory + out_file_name)
 
 print(big_table, big_table.shape)
+
+#todo when adding a new column consider creating a new ID for it
+#todo delete operations first then add or ch operations
+#todo make sure that the log file is complete and ordered somehow
+#todo treat the header separately
