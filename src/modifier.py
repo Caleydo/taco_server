@@ -142,11 +142,12 @@ def log_message(operation, type, id, position, data, new_id=None):
 
 # testing
 data_directory = '../data/'
-in_file_name = 'tiny_table_in.csv'
-out_file_name = 'tiny_table_out.csv'
-log_file = data_directory + 'tiny_table.log'
+file_name = 'tiny_table1'
+in_file_name = file_name + '_in.csv'
+out_file_name = file_name + '_out.csv'
+log_file = data_directory + file_name + '.log'
 
-rows = 8
+rows = 4
 cols = 5
 min_data = 0
 max_data = 100
@@ -164,15 +165,18 @@ logging.basicConfig(level=logging.INFO,
                     filename=log_file,
                     filemode='w')
 # add a header to the log (for now)
-log_message("operation","type", "id", "position", "data") #no new id for now
+log_message("operation", "type", "id", "position", "data") #no new id for now
 
-big_table = gen.create_table(rows, cols, min_data, max_data, data_type=float)
+result = gen.create_table(rows, cols, min_data, max_data, data_type=float)
+big_table = result['table']
+print (result['col_ids'], result['row_ids'])
+
 size = big_table.shape
 #header = "id"
 #for i in range(size[1]-1):
 #    header += ", header"+ str(i)
 #gen.save_table(big_table, data_directory + in_file_name , header=header)
-gen.save_table(big_table, data_directory + in_file_name)
+gen.save_table(big_table, row_ids=result['row_ids'], col_ids=result['col_ids'], file_name=data_directory + in_file_name)
 
 #add the header to the table
 # (should be read from the file as a whole table but for now I add it manually)
@@ -187,7 +191,8 @@ for i in xrange(1, num_of_changes):
     big_table = randomly_change_table(big_table, min_data, max_data)
     #print(big_table)
 
-gen.save_table(big_table, data_directory + out_file_name)
+#todo to activate this
+#gen.save_table(big_table, result['row_ids'], result['col_ids'] , data_directory + out_file_name)
 
 print(big_table, big_table.shape)
 

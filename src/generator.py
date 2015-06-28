@@ -17,31 +17,30 @@ def random_int_array(low, high, size):
 def create_table(rows, cols, min_data, max_data, data_type=int):
     table = []
     #generate the header
-    header_row = [0]
-    header_row += [x for x in range(cols)]
-    table.append(header_row)
-    for i in range(rows+1):
-        new_row = [i+1]
+    header_row = ['row_ids']
+    header_row += ['col' + str(x+1) for x in range(cols)]
+    first_col = ['row' + str(x+1) for x in range(rows)]
+    #table.append(header_row) #no need to append the header because we send it as a result
+    for i in range(rows):
+        new_row = []
         if data_type == int:
             # or can use insert function instead, but + is also working
             new_row += random_int_array(min_data, max_data, cols)
         else:
             new_row += random_floats_array(min_data, max_data, cols)
         table.append(new_row)
-    return np.array(table)
+    return {'table': np.array(table), 'col_ids': header_row, 'row_ids': first_col}
 
 
 # save a table to a file
-def save_table(table, file_name, header=None):
-    fmt = '%.6f'
-    if header is not None:
-        # if there's a header
-        # NOTE that header only works as a string
-        np.savetxt(file_name, table, delimiter=',', fmt=fmt, header=header, comments='')
-    else:
-        # if there's no header
-        #fmt = '%r'
-        np.savetxt(file_name, table, delimiter=',', fmt=fmt)
+def save_table(table, row_ids, col_ids, file_name):
+    #fmt = '%.6f'
+    fmt = '%s'
+    #fmt = '%r'
+    with_first_col = np.c_[row_ids, table]
+    with_headers = np.r_[[col_ids],with_first_col]
+    print ("i'm with headers", with_headers)
+    np.savetxt(file_name, with_headers, delimiter=',', fmt=fmt)
 
 
 # todo make it as a class or a script
