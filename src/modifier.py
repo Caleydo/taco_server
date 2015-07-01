@@ -151,8 +151,9 @@ def randomly_change_table(full_table, min_data, max_data):
     return {'table': np.array(table), 'col_ids': col_ids, 'row_ids': row_ids}
 
 
-def log_message(operation, type, id, position, data, new_id=None):
-    logging.info('%s\t%s\t%s\t%s\t%s', operation, type, id, position, data)
+def log_message(operation, type, id, position, data=None, new_id=None):
+    #ignore the data for now, we don't need it
+    logging.info('%s\t%s\t%s\t%s', operation, type, id, position)
     return
 
 # testing
