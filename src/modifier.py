@@ -12,6 +12,7 @@ def add_row(my_array, index, new_row):
     # unless it's an empty array anyway
     if index <= len(my_array) and (len(my_array) == 0 or len(new_row) == len(my_array[0])):
         my_array = np.insert(my_array, index, new_row, axis=0)
+        print('added row')
     else:
         print("Error: out of range insertion")
     return my_array
@@ -31,9 +32,7 @@ def add_col(my_array, index, new_col):
 
 def change_cell(my_array, row, col, new_value):
     #consider that we don't change the IDs
-    if row == 0 or col == 0:
-        print("Error: changing IDs!")
-    elif row < len(my_array) and col < len(my_array[row]):
+    if row < len(my_array) and col < len(my_array[row]):
         # print(row,col)
         my_array[row][col] = new_value
     else:
@@ -59,7 +58,7 @@ def del_col(my_array, index):
     array_length = len(my_array)
     # check if the table is empty
     if array_length == 0:
-        print("Error: list is empty, can't delete a row", index)
+        print("Error: list is empty, can't delete a col", index)
         return my_array
     else:
         row_length = len(my_array[0])
@@ -69,8 +68,19 @@ def del_col(my_array, index):
             print("Error: out of range deletion")
     return my_array
 
+#to get the last id from the row_ids or the col_ids
+#assuming that the id starts with 3 letters ('col' or 'row')
+def get_last_id(id_list):
+    num_ids = []
+    for full_id in id_list:
+        num_ids.append(int(full_id[3:]))
+    #interesting because in numpy it's list_name.max()!
+    return max(num_ids)
 
-def randomly_change_table(table, min_data, max_data):
+def randomly_change_table(full_table, min_data, max_data):
+    table = full_table['table']
+    row_ids = full_table['row_ids']
+    col_ids =full_table['col_ids']
     change_type = random.randint(1, 5)
     ADD_ROW = 1
     ADD_COL = 2
@@ -79,61 +89,67 @@ def randomly_change_table(table, min_data, max_data):
     DEL_COL = 5
     largest_row = 10
     largest_col = 3
-    length_table = table.shape[0]
-    width_table = table.shape[1] - 1 #because we have the index
-    latest_id = table[:, 0].max()
-    row_id = latest_id + 1
+    #shape of the table without ids
+    table_height = table.shape[0]
+    table_width = table.shape[1]
+    #latest ids for insertion
+    latest_row_id = get_last_id(row_ids)
+    latest_col_id = get_last_id(col_ids)
+    new_row_id = latest_row_id + 1
+    new_col_id = latest_col_id + 1
     if change_type == ADD_ROW:
-        # 1 to consider that the first column is a header
-        index = random.randint(1, length_table)
-        if length_table > 0:
-            latest_id += 1
-            if width_table > 0:
-                new_row = [row_id] + gen.random_floats_array(min_data, max_data, width_table)
+        index = random.randint(0, table_height)
+        if table_height > 0:
+            latest_row_id += 1
+            if table_width > 0:
+                new_row = gen.random_floats_array(min_data, max_data, table_width)
             else:
-                new_row = [row_id]
+                #i don't know if this is possible in anyway!!
+                new_row = gen.random_floats_array(min_data, max_data, 1)
         else:
             # table is empty
             # recheck
+            latest_row_id = 1 #or?
             new_row = gen.random_floats_array(min_data, max_data, random.randint(1, largest_row))
-        log_message("add", "row", row_id, index, new_row)
+        log_message("add", "row", new_row_id, index, new_row)
+        row_ids.insert(index, "row"+str(new_row_id))
         table = add_row(table, index, new_row)
     elif change_type == ADD_COL:
-        if length_table > 0:
-            index = random.randint(1, width_table) #should not add at the beginning
-            new_col = gen.random_floats_array(min_data, max_data, length_table)
+        if table_height > 0:
+            index = random.randint(0, table_width)
+            new_col = gen.random_floats_array(min_data, max_data, table_height)
+            latest_col_id += 1
         else:
-            # todo check index 0
+            #this is the first column or what?
             index = 0
+            latest_col_id = 1 #?
             new_col = gen.random_floats_array(min_data, max_data, random.randint(1, largest_col))
-        # todo get the id instead of index for the log
-        #print("log: add a col in ", index, new_col)
-        log_message("add", "column", index, index, new_col)
+        log_message("add", "column", new_col_id, index, new_col)
+        col_ids.insert(index, "col"+str(new_col_id))
         table = add_col(table, index, new_col)
     elif change_type == CH_CELL:
-        if length_table > 0:
-            #should not change the id
-            i = random.randint(0, length_table - 1)
-            j = random.randint(1, width_table - 1)
+        if table_height > 0:
+            i = random.randint(0, table_height - 1)
+            j = random.randint(0, table_width - 1)
             new_value = random.uniform(min_data, max_data)
-            log_message("change", "cell", table[i,0], (i,j), new_value)
+            log_message("change", "cell", (row_ids[i], col_ids[j]), (i,j), new_value)
             table = change_cell(table, i, j, new_value)
         else:
             print("log: there's nothing to change")
     elif change_type == DEL_ROW:
-        index = random.randint(0, length_table - 1)
-        log_message("delete","row", table[index,0] ,index, table[index])
+        index = random.randint(0, table_height - 1)
+        log_message("delete","row", row_ids[index] ,index, table[index])
+        row_ids.pop(index)
         table = del_row(table, index)
     elif change_type == DEL_COL:
-        if width_table > 0:
-            index = random.randint(1, width_table - 1) #should not delete the first col
-            #print("log: delete col ", index)
-            # todo get the id instead of index for the log
-            log_message("delete","column", index ,index, table[:,index])
+        if table_width > 0:
+            index = random.randint(0, table_width - 1)
+            log_message("delete","column", col_ids[index] ,index, table[:,index])
+            col_ids.pop(index)
             table = del_col(table, index)
         else:
             print("Error: no columns to delete")
-    return table
+    return {'table': np.array(table), 'col_ids': col_ids, 'row_ids': row_ids}
 
 
 def log_message(operation, type, id, position, data, new_id=None):
@@ -147,10 +163,10 @@ in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 4
-cols = 5
+rows = 2
+cols = 3
 min_data = 0
-max_data = 100
+max_data = 10
 
 
 # the logging
@@ -168,33 +184,30 @@ logging.basicConfig(level=logging.INFO,
 log_message("operation", "type", "id", "position", "data") #no new id for now
 
 result = gen.create_table(rows, cols, min_data, max_data, data_type=float)
-big_table = result['table']
+result_table = result['table']
 print (result['col_ids'], result['row_ids'])
 
-size = big_table.shape
-#header = "id"
-#for i in range(size[1]-1):
-#    header += ", header"+ str(i)
-#gen.save_table(big_table, data_directory + in_file_name , header=header)
-gen.save_table(big_table, row_ids=result['row_ids'], col_ids=result['col_ids'], file_name=data_directory + in_file_name)
+size = result_table.shape
+#save the input file
+gen.save_table(result_table, result['row_ids'], result['col_ids'], data_directory + in_file_name)
 
 #add the header to the table
 # (should be read from the file as a whole table but for now I add it manually)
 #big_table = np.insert(big_table, 0, header, axis=0)
 #print(big_table)
-
+output_table = None
 # the old testing
 random.seed(10)
 num_of_changes = random.randint(2, 15)
 print("num of changes is ", num_of_changes - 1)
 for i in xrange(1, num_of_changes):
-    big_table = randomly_change_table(big_table, min_data, max_data)
+    result = randomly_change_table(result, min_data, max_data)
     #print(big_table)
 
 #todo to activate this
-#gen.save_table(big_table, result['row_ids'], result['col_ids'] , data_directory + out_file_name)
+gen.save_table(result['table'], result['row_ids'], result['col_ids'] , data_directory + out_file_name)
 
-print(big_table, big_table.shape)
+print(result, result['table'].shape)
 
 #todo when adding a new column consider creating a new ID for it
 #todo delete operations first then add or ch operations

@@ -17,8 +17,7 @@ def random_int_array(low, high, size):
 def create_table(rows, cols, min_data, max_data, data_type=int):
     table = []
     #generate the header
-    header_row = ['row_ids']
-    header_row += ['col' + str(x+1) for x in range(cols)]
+    header_row = ['col' + str(x+1) for x in range(cols)]
     first_col = ['row' + str(x+1) for x in range(rows)]
     #table.append(header_row) #no need to append the header because we send it as a result
     for i in range(rows):
@@ -37,13 +36,13 @@ def save_table(table, row_ids, col_ids, file_name):
     #fmt = '%.6f'
     fmt = '%s'
     #fmt = '%r'
+    #add the rows ids to the main table
+    col_ids = ['row_ids'] + col_ids
     with_first_col = np.c_[row_ids, table]
+    #add the col ids to the whole things
     with_headers = np.r_[[col_ids],with_first_col]
-    print ("i'm with headers", with_headers)
+    #save everything in the file
     np.savetxt(file_name, with_headers, delimiter=',', fmt=fmt)
 
 
 # todo make it as a class or a script
-# todo notice that the row identifiers are floats
-# todo add identifier for each column (could be the header?)
-# todo add a header to the log file? (operation, row/column/cell, id, position, data)
