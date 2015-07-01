@@ -12,7 +12,6 @@ def add_row(my_array, index, new_row):
     # unless it's an empty array anyway
     if index <= len(my_array) and (len(my_array) == 0 or len(new_row) == len(my_array[0])):
         my_array = np.insert(my_array, index, new_row, axis=0)
-        print('added row')
     else:
         print("Error: out of range insertion")
     return my_array
@@ -111,7 +110,7 @@ def randomly_change_table(full_table, min_data, max_data):
             # recheck
             latest_row_id = 1 #or?
             new_row = gen.random_floats_array(min_data, max_data, random.randint(1, largest_row))
-        log_message("add", "row", new_row_id, index, new_row)
+        log_message("add", "row", "row"+str(new_row_id), index, new_row)
         row_ids.insert(index, "row"+str(new_row_id))
         table = add_row(table, index, new_row)
     elif change_type == ADD_COL:
@@ -124,7 +123,7 @@ def randomly_change_table(full_table, min_data, max_data):
             index = 0
             latest_col_id = 1 #?
             new_col = gen.random_floats_array(min_data, max_data, random.randint(1, largest_col))
-        log_message("add", "column", new_col_id, index, new_col)
+        log_message("add", "column", "col"+str(new_col_id), index, new_col)
         col_ids.insert(index, "col"+str(new_col_id))
         table = add_col(table, index, new_col)
     elif change_type == CH_CELL:
@@ -163,8 +162,8 @@ in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 2
-cols = 3
+rows = 12
+cols = 6
 min_data = 0
 max_data = 10
 
@@ -205,11 +204,9 @@ for i in xrange(1, num_of_changes):
     #print(big_table)
 
 #todo to activate this
-gen.save_table(result['table'], result['row_ids'], result['col_ids'] , data_directory + out_file_name)
+gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_directory + out_file_name)
 
 print(result, result['table'].shape)
 
-#todo when adding a new column consider creating a new ID for it
 #todo delete operations first then add or ch operations
 #todo make sure that the log file is complete and ordered somehow
-#todo treat the header separately
