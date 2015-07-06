@@ -5,3 +5,4 @@ delete	row	row6	5
 add	row	row8	7
 add	row	row9	0
 add	row	row7	4
+change	cell	('row4', 'col2')	(3, 1)

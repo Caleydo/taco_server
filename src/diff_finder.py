@@ -29,6 +29,9 @@ def get_deleted_ids(ids1, ids2):
 def get_added_ids(ids1, ids2):
     return list(set(ids2) - set(ids1))
 
+def get_intersection(ids1, ids2):
+    return set(ids1).intersection(ids2)
+
 #compares two lists and logs the diff
 #todo consider sorting or merge
 def compare_ids(ids1, ids2, type):
@@ -37,6 +40,20 @@ def compare_ids(ids1, ids2, type):
     for j in get_added_ids(ids1, ids2):
         log.message("add", type, j, np.where(ids2 == j)[0][0])
     return None
+
+def compare_values(full_table1, full_table2):
+    rows = get_intersection(full_table1['row_ids'], full_table2['row_ids'])
+    cols = get_intersection(full_table1['col_ids'], full_table2['col_ids'])
+    for i in rows:
+        r1 = np.where(full_table1['row_ids'] == i)[0][0]
+        r2 = np.where(full_table2['row_ids'] == i)[0][0]
+        for j in cols:
+            c1 = np.where(full_table1['col_ids'] == j)[0][0]
+            c2 = np.where(full_table2['col_ids'] == j)[0][0]
+            if full_table1['table'][r1,c1] != full_table2['table'][r2,c2]:
+                log.message("change", "cell", (i,j), (r1,c1))
+                #todo how about adding the difference value to the log?
+                #print('no match ', full_table1['table'][r1,c1], full_table2['table'][r2,c2], r1 ,c1 ,  i, j)
 
 #testing
 
@@ -48,5 +65,7 @@ full_table2 = get_full_table(data_directory+out_file_name)
 log.init_log(log_file)
 compare_ids(full_table1['col_ids'], full_table2['col_ids'], "column")
 compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
+
+compare_values(full_table1, full_table2)
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
