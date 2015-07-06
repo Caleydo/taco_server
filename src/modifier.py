@@ -2,7 +2,7 @@ __author__ = 'Reem'
 import numpy as np
 import random
 import generator as gen
-import logging
+import logger as log
 
 
 # adds a new_row to the my_array in the specified index
@@ -110,7 +110,7 @@ def randomly_change_table(full_table, min_data, max_data):
             # recheck
             latest_row_id = 1 #or?
             new_row = gen.random_floats_array(min_data, max_data, random.randint(1, largest_row))
-        log_message("add", "row", "row"+str(new_row_id), index, new_row)
+        log.message("add", "row", "row"+str(new_row_id), index, new_row)
         row_ids.insert(index, "row"+str(new_row_id))
         table = add_row(table, index, new_row)
     elif change_type == ADD_COL:
@@ -123,7 +123,7 @@ def randomly_change_table(full_table, min_data, max_data):
             index = 0
             latest_col_id = 1 #?
             new_col = gen.random_floats_array(min_data, max_data, random.randint(1, largest_col))
-        log_message("add", "column", "col"+str(new_col_id), index, new_col)
+        log.message("add", "column", "col"+str(new_col_id), index, new_col)
         col_ids.insert(index, "col"+str(new_col_id))
         table = add_col(table, index, new_col)
     elif change_type == CH_CELL:
@@ -131,30 +131,25 @@ def randomly_change_table(full_table, min_data, max_data):
             i = random.randint(0, table_height - 1)
             j = random.randint(0, table_width - 1)
             new_value = random.uniform(min_data, max_data)
-            log_message("change", "cell", (row_ids[i], col_ids[j]), (i,j), new_value)
+            log.message("change", "cell", (row_ids[i], col_ids[j]), (i,j), new_value)
             table = change_cell(table, i, j, new_value)
         else:
             print("log: there's nothing to change")
     elif change_type == DEL_ROW:
         index = random.randint(0, table_height - 1)
-        log_message("delete","row", row_ids[index] ,index, table[index])
+        log.message("delete","row", row_ids[index] ,index, table[index])
         row_ids.pop(index)
         table = del_row(table, index)
     elif change_type == DEL_COL:
         if table_width > 0:
             index = random.randint(0, table_width - 1)
-            log_message("delete","column", col_ids[index] ,index, table[:,index])
+            log.message("delete","column", col_ids[index] ,index, table[:,index])
             col_ids.pop(index)
             table = del_col(table, index)
         else:
             print("Error: no columns to delete")
     return {'table': np.array(table), 'col_ids': col_ids, 'row_ids': row_ids}
 
-
-def log_message(operation, type, id, position, data=None, new_id=None):
-    #ignore the data for now, we don't need it
-    logging.info('%s\t%s\t%s\t%s', operation, type, id, position)
-    return
 
 # testing
 data_directory = '../data/'
@@ -163,25 +158,12 @@ in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 12
-cols = 6
+rows = 6
+cols = 5
 min_data = 0
 max_data = 10
 
-
-# the logging
-# logging.basicConfig(level=logging.INFO,
-#                     #format='%(message)s',
-#                     format='%(asctime)s\t%(message)s',
-#                     datefmt='%d-%m-%Y %H:%M:%S',
-#                     filename=log_file,
-#                     filemode='w')
-logging.basicConfig(level=logging.INFO,
-                    format='%(message)s',
-                    filename=log_file,
-                    filemode='w')
-# add a header to the log (for now)
-log_message("operation", "type", "id", "position", "data") #no new id for now
+log.init_log(log_file)
 
 result = gen.create_table(rows, cols, min_data, max_data, data_type=float)
 result_table = result['table']
@@ -211,3 +193,5 @@ print(result, result['table'].shape)
 
 #todo delete operations first then add or ch operations
 #todo make sure that the log file is complete and ordered somehow
+#todo choose the operations that you want to apply on tables
+#todo make the logging in a separate file
