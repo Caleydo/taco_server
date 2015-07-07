@@ -131,7 +131,7 @@ def randomly_change_table(full_table, min_data, max_data):
             i = random.randint(0, table_height - 1)
             j = random.randint(0, table_width - 1)
             new_value = random.uniform(min_data, max_data)
-            log.message("change", "cell", (row_ids[i], col_ids[j]), (i,j), new_value)
+            log.message("change", "cell", row_ids[i]+','+col_ids[j], str(i)+','+str(j), new_value)
             table = change_cell(table, i, j, new_value)
         else:
             print("log: there's nothing to change")

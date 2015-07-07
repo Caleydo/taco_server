@@ -23,3 +23,5 @@ def message(operation, type, id, position, data=None, new_id=None):
     #ignore the data for now, we don't need it
     logging.info('%s\t%s\t%s\t%s', operation, type, id, position)
     return
+
+#todo think of a better way to store cell's IDs

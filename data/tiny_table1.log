@@ -1,9 +1,9 @@
 operation	type	id	position
-change	cell	('row4', 'col2')	(3, 1)
+change	cell	row4,col2	3,1
 delete	column	col4	3
 add	row	row7	3
 add	row	row8	6
-change	cell	('row5', 'col3')	(5, 2)
+change	cell	row5,col3	5,2
 delete	row	row6	7
 delete	column	col3	2
 add	row	row9	0
