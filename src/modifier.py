@@ -76,16 +76,11 @@ def get_last_id(id_list):
     #interesting because in numpy it's list_name.max()!
     return max(num_ids)
 
-def randomly_change_table(full_table, min_data, max_data):
+def randomly_change_table(full_table, min_data, max_data, change_type):
     table = full_table['table']
     row_ids = full_table['row_ids']
     col_ids =full_table['col_ids']
-    change_type = random.randint(1, 5)
-    ADD_ROW = 1
-    ADD_COL = 2
-    CH_CELL = 3
-    DEL_ROW = 4
-    DEL_COL = 5
+    #just in case of an empty table
     largest_row = 10
     largest_col = 3
     #shape of the table without ids
@@ -150,8 +145,33 @@ def randomly_change_table(full_table, min_data, max_data):
             print("Error: no columns to delete")
     return {'table': np.array(table), 'col_ids': col_ids, 'row_ids': row_ids}
 
+# operations is an array with the desired operations ordered
+def change_table(full_table, min_data, max_data, operations):
+    # first delete the rows
+    for r in xrange(operations['del_row']):
+        full_table = randomly_change_table(full_table, min_data, max_data, DEL_ROW)
+    # then delete the cols
+    for c in xrange(operations['del_col']):
+        full_table = randomly_change_table(full_table, min_data, max_data, DEL_COL)
+    # then add rows
+    for r in xrange(operations['add_row']):
+        full_table = randomly_change_table(full_table, min_data, max_data, ADD_ROW)
+    # then add cols
+    for c in xrange(operations['add_col']):
+        full_table = randomly_change_table(full_table, min_data, max_data, ADD_COL)
+    #finally change the cells
+    for c in xrange(operations['ch_cell']):
+        full_table = randomly_change_table(full_table, min_data, max_data, CH_CELL)
+    return full_table
+
 
 # testing
+ADD_ROW = 1
+ADD_COL = 2
+DEL_ROW = 3
+DEL_COL = 4
+CH_CELL = 5
+
 data_directory = '../data/'
 file_name = 'tiny_table1'
 in_file_name = file_name + '_in.csv'
@@ -163,35 +183,37 @@ cols = 5
 min_data = 0
 max_data = 10
 
+# I know it's a bit crazy like this but I couldn't come up with a smarter way
+# the problem that this has no order
+operations_count = {
+    'del_row': 2,
+    'del_col': 1,
+    'add_row': 4,
+    'add_col': 2,
+    'ch_cell': 2}
+
 log.init_log(log_file)
 
 result = gen.create_table(rows, cols, min_data, max_data, data_type=float)
-result_table = result['table']
-print (result['col_ids'], result['row_ids'])
 
-size = result_table.shape
 #save the input file
-gen.save_table(result_table, result['row_ids'], result['col_ids'], data_directory + in_file_name)
+gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_directory + in_file_name)
 
-#add the header to the table
-# (should be read from the file as a whole table but for now I add it manually)
-#big_table = np.insert(big_table, 0, header, axis=0)
-#print(big_table)
-output_table = None
+# change
+result = change_table(result, min_data, max_data, operations_count)
+
 # the old testing
-random.seed(10)
-num_of_changes = random.randint(2, 15)
-print("num of changes is ", num_of_changes - 1)
-for i in xrange(1, num_of_changes):
-    result = randomly_change_table(result, min_data, max_data)
-    #print(big_table)
+# random.seed(10)
+# num_of_changes = random.randint(2, 15)
+# print("num of changes is ", num_of_changes - 1)
+# for i in xrange(1, num_of_changes):
+#     result = randomly_change_table(result, min_data, max_data, 1)
 
-#todo to activate this
+#save the output file
 gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_directory + out_file_name)
 
-print(result, result['table'].shape)
+#print(result, result['table'].shape)
 
 #todo delete operations first then add or ch operations
 #todo make sure that the log file is complete and ordered somehow
-#todo choose the operations that you want to apply on tables
-#todo make the logging in a separate file
+#todo choose the percentage of change e.g. structural and content

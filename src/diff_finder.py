@@ -50,9 +50,10 @@ def compare_values(full_table1, full_table2):
         for j in cols:
             c1 = np.where(full_table1['col_ids'] == j)[0][0]
             c2 = np.where(full_table2['col_ids'] == j)[0][0]
+            # cell_diff = full_table1['table'][r1,c1] - full_table2['table'][r2,c2]
+            # doesn't work like this because it's a string
             if full_table1['table'][r1,c1] != full_table2['table'][r2,c2]:
                 log.message("change", "cell", i+','+j, str(r1)+','+str(c1))
-                #todo how about adding the difference value to the log?
                 #print('no match ', full_table1['table'][r1,c1], full_table2['table'][r2,c2], r1 ,c1 ,  i, j)
 
 #testing
