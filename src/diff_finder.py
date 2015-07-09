@@ -38,8 +38,13 @@ def compare_ids(ids1, ids2, type):
     for i in get_deleted_ids(ids1, ids2):
         log.message("delete", type, i, np.where(ids1 == i)[0][0])
     for j in get_added_ids(ids1, ids2):
-        log.message("add", type, j, np.where(ids2 == j)[0][0])
-    return None
+        #check for a + for merge operations!
+        if j.find("+") == -1:
+            log.message("add", type, j, np.where(ids2 == j)[0][0])
+        else:
+            #todo find the index for the merged thing!!
+            log.message("merge", type, j, np.where(ids2 == j)[0][0])
+
 
 def compare_values(full_table1, full_table2):
     rows = get_intersection(full_table1['row_ids'], full_table2['row_ids'])
@@ -58,9 +63,9 @@ def compare_values(full_table1, full_table2):
 
 #testing
 
-full_table1 = get_full_table(data_directory+in_file_name)
+full_table1 = get_full_table(in_file_name)
 #print(full_table1['table'])
-full_table2 = get_full_table(data_directory+out_file_name)
+full_table2 = get_full_table(out_file_name)
 #print(full_table2['table'])
 
 log.init_log(log_file)
@@ -70,3 +75,5 @@ compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
 compare_values(full_table1, full_table2)
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
+#todo might be an idea to find the merged things first then handle the rest seperately
+#todo think of the split
