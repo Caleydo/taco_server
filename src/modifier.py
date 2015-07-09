@@ -166,7 +166,30 @@ def merge_columns(full_table, merge_array):
     col_ids.insert(merge_array[0], merged_id)
     log.message("merge","column", merged_id ,merge_array)
     print(merged_id, cols, merged_col, table)
-    return {"table":table, "col_ids": col_ids, "row_ids": row_ids}
+    return {"table": table, "col_ids": col_ids, "row_ids": row_ids}
+
+def merge_rows(full_table, merge_array):
+    #assuming that the merge function is "MEAN"
+    table = full_table['table']
+    col_ids = full_table['col_ids']
+    row_ids = full_table['row_ids']
+    rows = table[merge_array, :]
+    merged_row = rows.mean(axis=0)
+    #change the rows IDs
+    ids = [row_ids[i] for i in merge_array]
+    merged_id = "+".join(ids)
+    #todo now we are assuming that we merge the rows to the place of the first row
+    #remove the rows
+    for dr in sorted(merge_array, reverse=True):
+        table = del_row(table, dr)
+        row_ids.pop(dr)
+    #add the new row
+    table = add_row(table, merge_array[0], merged_row)
+    #update the IDs
+    row_ids.insert(merge_array[0], merged_id)
+    log.message("merge","row", merged_id, merge_array)
+    print(merged_id, rows, merged_row, table)
+    return {"table": table, "col_ids": col_ids, "row_ids": row_ids}
 
 # operations is an array with the desired operations ordered
 def change_table(full_table, min_data, max_data, operations):
@@ -191,6 +214,8 @@ def change_table(full_table, min_data, max_data, operations):
         #full_table = merge_col(full_table)
         print ('merge col', mc)
         full_table = merge_columns(full_table, mc)
+    for mr in operations['me_row']:
+        full_table = merge_rows(full_table, mr)
     return full_table
 
 

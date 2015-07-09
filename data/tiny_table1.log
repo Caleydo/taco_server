@@ -1,2 +1,3 @@
 operation	type	id	position
 merge	column	col1+col2+col3	[0, 1, 2]
+merge	row	row1+row3	[0, 2]

@@ -1,7 +1,6 @@
 row_ids,col1+col2+col3,col4,col5
-row1,2,2,1
-row2,3,4,3
-row3,9,3,6
-row4,6,0,3
-row5,4,7,10
-row6,1,6,4
+row1+row3,2,4,7
+row2,6,1,4
+row4,6,9,3
+row5,3,6,4
+row6,5,1,7
