@@ -145,6 +145,29 @@ def randomly_change_table(full_table, min_data, max_data, change_type):
             print("Error: no columns to delete")
     return {'table': np.array(table), 'col_ids': col_ids, 'row_ids': row_ids}
 
+def merge_columns(full_table, merge_array):
+    #assuming that the merge function is "MEAN"
+    table = full_table['table']
+    col_ids = full_table['col_ids']
+    row_ids = full_table['row_ids']
+    cols = table[:, merge_array]
+    merged_col = cols.mean(axis=1)
+    #change the cols IDs
+    ids = [col_ids[i] for i in merge_array]
+    merged_id = "+".join(ids)
+    #todo now we are assuming that we merge the columns to the place of the first col
+    #remove the cols
+    for dc in sorted(merge_array, reverse=True):
+        table = del_col(table, dc)
+        col_ids.pop(dc)
+    #add the new col
+    table = add_col(table, merge_array[0], merged_col)
+    #update the IDs
+    col_ids.insert(merge_array[0], merged_id)
+    log.message("merge","column", merged_id ,merge_array)
+    print(merged_id, cols, merged_col, table)
+    return {"table":table, "col_ids": col_ids, "row_ids": row_ids}
+
 # operations is an array with the desired operations ordered
 def change_table(full_table, min_data, max_data, operations):
     # first delete the rows
@@ -162,6 +185,12 @@ def change_table(full_table, min_data, max_data, operations):
     #finally change the cells
     for c in xrange(operations['ch_cell']):
         full_table = randomly_change_table(full_table, min_data, max_data, CH_CELL)
+    #merge operation
+    #the order of this operation might change later
+    for mc in operations['me_col']:
+        #full_table = merge_col(full_table)
+        print ('merge col', mc)
+        full_table = merge_columns(full_table, mc)
     return full_table
 
 
@@ -185,16 +214,22 @@ max_data = 10
 
 # I know it's a bit crazy like this but I couldn't come up with a smarter way
 # the problem that this has no order
+#todo think of a structure where we can specify exactly the cells/cols/rows that could be modified
 operations_count = {
-    'del_row': 2,
-    'del_col': 1,
-    'add_row': 4,
-    'add_col': 2,
-    'ch_cell': 2}
+    'del_row': 0,
+    'del_col': 0,
+    'add_row': 0,
+    'add_col': 0,
+    'ch_cell': 0,
+    'me_col': [[0,1,2]],
+    'sp_col': 0, #idk
+    'me_row': [[0,2]],
+    'sp_row': 0 #i also dk
+    }
 
 log.init_log(log_file)
 
-result = gen.create_table(rows, cols, min_data, max_data, data_type=float)
+result = gen.create_table(rows, cols, min_data, max_data, data_type=int)
 
 #save the input file
 gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_directory + in_file_name)
@@ -214,6 +249,6 @@ gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_direc
 
 #print(result, result['table'].shape)
 
-#todo delete operations first then add or ch operations
 #todo make sure that the log file is complete and ordered somehow
 #todo choose the percentage of change e.g. structural and content
+#think of the split operation

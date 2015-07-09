@@ -1,12 +1,2 @@
 operation	type	id	position
-delete	row	row4	3
-delete	row	row6	4
-delete	column	col2	1
-add	row	row6	0
-add	row	row7	4
-add	row	row8	5
-add	row	row9	1
-add	column	col6	4
-add	column	col7	2
-change	cell	row7,col3	5,1
-change	cell	row1,col6	2,5
+merge	column	col1+col2+col3	[0, 1, 2]
