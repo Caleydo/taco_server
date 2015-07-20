@@ -21,7 +21,10 @@ def init_log(log_file):
 def message(operation, type, id, position, data=None, new_id=None):
     #todo some check that the log file already exists
     #ignore the data for now, we don't need it
-    logging.info('%s\t%s\t%s\t%s', operation, type, id, position)
+    if data is None:
+        logging.info('%s\t%s\t%s\t%s', operation, type, id, position)
+    else:
+        logging.info('%s\t%s\t%s\t%s\t%s', operation, type, id, position, data)
     return
 
 #todo think of a better way to store cell's IDs

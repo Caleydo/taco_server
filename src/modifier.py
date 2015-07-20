@@ -232,8 +232,8 @@ in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 6
-cols = 5
+rows = 16
+cols = 8
 min_data = 0
 max_data = 10
 
@@ -241,14 +241,16 @@ max_data = 10
 # the problem that this has no order
 #todo think of a structure where we can specify exactly the cells/cols/rows that could be modified
 operations_count = {
-    'del_row': 0,
-    'del_col': 0,
-    'add_row': 0,
-    'add_col': 0,
-    'ch_cell': 0,
-    'me_col': [[0,1,2]],
+    'del_row': 2,
+    'del_col': 2,
+    'add_row': 3,
+    'add_col': 4,
+    'ch_cell': 10, #todo changing in a new row is not considered
+  #  'me_col': [[0,1,2]],
+    'me_col': [],
     'sp_col': 0, #idk
-    'me_row': [[0,2]],
+ #   'me_row': [[0,2]],
+    'me_row': [],
     'sp_row': 0 #i also dk
     }
 
@@ -276,4 +278,5 @@ gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_direc
 
 #todo make sure that the log file is complete and ordered somehow
 #todo choose the percentage of change e.g. structural and content
-#think of the split operation
+#todo think of the split operation
+#todo changing in an added row/col will be ignored as it is already a new thing

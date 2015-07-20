@@ -58,7 +58,9 @@ def compare_values(full_table1, full_table2):
             # cell_diff = full_table1['table'][r1,c1] - full_table2['table'][r2,c2]
             # doesn't work like this because it's a string
             if full_table1['table'][r1,c1] != full_table2['table'][r2,c2]:
-                log.message("change", "cell", i+','+j, str(r1)+','+str(c1))
+                cell_diff = float(full_table1['table'][r1,c1]) - float(full_table2['table'][r2,c2])
+                log.message("change", "cell", i+','+j, str(r1)+','+str(c1), cell_diff)
+                print(cell_diff)
                 #print('no match ', full_table1['table'][r1,c1], full_table2['table'][r2,c2], r1 ,c1 ,  i, j)
 
 #testing
@@ -75,5 +77,5 @@ compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
 compare_values(full_table1, full_table2)
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
-#todo might be an idea to find the merged things first then handle the rest seperately
+#todo might be an idea to find the merged things first then handle the rest separately
 #todo think of the split
