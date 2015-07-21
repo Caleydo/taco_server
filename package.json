@@ -1,0 +1,25 @@
+{
+  "name": "taco_server",
+  "version": "0.0.1",
+  "dependencies": {
+    "caleydo_server": "*"
+  },
+  "peerDependencies": {
+    "caleydo_server": "*"
+  },
+  "caleydo": {
+    "plugins": {
+      "python": [
+        {
+          "type": "namespace",
+          "id": "taco",
+          "file": "api",
+          "namespace": "/api/taco"
+        }
+      ]
+    }
+  },
+  "publishConfig": {
+    "registry": "http://dev.caleydo.org/nexus/content/repositories/caleydo-web/"
+  }
+}
