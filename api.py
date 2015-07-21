@@ -6,12 +6,12 @@ import flask
 app = flask.Flask(__name__)
 
 #request my configuration
-import caleydo_server.config
-config = caleydo_server.config.view('taco_server')
+#import caleydo_server.config
+#config = caleydo_server.config.view('taco_server')
 
-@app.route('/hello')
-def hello_world():
-  return config.hello + ' ' + config.world
+@app.route('/hello/<whom>')
+def hello_world(whom):
+  return 'asdfasf' +  whom+ ' ' + flask.request.args.get('to')
 
 def create():
   """
