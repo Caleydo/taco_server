@@ -76,7 +76,7 @@ def get_last_id(id_list):
     #interesting because in numpy it's list_name.max()!
     return max(num_ids)
 
-def randomly_change_table(full_table, min_data, max_data, change_type):
+def randomly_change_table(full_table, min_data, max_data, change_type, new_id = None):
     table = full_table['table']
     row_ids = full_table['row_ids']
     col_ids =full_table['col_ids']
@@ -86,15 +86,10 @@ def randomly_change_table(full_table, min_data, max_data, change_type):
     #shape of the table without ids
     table_height = table.shape[0]
     table_width = table.shape[1]
-    #latest ids for insertion
-    latest_row_id = get_last_id(row_ids)
-    latest_col_id = get_last_id(col_ids)
-    new_row_id = latest_row_id + 1
-    new_col_id = latest_col_id + 1
+
     if change_type == ADD_ROW:
         index = random.randint(0, table_height)
         if table_height > 0:
-            latest_row_id += 1
             if table_width > 0:
                 new_row = gen.random_floats_array(min_data, max_data, table_width)
             else:
@@ -102,25 +97,26 @@ def randomly_change_table(full_table, min_data, max_data, change_type):
                 new_row = gen.random_floats_array(min_data, max_data, 1)
         else:
             # table is empty
-            # recheck
-            latest_row_id = 1 #or?
+            # todo recheck
+            new_id = 1 #or?
             new_row = gen.random_floats_array(min_data, max_data, random.randint(1, largest_row))
-        log.message("add", "row", "row"+str(new_row_id), index, new_row)
-        row_ids.insert(index, "row"+str(new_row_id))
+        log.message("add", "row", "row"+str(new_id), index, new_row)
+        row_ids.insert(index, "row"+str(new_id))
+        new_id += 1
         table = add_row(table, index, new_row)
     elif change_type == ADD_COL:
         if table_height > 0:
             index = random.randint(0, table_width)
             new_col = gen.random_floats_array(min_data, max_data, table_height)
-            latest_col_id += 1
         else:
             #this is the first column or what?
             index = 0
-            latest_col_id = 1 #?
+            new_id = 1 #?
             new_col = gen.random_floats_array(min_data, max_data, random.randint(1, largest_col))
-        log.message("add", "column", "col"+str(new_col_id), index, new_col)
-        col_ids.insert(index, "col"+str(new_col_id))
+        log.message("add", "column", "col"+str(new_id), index, new_col)
+        col_ids.insert(index, "col"+str(new_id))
         table = add_col(table, index, new_col)
+
     elif change_type == CH_CELL:
         if table_height > 0:
             i = random.randint(0, table_height - 1)
@@ -193,6 +189,12 @@ def merge_rows(full_table, merge_array):
 
 # operations is an array with the desired operations ordered
 def change_table(full_table, min_data, max_data, operations):
+    #latest ids for insertion
+    #todo put it somewhere else :|
+    latest_row_id = get_last_id(full_table['row_ids'])
+    latest_col_id = get_last_id(full_table['col_ids'])
+    new_row_id = latest_row_id + 1
+    new_col_id = latest_col_id + 1
     # first delete the rows
     for r in xrange(operations['del_row']):
         full_table = randomly_change_table(full_table, min_data, max_data, DEL_ROW)
@@ -201,10 +203,12 @@ def change_table(full_table, min_data, max_data, operations):
         full_table = randomly_change_table(full_table, min_data, max_data, DEL_COL)
     # then add rows
     for r in xrange(operations['add_row']):
-        full_table = randomly_change_table(full_table, min_data, max_data, ADD_ROW)
+        full_table = randomly_change_table(full_table, min_data, max_data, ADD_ROW, new_row_id)
+        new_row_id +=1;
     # then add cols
     for c in xrange(operations['add_col']):
-        full_table = randomly_change_table(full_table, min_data, max_data, ADD_COL)
+        full_table = randomly_change_table(full_table, min_data, max_data, ADD_COL, new_col_id)
+        new_col_id +=1;
     #finally change the cells
     for c in xrange(operations['ch_cell']):
         full_table = randomly_change_table(full_table, min_data, max_data, CH_CELL)
@@ -232,8 +236,8 @@ in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 16
-cols = 8
+rows = 26
+cols = 18
 min_data = 0
 max_data = 10
 
@@ -241,11 +245,11 @@ max_data = 10
 # the problem that this has no order
 #todo think of a structure where we can specify exactly the cells/cols/rows that could be modified
 operations_count = {
-    'del_row': 2,
-    'del_col': 2,
-    'add_row': 3,
-    'add_col': 4,
-    'ch_cell': 10, #todo changing in a new row is not considered
+    'del_row': 3,
+    'del_col': 4,
+    'add_row': 5,
+    'add_col': 7,
+    'ch_cell': 15, #todo changing in a new row is not considered
   #  'me_col': [[0,1,2]],
     'me_col': [],
     'sp_col': 0, #idk
