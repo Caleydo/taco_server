@@ -241,11 +241,11 @@ max_data = 10
 # the problem that this has no order
 #todo think of a structure where we can specify exactly the cells/cols/rows that could be modified
 operations_count = {
-    'del_row': 2,
-    'del_col': 2,
-    'add_row': 3,
-    'add_col': 4,
-    'ch_cell': 10, #todo changing in a new row is not considered
+    'del_row': 1,
+    'del_col': 1,
+    'add_row': 2,
+    'add_col': 3,
+    'ch_cell': 11, #todo changing in a new row is not considered
   #  'me_col': [[0,1,2]],
     'me_col': [],
     'sp_col': 0, #idk
