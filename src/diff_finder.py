@@ -3,6 +3,7 @@ __author__ = 'Reem'
 
 import numpy as np
 import logger as log
+import os
 # import sys
 #
 # print 'Number of arguments:', len(sys.argv), 'arguments.'
@@ -39,7 +40,7 @@ def compare_ids(ids1, ids2, type):
         log.message("delete", type, i, np.where(ids1 == i)[0][0])
     for j in get_added_ids(ids1, ids2):
         #check for a + for merge operations!
-        if j.find("+") == -1:
+        if str(j).find("+") == -1:
             log.message("add", type, j, np.where(ids2 == j)[0][0])
         else:
             #todo find the index for the merged thing!!
@@ -64,17 +65,24 @@ def compare_values(full_table1, full_table2):
                 #print('no match ', full_table1['table'][r1,c1], full_table2['table'][r2,c2], r1 ,c1 ,  i, j)
 
 #testing
+def generate_diff(file1, file2, diff_log):
+    full_table1 = get_full_table(file1)
+    #print(full_table1['table'])
+    full_table2 = get_full_table(file2)
+    #print(full_table2['table'])
 
-full_table1 = get_full_table(in_file_name)
-#print(full_table1['table'])
-full_table2 = get_full_table(out_file_name)
-#print(full_table2['table'])
+    #todo move this to the api
+    log_filename = os.path.abspath(os.path.join(os.path.dirname(__file__), data_directory + diff_log))
+    log.init_log(log_filename)
+    print("log filename ", log_filename)
 
-log.init_log(log_file)
-compare_ids(full_table1['col_ids'], full_table2['col_ids'], "column")
-compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
+    compare_ids(full_table1['col_ids'], full_table2['col_ids'], "column")
+    compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
 
-compare_values(full_table1, full_table2)
+    compare_values(full_table1, full_table2)
+    return True
+
+#generate_diff(in_file_name, out_file_name, log_file)
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
 #todo might be an idea to find the merged things first then handle the rest separately
