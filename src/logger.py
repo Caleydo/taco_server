@@ -27,4 +27,12 @@ def message(operation, type, id, position, data=None, new_id=None):
         logging.info('%s\t%s\t%s\t%s\t%s', operation, type, id, position, data)
     return
 
+def close():
+    log = logging.getLogger()
+    x = list(log.handlers)
+    for i in x:
+        log.removeHandler(i)
+        i.flush()
+        i.close()
+
 #todo think of a better way to store cell's IDs

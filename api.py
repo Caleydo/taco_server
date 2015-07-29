@@ -22,7 +22,6 @@ def jsontest():
 
 def diff_filename(path1, path2):
     join_path = os.path.splitext(os.path.basename(path1))[0] + "_" + os.path.splitext(os.path.basename(path2))[0] + "_diff.log"
-    print os.path.abspath(path1)
     return join_path
 
 

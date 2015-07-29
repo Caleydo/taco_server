@@ -80,9 +80,12 @@ def generate_diff(file1, file2, diff_log):
     compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
 
     compare_values(full_table1, full_table2)
+
+    log.close()
+
     return True
 
-#generate_diff(in_file_name, out_file_name, log_file)
+#generate_diff(out_file_name, in_file_name, log_file)
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
 #todo might be an idea to find the merged things first then handle the rest separately
