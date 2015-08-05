@@ -28,7 +28,14 @@ def create_table(rows, cols, min_data, max_data, data_type=int):
         else:
             new_row += random_floats_array(min_data, max_data, cols)
         table.append(new_row)
+    table = sort_table(table)
     return {'table': np.array(table), 'col_ids': header_row, 'row_ids': first_col}
+
+
+def sort_table(table):
+    x = np.array(table)
+    return x[np.lexsort((x[:,1],x[:,0]))]
+
 
 
 # save a table to a file

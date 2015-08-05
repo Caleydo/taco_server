@@ -24,75 +24,27 @@
     }
   },
   {
-    "name": "Taco tiny input",
-    "path": "tiny_table_in.csv",
-    "type": "matrix",
-    "size": [9, 4],
-    "rowtype": "patient",
-    "coltype": "gene",
-    "value": {
-      "type": "real",
-      "range": [0, 100]
-    }
-  },
-  {
-    "name": "Taco tiny output",
-    "path": "tiny_table_out.csv",
-    "type": "matrix",
-    "size": [11, 3],
-    "rowtype": "patient",
-    "coltype": "gene",
-    "value": {
-      "type": "real",
-      "range": [0, 100]
-    }
-  },
-  {
-    "name": "Taco small input",
+    "name": "Taco Small input",
     "path": "small_table_in.csv",
     "type": "matrix",
-    "size": [13, 10],
+    "size": [50, 35],
     "rowtype": "patient",
     "coltype": "gene",
     "value": {
       "type": "real",
-      "range": [0, 100]
+      "range": [0, 10]
     }
   },
   {
-    "name": "Taco small output",
+    "name": "Taco Small output",
     "path": "small_table_out.csv",
     "type": "matrix",
-    "size": [15, 12],
+    "size": [53, 39],
     "rowtype": "patient",
     "coltype": "gene",
     "value": {
       "type": "real",
-      "range": [0, 100]
-    }
-  },
-  {
-    "name": "Taco medium input",
-    "path": "med_table_in.csv",
-    "type": "matrix",
-    "size": [51, 100],
-    "rowtype": "patient",
-    "coltype": "gene",
-    "value": {
-      "type": "real",
-      "range": [0, 100]
-    }
-  },
-  {
-    "name": "Taco medium output",
-    "path": "med_table_out.csv",
-    "type": "matrix",
-    "size": [110, 60],
-    "rowtype": "patient",
-    "coltype": "gene",
-    "value": {
-      "type": "real",
-      "range": [0, 100]
+      "range": [0, 10]
     }
   }
 ]

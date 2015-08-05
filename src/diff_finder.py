@@ -16,6 +16,7 @@ out_file_name = data_directory + file_name + '_out.csv'
 log_file = data_directory + file_name + '_diff.log'
 
 #reads a csv file (using full file path) and returns the data table with the IDs
+#todo to make more general (to read other data samples)
 def get_full_table(file):
     #data = np.genfromtxt(file, dtype=None, delimiter=',', names=True)
     data = np.genfromtxt(file, dtype=None, delimiter=',')

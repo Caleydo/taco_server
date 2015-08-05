@@ -1,16 +1,16 @@
 operation	type	id	position	data
-delete	column	col9	8
-add	column	col21	15
-add	column	col20	12
-add	column	col19	16
-delete	row	row23	22
-add	row	row27	24
-add	row	row28	23
-change	cell	row11,col5	10,4	4.0
-change	cell	row11,col16	10,15	6.0
-change	cell	row1,col2	0,1	-1.0
-change	cell	row6,col11	5,10	1.0
-change	cell	row7,col8	6,7	3.0
-change	cell	row7,col15	6,14	-4.0
-change	cell	row7,col18	6,17	5.0
-change	cell	row9,col18	8,17	-1.0
+delete	column	col21	15
+delete	column	col20	12
+delete	column	col19	16
+add	column	col9	8
+delete	row	row27	24
+delete	row	row28	23
+add	row	row23	22
+change	cell	row11,col5	10,4	-4.0
+change	cell	row11,col16	10,17	-6.0
+change	cell	row1,col2	0,1	1.0
+change	cell	row6,col11	5,9	-1.0
+change	cell	row7,col8	6,7	-3.0
+change	cell	row7,col15	6,14	4.0
+change	cell	row7,col18	6,19	-5.0
+change	cell	row9,col18	8,19	1.0

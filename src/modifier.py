@@ -231,26 +231,26 @@ DEL_COL = 4
 CH_CELL = 5
 
 data_directory = '../data/'
-file_name = 'tiny_table1'
+file_name = 'small_table'
 in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 26
-cols = 18
+rows = 50
+cols = 35
 min_data = 0
-max_data = 10
+max_data = 10 #don't forget to update this in the index.json and restart the server
 
 # I know it's a bit crazy like this but I couldn't come up with a smarter way
 # the problem that this has no order
 #todo think of a structure where we can specify exactly the cells/cols/rows that could be modified
 operations_count = {
-    'del_row': 1,
-    'del_col': 1,
-    'add_row': 2,
-    'add_col': 3,
-    'ch_cell': 11, #todo changing in a new row is not considered
-  #  'me_col': [[0,1,2]],
+    'del_row': 2,
+    'del_col': 3,
+    'add_row': 5,
+    'add_col': 7,
+    'ch_cell': 40, #todo changing in a new row is not considered
+   # 'me_col': [[0,1,2]],
     'me_col': [],
     'sp_col': 0, #idk
  #   'me_row': [[0,2]],
