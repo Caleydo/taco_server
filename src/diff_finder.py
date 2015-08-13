@@ -60,13 +60,13 @@ def compare_values(full_table1, full_table2):
             # cell_diff = full_table1['table'][r1,c1] - full_table2['table'][r2,c2]
             # doesn't work like this because it's a string
             if full_table1['table'][r1,c1] != full_table2['table'][r2,c2]:
+                #todo find a diff for different datatypes!
                 cell_diff = float(full_table1['table'][r1,c1]) - float(full_table2['table'][r2,c2])
-                log.message("change", "cell", i+','+j, str(r1)+','+str(c1), cell_diff)
-                print(cell_diff)
+                log.message("change", "cell", str(i)+','+str(j), str(r1)+','+str(c1), cell_diff)
                 #print('no match ', full_table1['table'][r1,c1], full_table2['table'][r2,c2], r1 ,c1 ,  i, j)
 
 #testing
-def generate_diff(file1, file2, diff_log):
+def generate_diff_from_files(file1, file2, diff_log):
     full_table1 = get_full_table(file1)
     #print(full_table1['table'])
     full_table2 = get_full_table(file2)
@@ -86,7 +86,22 @@ def generate_diff(file1, file2, diff_log):
 
     return True
 
-#generate_diff(out_file_name, in_file_name, log_file)
+#testing
+def generate_diff(full_table1, full_table2, diff_log):
+
+    #todo move this to the api
+    log_filename = os.path.abspath(os.path.join(os.path.dirname(__file__), data_directory + diff_log))
+    log.init_log(log_filename)
+    print("log filename ", log_filename)
+
+    compare_ids(full_table1['col_ids'], full_table2['col_ids'], "column")
+    compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
+
+    compare_values(full_table1, full_table2)
+
+    log.close()
+    return True
+#generate_diff_from_files(out_file_name, in_file_name, log_file)
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
 #todo might be an idea to find the merged things first then handle the rest separately

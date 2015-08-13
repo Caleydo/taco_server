@@ -73,7 +73,7 @@
   },
   {
     "name": "Taco Large input",
-    "path": "med_table_in.csv",
+    "path": "large_table_in.csv",
     "type": "matrix",
     "size": [400, 180],
     "rowtype": "patient",
@@ -85,7 +85,7 @@
   },
   {
     "name": "Taco Large output",
-    "path": "med_table_out.csv",
+    "path": "large_table_out.csv",
     "type": "matrix",
     "size": [401, 192],
     "rowtype": "patient",

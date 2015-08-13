@@ -21,6 +21,7 @@ def jsontest():
   return flask.jsonify({'x': 'where are you', 'y': "too"})
 
 def diff_filename(path1, path2):
+    #old naming using the file name
     join_path = os.path.splitext(os.path.basename(path1))[0] + "_" + os.path.splitext(os.path.basename(path2))[0] + "_diff.log"
     return join_path
 
@@ -30,11 +31,13 @@ def diff_log(id1, id2):
     ds1 = dataset.get(int(id1))
     ds2 = dataset.get(int(id2))
     if os.path.exists(ds1._path) and os.path.exists(ds2._path):
-        difff = diff_filename(ds1._path, ds2._path)
+        #difff = diff_filename(ds1._path, ds2._path)
+        difff = "diff_" + id1 + "_" + id2 +  ".log";
         if not os.path.exists("data/" + difff):
-            #print(ds1._path, ds2._path)
-            #print("difff is ", difff)
-            if diff_finder.generate_diff(ds1._path, ds2._path, difff):
+            #create the table object
+            table1 = {'table': ds1.asnumpy(), 'col_ids': ds1.cols(), 'row_ids': ds1.rows()}
+            table2 = {'table': ds2.asnumpy(), 'col_ids': ds2.cols(), 'row_ids': ds2.rows()}
+            if diff_finder.generate_diff(table1, table2, difff):
                 print('generated new diff file')
                 return flask.send_file("data/" + difff, mimetype='text/tab-separated-values')
             else:
