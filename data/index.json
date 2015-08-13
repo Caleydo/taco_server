@@ -47,7 +47,7 @@
       "range": [0, 10]
     }
   },
-    {
+  {
     "name": "Taco Medium input",
     "path": "med_table_in.csv",
     "type": "matrix",
@@ -64,6 +64,30 @@
     "path": "med_table_out.csv",
     "type": "matrix",
     "size": [71, 147],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 10]
+    }
+  },
+  {
+    "name": "Taco Large input",
+    "path": "med_table_in.csv",
+    "type": "matrix",
+    "size": [400, 180],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 10]
+    }
+  },
+  {
+    "name": "Taco Large output",
+    "path": "med_table_out.csv",
+    "type": "matrix",
+    "size": [401, 192],
     "rowtype": "patient",
     "coltype": "gene",
     "value": {
