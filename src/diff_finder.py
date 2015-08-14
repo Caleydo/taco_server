@@ -36,19 +36,21 @@ def get_intersection(ids1, ids2):
 
 #compares two lists and logs the diff
 #todo consider sorting or merge
-def compare_ids(ids1, ids2, type):
+def compare_ids(ids1, ids2, u_ids, type):
     for i in get_deleted_ids(ids1, ids2):
-        log.message("delete", type, i, np.where(ids1 == i)[0][0])
+        pos = np.where(u_ids == i)[0][0] #todo fix the bug here! index out of bound
+        log.message("delete", type, i, pos)
     for j in get_added_ids(ids1, ids2):
         #check for a + for merge operations!
         if str(j).find("+") == -1:
-            log.message("add", type, j, np.where(ids2 == j)[0][0])
+            apos = np.where(u_ids == j)[0][0]
+            log.message("add", type, j, apos)
         else:
             #todo find the index for the merged thing!!
             log.message("merge", type, j, np.where(ids2 == j)[0][0])
 
 
-def compare_values(full_table1, full_table2):
+def compare_values(full_table1, full_table2, ru_ids, cu_ids):
     rows = get_intersection(full_table1['row_ids'], full_table2['row_ids'])
     cols = get_intersection(full_table1['col_ids'], full_table2['col_ids'])
     for i in rows:
@@ -62,8 +64,38 @@ def compare_values(full_table1, full_table2):
             if full_table1['table'][r1,c1] != full_table2['table'][r2,c2]:
                 #todo find a diff for different datatypes!
                 cell_diff = float(full_table1['table'][r1,c1]) - float(full_table2['table'][r2,c2])
-                log.message("change", "cell", str(i)+','+str(j), str(r1)+','+str(c1), cell_diff)
+                rpos = np.where(ru_ids == i)[0][0]
+                cpos = np.where(cu_ids == j)[0][0]
+                log.message("change", "cell", str(i)+','+str(j), str(rpos)+','+str(cpos), cell_diff)
                 #print('no match ', full_table1['table'][r1,c1], full_table2['table'][r2,c2], r1 ,c1 ,  i, j)
+
+def union_ids(ids1, ids2):
+    u = ids2
+    deleted = get_deleted_ids(ids1, ids2)
+    for i in deleted:
+        index1 = np.where(ids1 == i)[0][0]
+        if index1 == 0:
+            #it's deleted from the first position
+            #add it at position index1
+            u[index1:0] = i
+        else:
+            #it's somewhere in the middle, find the position of the one before
+
+            index1 -= 1
+            pre_element = ids1[index1]
+            while pre_element not in u:
+                index1 -= 1
+                if index1 >= 0:
+                    pre_element = ids1[index1]
+                else:
+                    print("ERROR: there's no element before that exists in the list then just add it at 0!")
+                    u = np.insert(u, 0, i)
+                    return u
+            pre_index = np.where(u == pre_element)[0][0]
+            u = np.insert(u, pre_index, i)
+            #todo if the index is not available
+    return u
+
 
 #testing
 def generate_diff_from_files(file1, file2, diff_log):
@@ -71,36 +103,28 @@ def generate_diff_from_files(file1, file2, diff_log):
     #print(full_table1['table'])
     full_table2 = get_full_table(file2)
     #print(full_table2['table'])
-
-    #todo move this to the api
-    log_filename = os.path.abspath(os.path.join(os.path.dirname(__file__), data_directory + diff_log))
-    log.init_log(log_filename)
-    print("log filename ", log_filename)
-
-    compare_ids(full_table1['col_ids'], full_table2['col_ids'], "column")
-    compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
-
-    compare_values(full_table1, full_table2)
-
-    log.close()
-
+    generate_diff(full_table1, full_table2, diff_log)
     return True
 
 #testing
 def generate_diff(full_table1, full_table2, diff_log):
 
-    #todo move this to the api
+#todo move this to the api
     log_filename = os.path.abspath(os.path.join(os.path.dirname(__file__), data_directory + diff_log))
     log.init_log(log_filename)
     print("log filename ", log_filename)
 
-    compare_ids(full_table1['col_ids'], full_table2['col_ids'], "column")
-    compare_ids(full_table1['row_ids'], full_table2['row_ids'], "row")
+    uc_ids = union_ids(full_table1['col_ids'], full_table2['col_ids'])
+    ur_ids = union_ids(full_table1['row_ids'], full_table2['row_ids'])
 
-    compare_values(full_table1, full_table2)
+    compare_ids(full_table1['col_ids'], full_table2['col_ids'], uc_ids, "column")
+    compare_ids(full_table1['row_ids'], full_table2['row_ids'], ur_ids, "row")
+
+    compare_values(full_table1, full_table2, ur_ids, uc_ids)
 
     log.close()
     return True
+
 #generate_diff_from_files(out_file_name, in_file_name, log_file)
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
