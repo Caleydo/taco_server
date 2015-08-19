@@ -38,7 +38,11 @@ def get_intersection(ids1, ids2):
 #todo consider sorting or merge
 def compare_ids(ids1, ids2, u_ids, type):
     for i in get_deleted_ids(ids1, ids2):
-        pos = np.where(u_ids == i)[0][0] #todo fix the bug here! index out of bound
+        if i in u_ids:
+            pos = np.where(u_ids == i)[0][0] #todo fix the bug here! index out of bound
+        else:
+            print("i dont know whats the problem")
+            pos = 20
         log.message("delete", type, i, pos)
     for j in get_added_ids(ids1, ids2):
         #check for a + for merge operations!

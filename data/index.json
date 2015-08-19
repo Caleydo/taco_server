@@ -94,5 +94,29 @@
       "type": "real",
       "range": [0, 10]
     }
+  },
+  {
+    "name": "Taco Long input",
+    "path": "long_table_in.csv",
+    "type": "matrix",
+    "size": [450, 12],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 5]
+    }
+  },
+  {
+    "name": "Taco Long output",
+    "path": "long_table_out.csv",
+    "type": "matrix",
+    "size": [459, 15],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 5]
+    }
   }
 ]
