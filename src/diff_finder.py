@@ -37,11 +37,13 @@ def get_intersection(ids1, ids2):
 #compares two lists and logs the diff
 #todo consider sorting or merge
 def compare_ids(ids1, ids2, u_ids, type):
-    for i in get_deleted_ids(ids1, ids2):
+    deleted = get_deleted_ids(ids1, ids2)
+    for i in deleted:
         if i in u_ids:
             pos = np.where(u_ids == i)[0][0] #todo fix the bug here! index out of bound
         else:
-            print("i dont know whats the problem")
+            print("i dont know whats the problem", u_ids, i)
+            print(deleted)
             pos = 20
         log.message("delete", type, i, pos)
     for j in get_added_ids(ids1, ids2):
@@ -75,6 +77,7 @@ def compare_values(full_table1, full_table2, ru_ids, cu_ids):
 
 def union_ids(ids1, ids2):
     u = ids2
+    print("ids2", ids2)
     deleted = get_deleted_ids(ids1, ids2)
     for i in deleted:
         index1 = np.where(ids1 == i)[0][0]
@@ -96,24 +99,30 @@ def union_ids(ids1, ids2):
                     u = np.insert(u, 0, i)
                     return u
             pre_index = np.where(u == pre_element)[0][0]
-            u = np.insert(u, pre_index, i)
+            #insert the new element after the pre_element
+            u = np.insert(u, pre_index + 1, i)
             #todo if the index is not available
+
+    print("union", u)
     return u
 
 
-#testing
 def generate_diff_from_files(file1, file2, diff_log):
     full_table1 = get_full_table(file1)
     #print(full_table1['table'])
     full_table2 = get_full_table(file2)
     #print(full_table2['table'])
-    generate_diff(full_table1, full_table2, diff_log)
-    return True
+    return generate_diff(full_table1, full_table2, diff_log)
 
-#testing
+
+# testing
 def generate_diff(full_table1, full_table2, diff_log):
 
-#todo move this to the api
+    if len(get_intersection(full_table1['col_ids'], full_table2['col_ids'])) == 0:
+        #there's no ids in common within the two compared tables
+        return False
+
+    #todo move this to the api
     log_filename = os.path.abspath(os.path.join(os.path.dirname(__file__), data_directory + diff_log))
     log.init_log(log_filename)
     print("log filename ", log_filename)
@@ -129,7 +138,8 @@ def generate_diff(full_table1, full_table2, diff_log):
     log.close()
     return True
 
-#generate_diff_from_files(out_file_name, in_file_name, log_file)
+#print(generate_diff_from_files(in_file_name, out_file_name, log_file))
+#generate_diff_from_files(data_directory + 'small_table_in.csv', data_directory + 'med_table_out.csv', log_file+"1")
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
 #todo might be an idea to find the merged things first then handle the rest separately
