@@ -108,6 +108,30 @@
     }
   },
   {
+    "name": "Taco wide input",
+    "path": "wide_table_in.csv",
+    "type": "matrix",
+    "size": [5, 10],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 5]
+    }
+  },
+  {
+    "name": "Taco wide output",
+    "path": "wide_table_out.csv",
+    "type": "matrix",
+    "size": [4, 110],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 5]
+    }
+  }
+    {
     "name": "Taco Long output",
     "path": "long_table_out.csv",
     "type": "matrix",
