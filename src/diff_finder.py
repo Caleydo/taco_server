@@ -19,7 +19,7 @@ log_file = data_directory + file_name + '_diff.log'
 #todo to make more general (to read other data samples)
 def get_full_table(file):
     #data = np.genfromtxt(file, dtype=None, delimiter=',', names=True)
-    data = np.genfromtxt(file, dtype=None, delimiter=',')
+    data = np.genfromtxt(file, dtype=np.string_, delimiter=',')
     row_ids = data[1:][:,0]
     col_ids = data[0,:][1:]
     table = data[1:,1:]
@@ -42,9 +42,7 @@ def compare_ids(ids1, ids2, u_ids, type):
         if i in u_ids:
             pos = np.where(u_ids == i)[0][0] #todo fix the bug here! index out of bound
         else:
-            print("i dont know whats the problem", u_ids, i)
-            print(deleted)
-            pos = 20
+            print("This should not happen!", u_ids, i)
         log.message("delete", type, i, pos)
     for j in get_added_ids(ids1, ids2):
         #check for a + for merge operations!
@@ -75,12 +73,21 @@ def compare_values(full_table1, full_table2, ru_ids, cu_ids):
                 log.message("change", "cell", str(i)+','+str(j), str(rpos)+','+str(cpos), cell_diff)
                 #print('no match ', full_table1['table'][r1,c1], full_table2['table'][r2,c2], r1 ,c1 ,  i, j)
 
+
 def union_ids(ids1, ids2):
-    u = ids2
-    print("ids2", ids2)
-    deleted = get_deleted_ids(ids1, ids2)
+    if len(ids1) < len(ids2):
+        first = ids1
+        second = ids2
+    else:
+        first = ids2
+        second = ids1
+    u = second
+    #to solve expected problems when the length of the ids in one array is more than the others (strings)
+    if(u.dtype.itemsize < first.dtype.itemsize):
+        u.dtype.itemsize = first.dtype.itemsize
+    deleted = get_deleted_ids(first, second)
     for i in deleted:
-        index1 = np.where(ids1 == i)[0][0]
+        index1 = np.where(first == i)[0][0]
         if index1 == 0:
             #it's deleted from the first position
             #add it at position index1
@@ -89,11 +96,11 @@ def union_ids(ids1, ids2):
             #it's somewhere in the middle, find the position of the one before
 
             index1 -= 1
-            pre_element = ids1[index1]
+            pre_element = first[index1]
             while pre_element not in u:
                 index1 -= 1
                 if index1 >= 0:
-                    pre_element = ids1[index1]
+                    pre_element = first[index1]
                 else:
                     print("ERROR: there's no element before that exists in the list then just add it at 0!")
                     u = np.insert(u, 0, i)
@@ -102,8 +109,6 @@ def union_ids(ids1, ids2):
             #insert the new element after the pre_element
             u = np.insert(u, pre_index + 1, i)
             #todo if the index is not available
-
-    print("union", u)
     return u
 
 
@@ -139,7 +144,10 @@ def generate_diff(full_table1, full_table2, diff_log):
     return True
 
 #print(generate_diff_from_files(in_file_name, out_file_name, log_file))
-#generate_diff_from_files(data_directory + 'small_table_in.csv', data_directory + 'med_table_out.csv', log_file+"1")
+#generate_diff_from_files(data_directory + 'wide_table_out.csv', data_directory + 'wide_table_in.csv', log_file+"1")
+#file1= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_10x100.csv"
+#file2= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_100x10.csv"
+#print(generate_diff_from_files(file2, file1, log_file + "gene"))
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
 #todo might be an idea to find the merged things first then handle the rest separately

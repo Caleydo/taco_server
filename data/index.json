@@ -130,8 +130,8 @@
       "type": "real",
       "range": [0, 5]
     }
-  }
-    {
+  },
+  {
     "name": "Taco Long output",
     "path": "long_table_out.csv",
     "type": "matrix",
