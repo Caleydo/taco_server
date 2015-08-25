@@ -28,8 +28,8 @@ def diff_filename(path1, path2):
 
 @app.route('/diff_log/<id1>/<id2>')
 def diff_log(id1, id2):
-    ds1 = dataset.get(int(id1))
-    ds2 = dataset.get(int(id2))
+    ds1 = dataset.get(id1)
+    ds2 = dataset.get(id2)
     if os.path.exists(ds1._path) and os.path.exists(ds2._path):
         #difff = diff_filename(ds1._path, ds2._path)
         difff = "diff_" + id1 + "_" + id2 + ".log"
