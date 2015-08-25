@@ -37,21 +37,28 @@ def get_intersection(ids1, ids2):
 #compares two lists and logs the diff
 #todo consider sorting or merge
 def compare_ids(ids1, ids2, u_ids, type):
+    merge_delimiter = "+"
+    merge_found = False
     deleted = get_deleted_ids(ids1, ids2)
+    to_log = []
+    #todo is to check for the split here
     for i in deleted:
         if i in u_ids:
             pos = np.where(u_ids == i)[0][0] #todo fix the bug here! index out of bound
         else:
             print("This should not happen!", u_ids, i)
-        log.message("delete", type, i, pos)
+        to_log += [{"op": "delete", "id": i, "pos": pos}]
     for j in get_added_ids(ids1, ids2):
         #check for a + for merge operations!
-        if str(j).find("+") == -1:
+        if str(j).find(merge_delimiter) == -1:
             apos = np.where(u_ids == j)[0][0]
-            log.message("add", type, j, apos)
+            to_log += [{"op": "add", "id": j, "pos": apos}]
         else:
             #todo find the index for the merged thing!!
+            to_log += [{"op": "merge", "id": j, "pos": np.where(ids2 == j)[0][0]}]
             log.message("merge", type, j, np.where(ids2 == j)[0][0])
+    for m in to_log:
+        log.message(m["op"], type, m["id"], m["pos"])
 
 
 def compare_values(full_table1, full_table2, ru_ids, cu_ids):
