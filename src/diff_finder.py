@@ -41,12 +41,14 @@ def compare_ids(ids1, ids2, u_ids, type):
     merge_found = False
     deleted = get_deleted_ids(ids1, ids2)
     to_log = []
+    to_not_log = []
     #todo is to check for the split here
     for i in deleted:
         if i in u_ids:
             pos = np.where(u_ids == i)[0][0] #todo fix the bug here! index out of bound
         else:
             print("This should not happen!", u_ids, i)
+            pos = 20
         to_log += [{"op": "delete", "id": i, "pos": pos}]
     for j in get_added_ids(ids1, ids2):
         #check for a + for merge operations!
@@ -54,9 +56,18 @@ def compare_ids(ids1, ids2, u_ids, type):
             apos = np.where(u_ids == j)[0][0]
             to_log += [{"op": "add", "id": j, "pos": apos}]
         else:
-            #todo find the index for the merged thing!!
-            to_log += [{"op": "merge", "id": j, "pos": np.where(ids2 == j)[0][0]}]
-            log.message("merge", type, j, np.where(ids2 == j)[0][0])
+            merged_ids = str(j).split(merge_delimiter)
+            pos = str(np.where(u_ids == j)[0][0])
+            all_ids = str(j)
+            for s in merged_ids:
+                pos += "," + str(np.where(u_ids == s)[0][0])
+                all_ids += "," + s
+                # #todo find a better way to delete this!!!
+                # to_not_log = [whatever for whatever, val in enumerate(to_log) if whatever["id"] == s]
+                # for index in reversed(to_not_log): # start at the end to avoid recomputing offsets
+                #     del to_log[index]
+            to_log += [{"op": "merge", "id": all_ids, "pos": pos}]
+            #todo delete the others from the deleted to_log
     for m in to_log:
         log.message(m["op"], type, m["id"], m["pos"])
 
@@ -89,9 +100,15 @@ def union_ids(ids1, ids2):
         first = ids2
         second = ids1
     u = second
+    print(first, second)
     #to solve expected problems when the length of the ids in one array is more than the others (strings)
+    #todo solve the error here ValueError: new type not compatible with array.
     if(u.dtype.itemsize < first.dtype.itemsize):
-        u.dtype.itemsize = first.dtype.itemsize
+        u.astype(first.dtype)
+    else:
+        print("there's nothingn to change")
+
+    print("u is ", u)
     deleted = get_deleted_ids(first, second)
     for i in deleted:
         index1 = np.where(first == i)[0][0]
@@ -151,7 +168,6 @@ def generate_diff(full_table1, full_table2, diff_log):
     return True
 
 #print(generate_diff_from_files(in_file_name, out_file_name, log_file))
-#generate_diff_from_files(data_directory + 'wide_table_out.csv', data_directory + 'wide_table_in.csv', log_file+"1")
 #file1= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_10x100.csv"
 #file2= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_100x10.csv"
 #print(generate_diff_from_files(file2, file1, log_file + "gene"))

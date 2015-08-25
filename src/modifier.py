@@ -231,13 +231,13 @@ DEL_COL = 4
 CH_CELL = 5
 
 data_directory = '../data/'
-file_name = 'wide_table'
+file_name = 'test_table'
 in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
 rows = 5
-cols = 10
+cols = 6
 min_data = 0
 max_data = 5 #don't forget to update this in the index.json and restart the server
 
@@ -245,13 +245,13 @@ max_data = 5 #don't forget to update this in the index.json and restart the serv
 # the problem that this has no order
 #todo think of a structure where we can specify exactly the cells/cols/rows that could be modified
 operations_count = {
-    'del_row': 1,
+    'del_row': 0,
     'del_col': 0,
     'add_row': 0,
-    'add_col': 100,
-    'ch_cell': 20, #todo changing in a new row is not considered
-   # 'me_col': [[0,1,2]],
-    'me_col': [],
+    'add_col': 0,
+    'ch_cell': 0, #todo changing in a new row is not considered
+    'me_col': [[0,1]],
+   # 'me_col': [],
     'sp_col': 0, #idk
  #   'me_row': [[0,2]],
     'me_row': [],
