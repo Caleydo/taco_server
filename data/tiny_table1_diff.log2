@@ -1,4 +1,2 @@
 operation	type	id	position	data
-delete	column	col1+col2	0
-add	column	col2	2
-add	column	col1	1
+split	column	col1+col2,col1,col2	0,1,2

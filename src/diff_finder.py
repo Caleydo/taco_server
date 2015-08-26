@@ -78,36 +78,48 @@ def get_union_ids(ids1, ids2):
 #todo consider sorting or merge
 def compare_ids(ids1, ids2, u_ids, type):
     merge_delimiter = "+"
-    merge_found = False
     deleted = get_deleted_ids(ids1, ids2)
     to_log = []
-    to_not_log = []
+    to_filter = []
     #todo is to check for the split here
     for i in deleted:
-        if i in u_ids:
-            pos = u_ids.index(i) #todo fix the bug here! index out of bound
+        #check for a + for a split operation
+        if str(i).find(merge_delimiter) == -1:
+            if i in u_ids:
+                pos = u_ids.index(i)
+            else:
+                print("This should not happen!", u_ids, i)
+                pos = 20
+            to_log += [{"op": "delete", "id": i, "pos": pos}]
         else:
-            print("This should not happen!", u_ids, i)
-            pos = 20
-        to_log += [{"op": "delete", "id": i, "pos": pos}]
+            #split found
+            split_ids = str(i).split(merge_delimiter)
+            to_filter += split_ids #will be filtered in next step
+            pos = str(u_ids.index(i))
+            all_ids = str(i)
+            for s in split_ids:
+                pos += "," + str(u_ids.index(s))
+                all_ids += "," + s
+            to_log += [{"op": "split", "id": all_ids, "pos": pos}]
     for j in get_added_ids(ids1, ids2):
         #check for a + for merge operations!
         if str(j).find(merge_delimiter) == -1:
-            apos = u_ids.index(j)
-            to_log += [{"op": "add", "id": j, "pos": apos}]
+            if j not in to_filter:
+                apos = u_ids.index(j)
+                to_log += [{"op": "add", "id": j, "pos": apos}]
+            else:
+                print("this should not be logged because it's part of a split", j)
         else:
+            #merge found
             merged_ids = str(j).split(merge_delimiter)
             pos = str(u_ids.index(j))
             all_ids = str(j)
             for s in merged_ids:
                 pos += "," + str(u_ids.index(s))
                 all_ids += "," + s
-                # #todo find a better way to delete this!!!
-                # to_not_log = [whatever for whatever, val in enumerate(to_log) if whatever["id"] == s]
-                # for index in reversed(to_not_log): # start at the end to avoid recomputing offsets
-                #     del to_log[index]
+                #delete the delete operations related to those IDs
+                to_log = filter(lambda obj: obj['id'] != s, to_log)
             to_log += [{"op": "merge", "id": all_ids, "pos": pos}]
-            #todo delete the others from the deleted to_log
     for m in to_log:
         log.message(m["op"], type, m["id"], m["pos"])
 
@@ -164,7 +176,7 @@ def generate_diff(full_table1, full_table2, diff_log):
     return True
 
 #print(generate_diff_from_files(in_file_name, out_file_name, log_file))
-#generate_diff_from_files(data_directory + 'test_table_out.csv', data_directory + 'test_table_in.csv', log_file+"2")
+generate_diff_from_files(data_directory + 'test_table_out.csv', data_directory + 'test_table_in.csv', log_file+"2")
 #file1= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_10x100.csv"
 #file2= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_100x10.csv"
 #print(generate_diff_from_files(file2, file1, log_file + "gene"))
