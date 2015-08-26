@@ -25,14 +25,54 @@ def get_full_table(file):
     table = data[1:,1:]
     return {'table': table , 'col_ids': col_ids, 'row_ids': row_ids}
 
+
+# get the IDs available only in the first one
 def get_deleted_ids(ids1, ids2):
     return list(set(ids1) - set(ids2))
 
+
+# get the IDs available only in the second one
 def get_added_ids(ids1, ids2):
     return list(set(ids2) - set(ids1))
 
+
 def get_intersection(ids1, ids2):
     return set(ids1).intersection(ids2)
+
+
+def get_union_ids(ids1, ids2):
+    if len(ids1) < len(ids2):
+        first = ids1
+        second = ids2
+    else:
+        first = ids2
+        second = ids1
+    u = second.tolist()
+    deleted = get_deleted_ids(first, second)
+    for i in deleted:
+        index1 = np.where(first == i)[0][0]
+        if index1 == 0:
+            #it's deleted from the first position
+            #add it at position index1
+            u.insert(0, i)
+        else:
+            #it's somewhere in the middle, find the position of the one before
+            index1 -= 1
+            pre_element = first[index1]
+            while pre_element not in u:
+                index1 -= 1
+                if index1 >= 0:
+                    pre_element = first[index1]
+                else:
+                    print("ERROR: there's no element before that exists in the list then just add it at 0!")
+                    u.insert(0, i)
+                    return u
+            pre_index = u.index(pre_element)
+            #insert the new element after the pre_element
+            u.insert(pre_index + 1, i)
+            #todo if the index is not available
+    return u
+
 
 #compares two lists and logs the diff
 #todo consider sorting or merge
@@ -45,7 +85,7 @@ def compare_ids(ids1, ids2, u_ids, type):
     #todo is to check for the split here
     for i in deleted:
         if i in u_ids:
-            pos = np.where(u_ids == i)[0][0] #todo fix the bug here! index out of bound
+            pos = u_ids.index(i) #todo fix the bug here! index out of bound
         else:
             print("This should not happen!", u_ids, i)
             pos = 20
@@ -53,14 +93,14 @@ def compare_ids(ids1, ids2, u_ids, type):
     for j in get_added_ids(ids1, ids2):
         #check for a + for merge operations!
         if str(j).find(merge_delimiter) == -1:
-            apos = np.where(u_ids == j)[0][0]
+            apos = u_ids.index(j)
             to_log += [{"op": "add", "id": j, "pos": apos}]
         else:
             merged_ids = str(j).split(merge_delimiter)
-            pos = str(np.where(u_ids == j)[0][0])
+            pos = str(u_ids.index(j))
             all_ids = str(j)
             for s in merged_ids:
-                pos += "," + str(np.where(u_ids == s)[0][0])
+                pos += "," + str(u_ids.index(s))
                 all_ids += "," + s
                 # #todo find a better way to delete this!!!
                 # to_not_log = [whatever for whatever, val in enumerate(to_log) if whatever["id"] == s]
@@ -86,54 +126,10 @@ def compare_values(full_table1, full_table2, ru_ids, cu_ids):
             if full_table1['table'][r1,c1] != full_table2['table'][r2,c2]:
                 #todo find a diff for different datatypes!
                 cell_diff = float(full_table1['table'][r1,c1]) - float(full_table2['table'][r2,c2])
-                rpos = np.where(ru_ids == i)[0][0]
-                cpos = np.where(cu_ids == j)[0][0]
+                rpos = ru_ids.index(i)
+                cpos = cu_ids.index(j)
                 log.message("change", "cell", str(i)+','+str(j), str(rpos)+','+str(cpos), cell_diff)
                 #print('no match ', full_table1['table'][r1,c1], full_table2['table'][r2,c2], r1 ,c1 ,  i, j)
-
-
-def union_ids(ids1, ids2):
-    if len(ids1) < len(ids2):
-        first = ids1
-        second = ids2
-    else:
-        first = ids2
-        second = ids1
-    u = second
-    print(first, second)
-    #to solve expected problems when the length of the ids in one array is more than the others (strings)
-    #todo solve the error here ValueError: new type not compatible with array.
-    if(u.dtype.itemsize < first.dtype.itemsize):
-        u.astype(first.dtype)
-    else:
-        print("there's nothingn to change")
-
-    print("u is ", u)
-    deleted = get_deleted_ids(first, second)
-    for i in deleted:
-        index1 = np.where(first == i)[0][0]
-        if index1 == 0:
-            #it's deleted from the first position
-            #add it at position index1
-            u[index1:0] = i
-        else:
-            #it's somewhere in the middle, find the position of the one before
-
-            index1 -= 1
-            pre_element = first[index1]
-            while pre_element not in u:
-                index1 -= 1
-                if index1 >= 0:
-                    pre_element = first[index1]
-                else:
-                    print("ERROR: there's no element before that exists in the list then just add it at 0!")
-                    u = np.insert(u, 0, i)
-                    return u
-            pre_index = np.where(u == pre_element)[0][0]
-            #insert the new element after the pre_element
-            u = np.insert(u, pre_index + 1, i)
-            #todo if the index is not available
-    return u
 
 
 def generate_diff_from_files(file1, file2, diff_log):
@@ -156,8 +152,8 @@ def generate_diff(full_table1, full_table2, diff_log):
     log.init_log(log_filename)
     print("log filename ", log_filename)
 
-    uc_ids = union_ids(full_table1['col_ids'], full_table2['col_ids'])
-    ur_ids = union_ids(full_table1['row_ids'], full_table2['row_ids'])
+    uc_ids = get_union_ids(full_table1['col_ids'], full_table2['col_ids'])
+    ur_ids = get_union_ids(full_table1['row_ids'], full_table2['row_ids'])
 
     compare_ids(full_table1['col_ids'], full_table2['col_ids'], uc_ids, "column")
     compare_ids(full_table1['row_ids'], full_table2['row_ids'], ur_ids, "row")
@@ -168,6 +164,7 @@ def generate_diff(full_table1, full_table2, diff_log):
     return True
 
 #print(generate_diff_from_files(in_file_name, out_file_name, log_file))
+#generate_diff_from_files(data_directory + 'test_table_out.csv', data_directory + 'test_table_in.csv', log_file+"2")
 #file1= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_10x100.csv"
 #file2= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_100x10.csv"
 #print(generate_diff_from_files(file2, file1, log_file + "gene"))
