@@ -1,2 +1,4 @@
 operation	type	id	position	data
+split	column	col5+col7,col5,col7	5,6,8
 split	column	col1+col2,col1,col2	0,1,2
+split	row	row1+row3+row4,row1,row3,row4	0,1,3,4

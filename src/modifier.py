@@ -236,8 +236,8 @@ in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 5
-cols = 6
+rows = 6
+cols = 7
 min_data = 0
 max_data = 5 #don't forget to update this in the index.json and restart the server
 
@@ -250,12 +250,10 @@ operations_count = {
     'add_row': 0,
     'add_col': 0,
     'ch_cell': 0, #todo changing in a new row is not considered
-    'me_col': [[0,1]],
+    'me_col': [[0,1], [3,5]], #important to have the array in order ! so not [5,3]!
    # 'me_col': [],
-    'sp_col': 0, #idk
- #   'me_row': [[0,2]],
-    'me_row': [],
-    'sp_row': 0 #i also dk
+   # 'me_row': [],
+    'me_row': [[0,2,3]],
     }
 
 log.init_log(log_file)
@@ -282,5 +280,4 @@ gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_direc
 
 #todo make sure that the log file is complete and ordered somehow
 #todo choose the percentage of change e.g. structural and content
-#todo think of the split operation
 #todo changing in an added row/col will be ignored as it is already a new thing

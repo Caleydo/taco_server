@@ -108,6 +108,18 @@
     }
   },
   {
+    "name": "Taco Long output",
+    "path": "long_table_out.csv",
+    "type": "matrix",
+    "size": [459, 15],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 5]
+    }
+  },
+  {
     "name": "Taco wide input",
     "path": "wide_table_in.csv",
     "type": "matrix",
@@ -132,10 +144,22 @@
     }
   },
   {
-    "name": "Taco Long output",
-    "path": "long_table_out.csv",
+    "name": "Taco merge input",
+    "path": "test_table_in.csv",
     "type": "matrix",
-    "size": [459, 15],
+    "size": [6, 7],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 5]
+    }
+  },
+  {
+    "name": "Taco merge output",
+    "path": "test_table_out.csv",
+    "type": "matrix",
+    "size": [4, 5],
     "rowtype": "patient",
     "coltype": "gene",
     "value": {
@@ -143,4 +167,5 @@
       "range": [0, 5]
     }
   }
+
 ]

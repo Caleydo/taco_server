@@ -107,8 +107,8 @@ def compare_ids(ids1, ids2, u_ids, type):
             if j not in to_filter:
                 apos = u_ids.index(j)
                 to_log += [{"op": "add", "id": j, "pos": apos}]
-            else:
-                print("this should not be logged because it's part of a split", j)
+            #else:
+             #   print("this should not be logged because it's part of a split", j)
         else:
             #merge found
             merged_ids = str(j).split(merge_delimiter)
@@ -176,7 +176,7 @@ def generate_diff(full_table1, full_table2, diff_log):
     return True
 
 #print(generate_diff_from_files(in_file_name, out_file_name, log_file))
-generate_diff_from_files(data_directory + 'test_table_out.csv', data_directory + 'test_table_in.csv', log_file+"2")
+#generate_diff_from_files(data_directory + 'test_table_out.csv', data_directory + 'test_table_in.csv', log_file+"2")
 #file1= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_10x100.csv"
 #file2= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_100x10.csv"
 #print(generate_diff_from_files(file2, file1, log_file + "gene"))
