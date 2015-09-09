@@ -167,7 +167,8 @@ def generate_diff(full_table1, full_table2):
         "split_rows": [],
         "merged_cols": [],
         "split_cols": [],
-        "ch_cells": []
+        "ch_cells": [],
+        "union": {}
     }
 
     if len(get_intersection(full_table1['col_ids'], full_table2['col_ids'])) == 0:
@@ -182,6 +183,7 @@ def generate_diff(full_table1, full_table2):
     diff_arrays = compare_ids(full_table1['row_ids'], full_table2['row_ids'], ur_ids, "row", diff_arrays)
 
     diff_arrays = compare_values(full_table1, full_table2, ur_ids, uc_ids, diff_arrays)
+    diff_arrays["union"] = {"uc_ids": uc_ids, "ur_ids": ur_ids}
 
     return diff_arrays
 
