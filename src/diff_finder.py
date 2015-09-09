@@ -157,7 +157,8 @@ def generate_diff_from_files(file1, file2):
 
 
 # testing
-def generate_diff(full_table1, full_table2):
+def generate_diff(full_table1, full_table2, rowtype, coltype):
+    import caleydo_server.dataset as dataset
     diff_arrays = {
         "added_rows": [],
         "deleted_rows": [],
@@ -183,10 +184,20 @@ def generate_diff(full_table1, full_table2):
     diff_arrays = compare_ids(full_table1['row_ids'], full_table2['row_ids'], ur_ids, "row", diff_arrays)
 
     diff_arrays = compare_values(full_table1, full_table2, ur_ids, uc_ids, diff_arrays)
-    diff_arrays["union"] = {"uc_ids": uc_ids, "ur_ids": ur_ids}
+    c_ids = assign_ids(uc_ids, coltype)
+    r_ids = assign_ids(ur_ids, rowtype)
+    #use tolist() to solve the json serializable problem
+    diff_arrays["union"] = {"uc_ids": uc_ids, "ur_ids": ur_ids, "c_ids": c_ids.tolist(), "r_ids": r_ids.tolist()}
 
     return diff_arrays
 
+
+#helping functions
+def assign_ids(ids, idtype):
+    import caleydo_server.plugin
+
+    manager = caleydo_server.plugin.lookup('idmanager')
+    return np.array(manager(ids, idtype))
 #print(json.dumps(generate_diff_from_files(in_file_name, out_file_name)))
 #print(generate_diff_from_files(data_directory + 'test_table_in.csv', data_directory + 'test_table_out.csv'))
 #file1= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_10x100.csv"

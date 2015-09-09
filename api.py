@@ -30,7 +30,8 @@ def diff_log(id1, id2):
         #create the table object
         table1 = {'table': ds1.asnumpy(), 'col_ids': ds1.cols(), 'row_ids': ds1.rows()}
         table2 = {'table': ds2.asnumpy(), 'col_ids': ds2.cols(), 'row_ids': ds2.rows()}
-        return flask.jsonify(diff_finder.generate_diff(table1, table2))
+        #todo make sure that both dataset have same rowtype and coltype before calling this api function
+        return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype))
     else:
         print("one of the files is missing!!")
     #return flask.jsonify(ds1.asjson())
