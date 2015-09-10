@@ -153,12 +153,17 @@ def generate_diff_from_files(file1, file2):
     #print(full_table1['table'])
     full_table2 = get_full_table(file2)
     #print(full_table2['table'])
-    return generate_diff(full_table1, full_table2)
+    return generate_diff(full_table1, full_table2, None, None)
 
 
 # testing
 def generate_diff(full_table1, full_table2, rowtype, coltype):
-    import caleydo_server.dataset as dataset
+
+    if len(get_intersection(full_table1['col_ids'], full_table2['col_ids'])) == 0:
+        #there's no ids in common within the two compared tables
+        #todo handle this
+        return {}
+
     diff_arrays = {
         "added_rows": [],
         "deleted_rows": [],
@@ -171,11 +176,6 @@ def generate_diff(full_table1, full_table2, rowtype, coltype):
         "ch_cells": [],
         "union": {}
     }
-
-    if len(get_intersection(full_table1['col_ids'], full_table2['col_ids'])) == 0:
-        #there's no ids in common within the two compared tables
-        #todo handle this
-        return diff_arrays
 
     uc_ids = get_union_ids(full_table1['col_ids'], full_table2['col_ids'])
     ur_ids = get_union_ids(full_table1['row_ids'], full_table2['row_ids'])
