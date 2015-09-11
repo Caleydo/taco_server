@@ -24,19 +24,21 @@ def jsontest():
 @app.route('/diff_log/<id1>/<id2>')
 def diff_log(id1, id2):
     ds1 = dataset.get(id1)
+    print('ds1', ds1)
     ds2 = dataset.get(id2)
-    if os.path.exists(ds1._path) and os.path.exists(ds2._path):
+    print('ds2', ds2)
+    #if os.path.exists(ds1._path) and os.path.exists(ds2._path):
         #todo find a way cash this
         #create the table object
-        table1 = {'table': ds1.asnumpy(), 'col_ids': ds1.cols(), 'row_ids': ds1.rows()}
-        table2 = {'table': ds2.asnumpy(), 'col_ids': ds2.cols(), 'row_ids': ds2.rows()}
+    table1 = {'table': ds1.asnumpy(), 'col_ids': list(ds1.cols()), 'row_ids': list(ds1.rows())}
+    table2 = {'table': ds2.asnumpy(), 'col_ids': list(ds2.cols()), 'row_ids': list(ds2.rows())}
         #todo make sure that both dataset have same rowtype and coltype before calling this api function
-        return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype))
-    else:
-        print("one of the files is missing!!")
+    return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype))
+    #else:
+        #print("one of the files is missing!!")
     #return flask.jsonify(ds1.asjson())
     #todo return a value that could be handled to show an error in the client side
-    return ""
+    #return "{}"
 
 def create():
   """

@@ -47,10 +47,10 @@ def get_union_ids(ids1, ids2):
     else:
         first = ids2
         second = ids1
-    u = second.tolist()
+    u = list(second)
     deleted = get_deleted_ids(first, second)
     for i in deleted:
-        index1 = np.where(first == i)[0][0]
+        index1 = first.index(i)
         if index1 == 0:
             #it's deleted from the first position
             #add it at position index1
@@ -132,11 +132,11 @@ def compare_values(full_table1, full_table2, ru_ids, cu_ids, diff_arrays):
     rows = get_intersection(full_table1['row_ids'], full_table2['row_ids'])
     cols = get_intersection(full_table1['col_ids'], full_table2['col_ids'])
     for i in rows:
-        r1 = np.where(full_table1['row_ids'] == i)[0][0]
-        r2 = np.where(full_table2['row_ids'] == i)[0][0]
+        r1 = full_table1['row_ids'].index(i)
+        r2 = full_table2['row_ids'].index(i)
         for j in cols:
-            c1 = np.where(full_table1['col_ids'] == j)[0][0]
-            c2 = np.where(full_table2['col_ids'] == j)[0][0]
+            c1 = full_table1['col_ids'].index(j)
+            c2 = full_table2['col_ids'].index(j)
             # cell_diff = full_table1['table'][r1,c1] - full_table2['table'][r2,c2]
             # doesn't work like this because it's a string
             if full_table1['table'][r1, c1] != full_table2['table'][r2, c2]:
@@ -158,6 +158,7 @@ def generate_diff_from_files(file1, file2):
 
 # testing
 def generate_diff(full_table1, full_table2, rowtype, coltype):
+    print("sizes", len(full_table1['col_ids']), len(full_table2['col_ids']), len(full_table1['row_ids']), len(full_table2['row_ids']), full_table1['table'].shape, full_table2['table'].shape)
 
     if len(get_intersection(full_table1['col_ids'], full_table2['col_ids'])) == 0:
         #there's no ids in common within the two compared tables
