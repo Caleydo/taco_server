@@ -2,7 +2,7 @@ __author__ = 'Reem'
 
 import flask
 from src import diff_finder
-from src.diff_finder import Table
+from src.diff_finder import Table, DiffFinder
 import caleydo_server.dataset as dataset
 
 import os
@@ -23,8 +23,9 @@ def jsontest():
   return flask.jsonify({'x': 'where are you', 'y': "too"})
 
 
-@app.route('/diff_log/<id1>/<id2>/<lod>')
-def diff_log(id1, id2, lod):
+#@direction: 0 rows, 1 cols, 2 both rows and cols
+@app.route('/diff_log/<id1>/<id2>/<lod>/<direction>')
+def diff_log(id1, id2, lod, direction):
     print(lod)
     ds1 = dataset.get(id1)
     ds2 = dataset.get(id2)
@@ -33,8 +34,10 @@ def diff_log(id1, id2, lod):
     #create the table object
     table1 = Table(list(ds1.rows()), list(ds1.cols()), ds1.asnumpy())
     table2 = Table(list(ds2.rows()), list(ds2.cols()), ds2.asnumpy())
+    dfinder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, lod, direction)
+    print(len(dfinder.union))
     #todo make sure that both dataset have same rowtype and coltype before calling this api function
-    return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype))
+    return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype, direction))
     #else:
         #print("one of the files is missing!!")
     #return flask.jsonify(ds1.asjson())
