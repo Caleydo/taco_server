@@ -211,15 +211,19 @@ class Table:
 #Diff object data structure
 class Diff:
     def __init__(self, direction):
-        """
-
-        :rtype : object
-        """
         self._direction = direction
-        self.content = {}
+        self.content = []
         self.structure = {}
         self.merge = {}
         self.reorder = {}
+
+    def serialize(self):
+        return {
+            "content" : self.content,
+            "structure": self.structure,
+            "merge": self.merge,
+            "reorder": self.reorder
+        }
 
 
 #DiffFinder class
@@ -233,8 +237,8 @@ class DiffFinder:
         self.diff = Diff(self._direction)
         self.union = {}
         self.intersection = {} #we only need this for rows when we have content changes
-        self.intersection["cols"] = get_intersection(self._table1.col_ids, self._table2.col_ids)
-        if len(self.intersection["cols"]) >= 0:
+        self.intersection["ic_ids"] = get_intersection(self._table1.col_ids, self._table2.col_ids)
+        if len(self.intersection["ic_ids"]) >= 0:
         #there's at least one common column between the tables
         #otherwise there's no need to calculate the unions
             if self._direction == D_COLS or self._direction == D_ROWS_COLS:
@@ -249,34 +253,47 @@ class DiffFinder:
                 r_ids = assign_ids(self.union["ur_ids"], rowtype)
                 self.union["r_ids"]= r_ids.tolist()
 
-    def generate_diff(self, operations):
+    def generate_diff(self, ops):
         if len(self.union) == 0:
             #todo return a special value
             #there's no diff possible
             return {}
+        operations = ops.split(",")
         has_merge = "merge" in operations
         has_reorder = "reorder" in operations
         has_structure = "structure" in operations
+        has_content = "content" in operations
         if self._direction == D_COLS or self._direction == D_ROWS_COLS:
-            if has_structure:
-                compare_ids("col", self._table1.col_ids, self._table2.col_ids, self.union["uc_ids"], has_merge)
-                compare_ids("row", self._table1.row_ids, self._table2.row_ids, self.union["ur_ids"], has_merge)
-
-        diff_arrays, ch_perc = compare_values(full_table1, full_table2, ur_ids, uc_ids, diff_arrays)
-        return self.diff
+            if has_structure or has_merge:
+                self._compare_ids("col", self._table1.col_ids, self._table2.col_ids, self.union["uc_ids"], has_merge, has_structure)
+            #todo check for reorder for cols here
+        if self._direction == D_ROWS or self._direction == D_ROWS_COLS:
+            if has_structure or has_merge:
+                self._compare_ids("row", self._table1.row_ids, self._table2.row_ids, self.union["ur_ids"], has_merge, has_structure)
+            #todo check for reorder for rows here
+        #check for content change
+        #todo move this to be before checking for other changes so that we can aggregate if necessary?
+        if has_content:
+            #todo do we need both rows and columns here anyway?
+            #first calcuate the rows intersections
+            self.intersection["ir_ids"] = get_intersection(self._table1.row_ids, self._table2.row_ids)
+            #now we have both interections for rows and columns
+            self._compare_values(self._table1, self._table2, self.union["ur_ids"], self.union["uc_ids"])
+            #todo check this here
+            #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
+        return self.diff.serialize()
 
     #compares two lists of ids
     #todo consider sorting
-    def compare_ids(self, ids1, ids2, u_ids, e_type, has_merge, merge_delimiter= "+"):
+    def _compare_ids(self, e_type, ids1, ids2, u_ids, has_merge, has_structure, merge_delimiter= "+"):
         deleted = get_deleted_ids(ids1, ids2)
         deleted_log = []
         added_log = []
-        #for merge operations :|
+        #TODO use this only for merge operations :|
         merged_log = []
         split_log = []
         to_filter = []
         merge_id = 0
-        #todo is to check for the split here
         for i in deleted:
             #check for a + for a split operation
             if str(i).find(merge_delimiter) == -1:
@@ -312,9 +329,28 @@ class DiffFinder:
                 merge_id += 1 #increment it
         #log
         if has_merge:
-            self.Diff.merge["merged_" + e_type + "s"] = merged_log
-            self.Diff.merge["split_" + e_type + "s"] = split_log
-        self.Diff.structure["added_" + e_type + "s"] = added_log
-        self.Diff.structure["deleted_" + e_type + "s"] = deleted_log
+            self.diff.merge["merged_" + e_type + "s"] = merged_log
+            self.diff.merge["split_" + e_type + "s"] = split_log
+        if has_structure:
+            self.diff.structure["added_" + e_type + "s"] = added_log
+            self.diff.structure["deleted_" + e_type + "s"] = deleted_log
+
+    #content changes
+    def _compare_values(self, table1, table2, ru_ids, cu_ids):
+        for i in self.intersection["ir_ids"]:
+            r1 = table1.row_ids.index(i)
+            r2 = table2.row_ids.index(i)
+            for j in self.intersection["ic_ids"]:
+                c1 = table1.col_ids.index(j)
+                c2 = table2.col_ids.index(j)
+                # cell_diff = full_table1.content[r1,c1] - full_table2.content[r2,c2]
+                # doesn't work like this because it's a string
+                if table1.content[r1, c1] != table2.content[r2, c2]:
+                    #todo find a diff for different datatypes!
+                    cell_diff = float(table1.content[r1, c1]) - float(table2.content[r2, c2])
+                    rpos = ru_ids.index(i)
+                    cpos = cu_ids.index(j)
+                    self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
+        #return diff_arrays
 
 #todo might be an idea to find the merged things first then handle the rest separately
