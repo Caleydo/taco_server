@@ -2,7 +2,9 @@ __author__ = 'Reem'
 
 import flask
 from src import diff_finder
+from src.diff_finder import Table
 import caleydo_server.dataset as dataset
+
 import os
 
 #create an Flask app for hosting my namespace
@@ -21,18 +23,17 @@ def jsontest():
   return flask.jsonify({'x': 'where are you', 'y': "too"})
 
 
-@app.route('/diff_log/<id1>/<id2>')
-def diff_log(id1, id2):
+@app.route('/diff_log/<id1>/<id2>/<lod>')
+def diff_log(id1, id2, lod):
+    print(lod)
     ds1 = dataset.get(id1)
-    print('ds1', ds1)
     ds2 = dataset.get(id2)
-    print('ds2', ds2)
-    #if os.path.exists(ds1._path) and os.path.exists(ds2._path):
-        #todo find a way cash this
-        #create the table object
-    table1 = {'table': ds1.asnumpy(), 'col_ids': list(ds1.cols()), 'row_ids': list(ds1.rows())}
-    table2 = {'table': ds2.asnumpy(), 'col_ids': list(ds2.cols()), 'row_ids': list(ds2.rows())}
-        #todo make sure that both dataset have same rowtype and coltype before calling this api function
+
+    #todo find a way cash this
+    #create the table object
+    table1 = Table(list(ds1.rows()), list(ds1.cols()), ds1.asnumpy())
+    table2 = Table(list(ds2.rows()), list(ds2.cols()), ds2.asnumpy())
+    #todo make sure that both dataset have same rowtype and coltype before calling this api function
     return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype))
     #else:
         #print("one of the files is missing!!")

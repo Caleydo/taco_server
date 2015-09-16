@@ -23,7 +23,7 @@ def get_full_table(file):
     row_ids = data[1:][:, 0]
     col_ids = data[0, :][1:]
     table = data[1:, 1:]
-    return {'table': table, 'col_ids': col_ids, 'row_ids': row_ids}
+    return {'content': table, 'col_ids': col_ids, 'row_ids': row_ids}
 
 
 # get the IDs available only in the first one
@@ -129,38 +129,42 @@ def compare_ids(ids1, ids2, u_ids, e_type, diff_arrays):
 
 
 def compare_values(full_table1, full_table2, ru_ids, cu_ids, diff_arrays):
-    rows = get_intersection(full_table1['row_ids'], full_table2['row_ids'])
-    cols = get_intersection(full_table1['col_ids'], full_table2['col_ids'])
+    rows = get_intersection(full_table1.row_ids, full_table2.row_ids)
+    cols = get_intersection(full_table1.col_ids, full_table2.col_ids)
+    value_ch_counter = 0
     for i in rows:
-        r1 = full_table1['row_ids'].index(i)
-        r2 = full_table2['row_ids'].index(i)
+        r1 = full_table1.row_ids.index(i)
+        r2 = full_table2.row_ids.index(i)
         for j in cols:
-            c1 = full_table1['col_ids'].index(j)
-            c2 = full_table2['col_ids'].index(j)
-            # cell_diff = full_table1['table'][r1,c1] - full_table2['table'][r2,c2]
+            c1 = full_table1.col_ids.index(j)
+            c2 = full_table2.col_ids.index(j)
+            # cell_diff = full_table1.content[r1,c1] - full_table2.content[r2,c2]
             # doesn't work like this because it's a string
-            if full_table1['table'][r1, c1] != full_table2['table'][r2, c2]:
+            if full_table1.content[r1, c1] != full_table2.content[r2, c2]:
+                value_ch_counter += 1
                 #todo find a diff for different datatypes!
-                cell_diff = float(full_table1['table'][r1, c1]) - float(full_table2['table'][r2, c2])
+                cell_diff = float(full_table1.content[r1, c1]) - float(full_table2.content[r2, c2])
                 rpos = ru_ids.index(i)
                 cpos = cu_ids.index(j)
                 diff_arrays["ch_cells"] += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
-    return diff_arrays
+    ch_perc = calc_ch_percentage(value_ch_counter, len(rows), len(cols))
+    return (diff_arrays, ch_perc)
+
+
+#calcuate the percentage of changed cells regarding the intersection table
+def calc_ch_percentage(chc, rc, cc):
+    return float(chc)/(rc * cc)
 
 
 def generate_diff_from_files(file1, file2):
     full_table1 = get_full_table(file1)
-    #print(full_table1['table'])
     full_table2 = get_full_table(file2)
-    #print(full_table2['table'])
     return generate_diff(full_table1, full_table2, None, None)
 
 
 # testing
 def generate_diff(full_table1, full_table2, rowtype, coltype):
-    print("sizes", len(full_table1['col_ids']), len(full_table2['col_ids']), len(full_table1['row_ids']), len(full_table2['row_ids']), full_table1['table'].shape, full_table2['table'].shape)
-
-    if len(get_intersection(full_table1['col_ids'], full_table2['col_ids'])) == 0:
+    if len(get_intersection(full_table1.col_ids, full_table2.col_ids)) == 0:
         #there's no ids in common within the two compared tables
         #todo handle this
         return {}
@@ -178,13 +182,13 @@ def generate_diff(full_table1, full_table2, rowtype, coltype):
         "union": {}
     }
 
-    uc_ids = get_union_ids(full_table1['col_ids'], full_table2['col_ids'])
-    ur_ids = get_union_ids(full_table1['row_ids'], full_table2['row_ids'])
+    uc_ids = get_union_ids(full_table1.col_ids, full_table2.col_ids)
+    ur_ids = get_union_ids(full_table1.row_ids, full_table2.row_ids)
 
-    diff_arrays = compare_ids(full_table1['col_ids'], full_table2['col_ids'], uc_ids, "col", diff_arrays)
-    diff_arrays = compare_ids(full_table1['row_ids'], full_table2['row_ids'], ur_ids, "row", diff_arrays)
+    diff_arrays = compare_ids(full_table1.col_ids, full_table2.col_ids, uc_ids, "col", diff_arrays)
+    diff_arrays = compare_ids(full_table1.row_ids, full_table2.row_ids, ur_ids, "row", diff_arrays)
 
-    diff_arrays = compare_values(full_table1, full_table2, ur_ids, uc_ids, diff_arrays)
+    diff_arrays, ch_perc = compare_values(full_table1, full_table2, ur_ids, uc_ids, diff_arrays)
     c_ids = assign_ids(uc_ids, coltype)
     r_ids = assign_ids(ur_ids, rowtype)
     #use tolist() to solve the json serializable problem
@@ -199,11 +203,12 @@ def assign_ids(ids, idtype):
 
     manager = caleydo_server.plugin.lookup('idmanager')
     return np.array(manager(ids, idtype))
-#print(json.dumps(generate_diff_from_files(in_file_name, out_file_name)))
-#print(generate_diff_from_files(data_directory + 'test_table_in.csv', data_directory + 'test_table_out.csv'))
-#file1= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_10x100.csv"
-#file2= "C:\\Users\\Reem\\Repository\\caleydo_web_container\\plugins\\demo_app\\data\\test_100x10.csv"
-#print(generate_diff_from_files(file2, file1))
+
+class Table:
+    def __init__(self, rows, cols, content):
+        self.row_ids = rows
+        self.col_ids = cols
+        self.content = content
 
 #todo should the result be the log or the union array with notation of difference (which is added or removed)?
 #todo might be an idea to find the merged things first then handle the rest separately
