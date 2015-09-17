@@ -217,6 +217,7 @@ class Diff:
         self.merge = {}
         self.reorder = {}
 
+    #todo decide if the union should be here or in the diff finder
     def add_union(self, union):
         self.union = union
 
@@ -245,17 +246,19 @@ class DiffFinder:
         if len(self.intersection["ic_ids"]) >= 0:
         #there's at least one common column between the tables
         #otherwise there's no need to calculate the unions
-            if self._direction == D_COLS or self._direction == D_ROWS_COLS:
-                #generate the union columns
-                self.union["uc_ids"] = get_union_ids(self._table1.col_ids, self._table2.col_ids)
-                c_ids = assign_ids(self.union["uc_ids"], coltype)
-                #use tolist() to solve the json serializable problem
-                self.union["c_ids"] = c_ids.tolist()
-            if self._direction == D_ROWS or self._direction == D_ROWS_COLS:
-                #generate the union rows
-                self.union["ur_ids"] = get_union_ids(self._table1.row_ids, self._table2.row_ids)
-                r_ids = assign_ids(self.union["ur_ids"], rowtype)
-                self.union["r_ids"]= r_ids.tolist()
+            #for now drop the if about directions because we need the unions for showing the details level and for calculating the content changes :|
+            #todo reuse the these conditions when we know when we really need them
+            #if self._direction == D_COLS or self._direction == D_ROWS_COLS:
+            #generate the union columns
+            self.union["uc_ids"] = get_union_ids(self._table1.col_ids, self._table2.col_ids)
+            c_ids = assign_ids(self.union["uc_ids"], coltype)
+            #use tolist() to solve the json serializable problem
+            self.union["c_ids"] = c_ids.tolist()
+            #if self._direction == D_ROWS or self._direction == D_ROWS_COLS:
+            #generate the union rows
+            self.union["ur_ids"] = get_union_ids(self._table1.row_ids, self._table2.row_ids)
+            r_ids = assign_ids(self.union["ur_ids"], rowtype)
+            self.union["r_ids"]= r_ids.tolist()
 
     def generate_diff(self, ops):
         if len(self.union) == 0:
