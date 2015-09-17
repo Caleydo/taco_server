@@ -217,12 +217,16 @@ class Diff:
         self.merge = {}
         self.reorder = {}
 
+    def add_union(self, union):
+        self.union = union
+
     def serialize(self):
         return {
             "content" : self.content,
             "structure": self.structure,
             "merge": self.merge,
-            "reorder": self.reorder
+            "reorder": self.reorder,
+            "union": self.union
         }
 
 
