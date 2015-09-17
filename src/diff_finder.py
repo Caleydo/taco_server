@@ -281,7 +281,7 @@ class DiffFinder:
             self._compare_values(self._table1, self._table2, self.union["ur_ids"], self.union["uc_ids"])
             #todo check this here
             #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
-        return self.diff.serialize()
+        return self.diff
 
     #compares two lists of ids
     #todo consider sorting

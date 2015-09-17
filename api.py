@@ -35,7 +35,7 @@ def diff_log(id1, id2, lod, direction, ops):
     table1 = Table(list(ds1.rows()), list(ds1.cols()), ds1.asnumpy())
     table2 = Table(list(ds2.rows()), list(ds2.cols()), ds2.asnumpy())
     dfinder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, lod, direction)
-    return flask.jsonify(dfinder.generate_diff(ops))
+    return flask.jsonify(dfinder.generate_diff(ops).serialize())
     #todo make sure that both dataset have same rowtype and coltype before calling this api function
     #return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype, direction))
     #else:
