@@ -166,6 +166,30 @@
       "type": "real",
       "range": [0, 5]
     }
+  },
+  {
+    "name": "Taco change input",
+    "path": "ch_table_in.csv",
+    "type": "matrix",
+    "size": [12, 21],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 5]
+    }
+  },
+  {
+    "name": "Taco change output",
+    "path": "ch_table_out.csv",
+    "type": "matrix",
+    "size": [12, 21],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [0, 5]
+    }
   }
 
 ]
