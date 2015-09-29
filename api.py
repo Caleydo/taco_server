@@ -4,7 +4,7 @@ import flask
 from src import diff_finder
 from src.diff_finder import Table, DiffFinder
 import caleydo_server.dataset as dataset
-import json
+import timeit
 
 #create an Flask app for hosting my namespace
 app = flask.Flask(__name__)
@@ -25,7 +25,7 @@ def jsontest():
 #@direction: 0 rows, 1 cols, 2 both rows and cols
 @app.route('/diff_log/<id1>/<id2>/<lod>/<direction>/<ops>')
 def diff_log(id1, id2, lod, direction, ops):
-    print(lod)
+    #print(lod)
     ds1 = dataset.get(id1)
     ds2 = dataset.get(id2)
 
@@ -33,8 +33,12 @@ def diff_log(id1, id2, lod, direction, ops):
     #create the table object
     table1 = Table(list(ds1.rows()), list(ds1.cols()), ds1.asnumpy())
     table2 = Table(list(ds2.rows()), list(ds2.cols()), ds2.asnumpy())
+    t1 = timeit.default_timer()
     dfinder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, lod, direction)
+    t2 = timeit.default_timer()
     d = dfinder.generate_diff(ops)
+    t3 = timeit.default_timer()
+    print("times", t2 - t1 , t3 - t2)
     d.add_union(dfinder.union)
     return flask.jsonify(d.serialize())
     #todo make sure that both dataset have same rowtype and coltype before calling this api function
