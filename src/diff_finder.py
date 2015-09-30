@@ -47,7 +47,7 @@ def get_union_ids(ids1, ids2):
         itemsize = first.dtype.itemsize
     else:
         itemsize = second.dtype.itemsize
-    u = np.chararray(second, itemsize=itemsize) #todo make sure that this is a copy not modifying the original one
+    u = np.array(second, dtype="S"+itemsize)
     #u = list(second)
     deleted = get_deleted_ids(first, second)
     for i in deleted:
@@ -55,7 +55,7 @@ def get_union_ids(ids1, ids2):
         if index1 == 0:
             #it's deleted from the first position
             #add it at position index1
-            u.insert(0, i)
+            np.insert(u, 0, i)
         else:
             #it's somewhere in the middle, find the position of the one before
             index1 -= 1
@@ -66,11 +66,11 @@ def get_union_ids(ids1, ids2):
                     pre_element = first[index1]
                 else:
                     print("ERROR: there's no element before that exists in the list then just add it at 0!")
-                    u.insert(0, i)
+                    np.insert(u, 0, i)
                     return u
             pre_index = np.where(u == pre_element)[0][0]
             #insert the new element after the pre_element
-            u.insert(pre_index + 1, i)
+            np.insert(u, pre_index + 1, i)
             #todo if the index is not available
     return u
 
@@ -115,7 +115,10 @@ class Diff:
 
     #todo decide if the union should be here or in the diff finder
     def add_union(self, union):
-        self.union = union
+        self.union["uc_ids"] = union["uc_ids"].tolist()
+        self.union["c_ids"] = union["c_ids"]
+        self.union["ur_ids"] = union["ur_ids"].tolist()
+        self.union["r_ids"]= union["r_ids"]
 
     def serialize(self):
         return {
