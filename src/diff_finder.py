@@ -22,6 +22,7 @@ def get_full_table(file):
 
 # get the IDs available only in the first one
 def get_deleted_ids(ids1, ids2):
+    #might want to use this instead for numpy arrays http://docs.scipy.org/doc/numpy/reference/generated/numpy.setdiff1d.html
     return list(set(ids1) - set(ids2))
 
 
@@ -169,22 +170,23 @@ class DiffFinder:
             if has_structure or has_merge:
                 t3 = timeit.default_timer()
                 self._compare_ids("row", self._table1.row_ids, self._table2.row_ids, self.union["ur_ids"], has_merge, has_structure)
-                t4 = timeit.default_timer()
+
             #todo check for reorder for rows here
         #check for content change
         #todo move this to be before checking for other changes so that we can aggregate if necessary?
         if has_content:
             #todo do we need both rows and columns here anyway?
             #first calculate the rows intersections
-            t5 = timeit.default_timer()
             self.intersection["ir_ids"] = get_intersection(self._table1.row_ids, self._table2.row_ids)
             #now we have both intersections for rows and columns
             t7 = timeit.default_timer()
-            self._compare_values(self._table1, self._table2, self.union["ur_ids"], self.union["uc_ids"])
+            #todo why do I have to pass all the things that they are already in the class!!! remove this!
+            self._compare_values1(self._table1, self._table2, self.union["ur_ids"], self.union["uc_ids"])
             t8 = timeit.default_timer()
             #todo check this here
             #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
-            print("content: ", t8 - t7 , " intersection for rows: ", t7 - t5, " rows: ", t4 - t3, " cols : ", t2 - t1)
+
+        print("content: ", t8 - t7)
         return self.diff
 
     #compares two lists of ids
@@ -240,7 +242,7 @@ class DiffFinder:
             self.diff.structure["deleted_" + e_type + "s"] = deleted_log
 
     #content changes
-    def _compare_values(self, table1, table2, ru_ids, cu_ids):
+    def _compare_values1(self, table1, table2, ru_ids, cu_ids):
         for i in self.intersection["ir_ids"]:
             r1 = table1.row_ids.index(i)
             r2 = table2.row_ids.index(i)
@@ -257,4 +259,44 @@ class DiffFinder:
                     self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
         #return diff_arrays
 
+    def _compare_values(self):
+        #get the intersection of rows as numpy
+        r_inter = np.array(self.intersection["ir_ids"])
+        #get the intersection of cols as numpy
+        c_inter = np.array(self.intersection["ic_ids"])
+        #create a boolean array that represents where the intersection values are available in the first table
+        r_bo1 = np.in1d(np.array(self._table1.row_ids), r_inter)
+        #create a boolean array for where the intersection is in the second table (rows)
+        r_bo2 = np.in1d(np.array(self._table2.row_ids), r_inter)
+        #the same for columns
+        #create a boolean array that represents where the intersection values are available in the first table
+        c_bo1 = np.in1d(np.array(self._table1.col_ids), c_inter)
+        #create a boolean array for where the intersection is in the second table (cols)
+        c_bo2 = np.in1d(np.array(self._table2.col_ids), c_inter)
+        #slicing work to get the intersection tables
+        #todo make sure that this is np.matrix otherwise this may not work :|
+        inter1 = self._table1.content[:, c_bo1][r_bo1, :]
+        inter2 = self._table2.content[:, c_bo2][r_bo2, :]
+        #diff work
+        diff = inter1 - inter2
+        #done :)
+        #now min and max for normalization
+        dmin = diff.min()
+        dmax = diff.max()
+        #notice float(1)/2 * m gives a float result better than m/2
+        #todo normalization
+        #create a serialized thing for the log
+        self._content_to_json(diff)
+        #return diff_arrays
+
+    def _content_to_json(self, diff):
+        for (i,j), value in np.ndenumerate(diff):
+            #todo move this to the client?
+            #find the position of the intersection things in union ids
+            rpos = self.union["ur_ids"].index(self.intersection["ir_ids"][i])
+            cpos = self.union["uc_ids"].index(self.intersection["ic_ids"][j])
+            #assuming that we have the same order of the intersection!
+            self.diff.content += [{"row": self.intersection["ir_ids"][i], "col": self.intersection["ic_ids"][j], "diff_data": value,
+                                   "rpos": rpos, "cpos": cpos}]
+            
 #todo might be an idea to find the merged things first then handle the rest separately
