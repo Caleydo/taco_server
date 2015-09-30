@@ -43,7 +43,7 @@ def diff_log(id1, id2, lod, direction, ops):
     t4 = timeit.default_timer()
     json_result = flask.jsonify(d.serialize())
     t5 = timeit.default_timer()
-    print("time for jsonify", t5 - t4)
+    print("time for jsonify", t5 - t4, "time for everything ", t5 - t1)
     return json_result
     #todo make sure that both dataset have same rowtype and coltype before calling this api function
     #return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype, direction))
