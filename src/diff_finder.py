@@ -32,7 +32,7 @@ def get_added_ids(ids1, ids2):
 
 
 def get_intersection(ids1, ids2):
-    return set(ids1).intersection(ids2)
+    return np.array(list(set(ids1).intersection(ids2)))
 
 
 def get_union_ids(ids1, ids2):
@@ -260,10 +260,11 @@ class DiffFinder:
         #return diff_arrays
 
     def _compare_values(self):
+        #todo remove the intersection assignment
         #get the intersection of rows as numpy
-        r_inter = np.array(self.intersection["ir_ids"])
+        r_inter = self.intersection["ir_ids"]
         #get the intersection of cols as numpy
-        c_inter = np.array(self.intersection["ic_ids"])
+        c_inter = self.intersection["ic_ids"]
         #create a boolean array that represents where the intersection values are available in the first table
         r_bo1 = np.in1d(np.array(self._table1.row_ids), r_inter)
         #create a boolean array for where the intersection is in the second table (rows)
@@ -274,9 +275,8 @@ class DiffFinder:
         #create a boolean array for where the intersection is in the second table (cols)
         c_bo2 = np.in1d(np.array(self._table2.col_ids), c_inter)
         #slicing work to get the intersection tables
-        #todo make sure that this is np.matrix otherwise this may not work :|
-        inter1 = self._table1.content[:, c_bo1][r_bo1, :]
-        inter2 = self._table2.content[:, c_bo2][r_bo2, :]
+        inter1 = np.asmatrix(self._table1.content)[:, c_bo1][r_bo1, :]
+        inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
         #diff work
         diff = inter1 - inter2
         #done :)
@@ -294,12 +294,14 @@ class DiffFinder:
 
     def _content_to_json(self, diff):
         for (i,j), value in np.ndenumerate(diff):
-            #todo move this to the client?
-            #find the position of the intersection things in union ids
-            rpos = self.union["ur_ids"].index(self.intersection["ir_ids"][i])
-            cpos = self.union["uc_ids"].index(self.intersection["ic_ids"][j])
-            #assuming that we have the same order of the intersection!
-            self.diff.content += [{"row": self.intersection["ir_ids"][i], "col": self.intersection["ic_ids"][j], "diff_data": value,
-                                   "rpos": rpos, "cpos": cpos}]
+            if value != 0:
+                #todo move this to the client?
+                #find the position of the intersection things in union ids
+                #todo intersection are nparrays?
+                rpos = self.union["ur_ids"].index(self.intersection["ir_ids"][i])
+                cpos = self.union["uc_ids"].index(self.intersection["ic_ids"][j])
+                #assuming that we have the same order of the intersection!
+                self.diff.content += [{"row": self.intersection["ir_ids"][i], "col": self.intersection["ic_ids"][j], "diff_data": float(value),
+                                       "rpos": rpos, "cpos": cpos}]
 
 #todo might be an idea to find the merged things first then handle the rest separately
