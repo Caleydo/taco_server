@@ -47,7 +47,7 @@ def get_union_ids(ids1, ids2):
         itemsize = first.dtype.itemsize
     else:
         itemsize = second.dtype.itemsize
-    u = np.array(second, dtype="S"+itemsize)
+    u = np.array(second, dtype="S"+str(itemsize))
     #u = list(second)
     deleted = get_deleted_ids(first, second)
     for i in deleted:
@@ -55,7 +55,7 @@ def get_union_ids(ids1, ids2):
         if index1 == 0:
             #it's deleted from the first position
             #add it at position index1
-            np.insert(u, 0, i)
+            u = np.insert(u, 0, i)
         else:
             #it's somewhere in the middle, find the position of the one before
             index1 -= 1
@@ -66,11 +66,11 @@ def get_union_ids(ids1, ids2):
                     pre_element = first[index1]
                 else:
                     print("ERROR: there's no element before that exists in the list then just add it at 0!")
-                    np.insert(u, 0, i)
+                    u = np.insert(u, 0, i)
                     return u
             pre_index = np.where(u == pre_element)[0][0]
             #insert the new element after the pre_element
-            np.insert(u, pre_index + 1, i)
+            u = np.insert(u, pre_index + 1, i)
             #todo if the index is not available
     return u
 
@@ -115,6 +115,7 @@ class Diff:
 
     #todo decide if the union should be here or in the diff finder
     def add_union(self, union):
+        self.union = {}
         self.union["uc_ids"] = union["uc_ids"].tolist()
         self.union["c_ids"] = union["c_ids"]
         self.union["ur_ids"] = union["ur_ids"].tolist()
@@ -316,7 +317,7 @@ class DiffFinder:
                 rpos = ru[i]
                 cpos = cu[j]
                 #assuming that we have the same order of the intersection!
-                self.diff.content += [{"row": self.intersection["ir_ids"][i], "col": self.intersection["ic_ids"][j], "diff_data": float(value),
-                                       "rpos": rpos, "cpos": cpos}]
+                self.diff.content += [{"row": ru[i], "col": cu[j], "diff_data": float(value),
+                                       "rpos": r_indices[i], "cpos": c_indices[j]}]
 
 #todo might be an idea to find the merged things first then handle the rest separately
