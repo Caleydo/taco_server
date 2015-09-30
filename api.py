@@ -40,7 +40,11 @@ def diff_log(id1, id2, lod, direction, ops):
     t3 = timeit.default_timer()
     print("times", t2 - t1 , t3 - t2)
     d.add_union(dfinder.union)
-    return flask.jsonify(d.serialize())
+    t4 = timeit.default_timer()
+    json_result = flask.jsonify(d.serialize())
+    t5 = timeit.default_timer()
+    print("time for jsonify", t5 - t4)
+    return json_result
     #todo make sure that both dataset have same rowtype and coltype before calling this api function
     #return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype, direction))
     #else:
