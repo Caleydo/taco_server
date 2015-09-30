@@ -181,7 +181,7 @@ class DiffFinder:
             #now we have both intersections for rows and columns
             t7 = timeit.default_timer()
             #todo why do I have to pass all the things that they are already in the class!!! remove this!
-            self._compare_values1(self._table1, self._table2, self.union["ur_ids"], self.union["uc_ids"])
+            self._compare_values()
             t8 = timeit.default_timer()
             #todo check this here
             #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
@@ -242,20 +242,20 @@ class DiffFinder:
             self.diff.structure["deleted_" + e_type + "s"] = deleted_log
 
     #content changes
-    def _compare_values1(self, table1, table2, ru_ids, cu_ids):
+    def _compare_values1(self):
         for i in self.intersection["ir_ids"]:
-            r1 = table1.row_ids.index(i)
-            r2 = table2.row_ids.index(i)
+            r1 = self._table1.row_ids.index(i)
+            r2 = self._table2.row_ids.index(i)
             for j in self.intersection["ic_ids"]:
-                c1 = table1.col_ids.index(j)
-                c2 = table2.col_ids.index(j)
+                c1 = self._table1.col_ids.index(j)
+                c2 = self._table2.col_ids.index(j)
                 # cell_diff = full_table1.content[r1,c1] - full_table2.content[r2,c2]
                 # doesn't work like this because it's a string
-                if table1.content[r1, c1] != table2.content[r2, c2]:
+                if self._table1.content[r1, c1] != self._table2.content[r2, c2]:
                     #todo find a diff for different datatypes!
-                    cell_diff = float(table1.content[r1, c1]) - float(table2.content[r2, c2])
-                    rpos = ru_ids.index(i)
-                    cpos = cu_ids.index(j)
+                    cell_diff = float(self._table1.content[r1, c1]) - float(self._table2.content[r2, c2])
+                    rpos = self.union["ur_ids"].index(i)
+                    cpos = self.union["uc_ids"].index(j)
                     self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
         #return diff_arrays
 
@@ -281,12 +281,15 @@ class DiffFinder:
         diff = inter1 - inter2
         #done :)
         #now min and max for normalization
-        dmin = diff.min()
-        dmax = diff.max()
+        #dmin = diff.min()
+        #dmax = diff.max()
         #notice float(1)/2 * m gives a float result better than m/2
         #todo normalization
         #create a serialized thing for the log
+        before = timeit.default_timer()
         self._content_to_json(diff)
+        after = timeit.default_timer()
+        print("logging", after - before)
         #return diff_arrays
 
     def _content_to_json(self, diff):
@@ -298,5 +301,5 @@ class DiffFinder:
             #assuming that we have the same order of the intersection!
             self.diff.content += [{"row": self.intersection["ir_ids"][i], "col": self.intersection["ic_ids"][j], "diff_data": value,
                                    "rpos": rpos, "cpos": cpos}]
-            
+
 #todo might be an idea to find the merged things first then handle the rest separately
