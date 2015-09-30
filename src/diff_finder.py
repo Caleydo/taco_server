@@ -254,18 +254,18 @@ class DiffFinder:
     #content changes
     def _compare_values1(self):
         for i in self.intersection["ir_ids"]:
-            r1 = self._table1.row_ids.index(i)
-            r2 = self._table2.row_ids.index(i)
+            r1 = np.where(self._table1.row_ids == i)[0][0]
+            r2 = np.where(self._table2.row_ids == i)[0][0]
             for j in self.intersection["ic_ids"]:
-                c1 = self._table1.col_ids.index(j)
-                c2 = self._table2.col_ids.index(j)
+                c1 = np.where(self._table1.col_ids == j)[0][0]
+                c2 = np.where(self._table2.col_ids == j)[0][0]
                 # cell_diff = full_table1.content[r1,c1] - full_table2.content[r2,c2]
                 # doesn't work like this because it's a string
                 if self._table1.content[r1, c1] != self._table2.content[r2, c2]:
                     #todo find a diff for different datatypes!
                     cell_diff = float(self._table1.content[r1, c1]) - float(self._table2.content[r2, c2])
-                    rpos = self.union["ur_ids"].index(i)
-                    cpos = self.union["uc_ids"].index(j)
+                    rpos = np.where(self.union["ur_ids"] == i)[0][0]
+                    cpos = np.where(self.union["uc_ids"] == j)[0][0]
                     self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
         #return diff_arrays
 
@@ -303,6 +303,8 @@ class DiffFinder:
         #return diff_arrays
 
     def _content_to_json(self, diff):
+        #find the position of the intersection things in union ids
+        #assuming that we have the same order of the intersection!
         r_bo_inter_u = np.in1d(self.union["ur_ids"], self.intersection["ir_ids"])
         c_bo_inter_u = np.in1d(self.union["uc_ids"], self.intersection["ic_ids"])
         r_indices = np.arange(self.union["ur_ids"].shape[0])[r_bo_inter_u]
@@ -311,12 +313,6 @@ class DiffFinder:
         cu = self.union["uc_ids"][c_indices]
         for (i,j), value in np.ndenumerate(diff):
             if value != 0:
-                #todo move this to the client?
-                #find the position of the intersection things in union ids
-                #todo intersection are nparrays?
-                rpos = ru[i]
-                cpos = cu[j]
-                #assuming that we have the same order of the intersection!
                 self.diff.content += [{"row": ru[i], "col": cu[j], "diff_data": float(value),
                                        "rpos": r_indices[i], "cpos": c_indices[j]}]
 
