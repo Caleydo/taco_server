@@ -284,6 +284,15 @@ class DiffFinder:
         c_bo1 = np.in1d(self._table1.col_ids, c_inter)
         #create a boolean array for where the intersection is in the second table (cols)
         c_bo2 = np.in1d(self._table2.col_ids, c_inter)
+        #####
+        #ru_bo = np.in1d(self.union["ur_ids"], r_inter)
+        rids1 = self._table1.row_ids[r_bo1]
+        rids2 = self._table2.row_ids[r_bo2]
+        #ruids = self.union["ur_ids"][ru_bo]
+        diff_order = np.where(rids2 != rids1)
+        ri = np.argsort(r_inter)
+        condition = diff_order[0].shape[0] > 0
+        #####
         #slicing work to get the intersection tables
         inter1 = np.asmatrix(self._table1.content)[:, c_bo1][r_bo1, :]
         inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
@@ -322,5 +331,7 @@ class DiffFinder:
         # res[1] is the indices of the cols
         # res[1].item(0,0)
         # to access the value it would be m[res[0].item(0,0), res[1].item(0,0)] (the 0,0 would be i,j)
+        # np.apply_along_axis(myfunc, 0, res)
+        # array([['x is [0 2]', 'x is [1 1]', 'x is [2 5]']], dtype='|S10') --> these are the i,j of where i have changes, i can just wrap them and send them
 
 #todo might be an idea to find the merged things first then handle the rest separately
