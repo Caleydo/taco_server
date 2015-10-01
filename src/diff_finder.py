@@ -315,5 +315,12 @@ class DiffFinder:
             if value != 0:
                 self.diff.content += [{"row": ru[i], "col": cu[j], "diff_data": float(value),
                                        "rpos": r_indices[i], "cpos": c_indices[j]}]
+        ## other idea could be
+        # doing something like res = np.where(m!=0) //not in the case of normalization
+        # the res is 2 matrices
+        # res[0] is the indices of the rows (where the values are != 0)
+        # res[1] is the indices of the cols
+        # res[1].item(0,0)
+        # to access the value it would be m[res[0].item(0,0), res[1].item(0,0)] (the 0,0 would be i,j)
 
 #todo might be an idea to find the merged things first then handle the rest separately
