@@ -271,16 +271,20 @@ class DiffFinder:
 
     def _find_reorder(self, x, y):
         z = x[ x != y]
+        indices = np.arange(x.shape[0])
         for i in z:
+            #todo check this with more than 2 changes
             old = np.where(x == i)[0][0]
             new = np.where(y == i)[0][0]
             #todo substitute this with the new one!
-        index = []
-        for i in x:
-            if i != y[np.where(x == i)[0][0]]:
-                index += [np.where(y == i)[0][0]]
-            else:
-                index += [np.where(x == i)[0][0]]
+            np.put(indices, old, new)
+        # index = []
+        # for i in x:
+        #     if i != y[np.where(x == i)[0][0]]:
+        #         index += [np.where(y == i)[0][0]]
+        #     else:
+        #         index += [np.where(x == i)[0][0]]
+        return indices
 
     def _compare_values(self):
         #todo remove the intersection assignment
@@ -299,13 +303,13 @@ class DiffFinder:
         c_bo2 = np.in1d(self._table2.col_ids, c_inter)
         #####
         #ru_bo = np.in1d(self.union["ur_ids"], r_inter)
-        rids1 = self._table1.row_ids[r_bo1]
-        rids2 = self._table2.row_ids[r_bo2]
-        self._find_reorder(rids1, rids2)
+        #rids1 = self._table1.row_ids[r_bo1]
+        #rids2 = self._table2.row_ids[r_bo2]
+        #r_indices = self._find_reorder(rids1, rids2)
         #ruids = self.union["ur_ids"][ru_bo]
-        diff_order = np.where(rids2 != rids1)
-        ri = np.argsort(r_inter)
-        condition = diff_order[0].shape[0] > 0
+        # diff_order = np.where(rids2 != rids1)
+        # ri = np.argsort(r_inter)
+        # condition = diff_order[0].shape[0] > 0
         #####
         #slicing work to get the intersection tables
         inter1 = np.asmatrix(self._table1.content)[:, c_bo1][r_bo1, :]
