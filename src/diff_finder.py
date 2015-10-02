@@ -2,6 +2,7 @@
 __author__ = 'Reem'
 
 import numpy as np
+import timeit
 
 D_ROWS = 0
 D_COLS = 1
@@ -21,6 +22,7 @@ def get_full_table(file):
 
 # get the IDs available only in the first one
 def get_deleted_ids(ids1, ids2):
+    #might want to use this instead for numpy arrays http://docs.scipy.org/doc/numpy/reference/generated/numpy.setdiff1d.html
     return list(set(ids1) - set(ids2))
 
 
@@ -30,7 +32,8 @@ def get_added_ids(ids1, ids2):
 
 
 def get_intersection(ids1, ids2):
-    return set(ids1).intersection(ids2)
+    #return np.array(list(set(ids1).intersection(ids2)))
+    return np.intersect1d(ids1,ids2)
 
 
 def get_union_ids(ids1, ids2):
@@ -40,14 +43,19 @@ def get_union_ids(ids1, ids2):
     else:
         first = ids2
         second = ids1
-    u = list(second)
+    if (second.dtype.itemsize < first.dtype.itemsize):
+        itemsize = first.dtype.itemsize
+    else:
+        itemsize = second.dtype.itemsize
+    u = np.array(second, dtype="S"+str(itemsize))
+    #u = list(second)
     deleted = get_deleted_ids(first, second)
     for i in deleted:
-        index1 = first.index(i)
+        index1 = np.where(first == i)[0][0]
         if index1 == 0:
             #it's deleted from the first position
             #add it at position index1
-            u.insert(0, i)
+            u = np.insert(u, 0, i)
         else:
             #it's somewhere in the middle, find the position of the one before
             index1 -= 1
@@ -58,11 +66,11 @@ def get_union_ids(ids1, ids2):
                     pre_element = first[index1]
                 else:
                     print("ERROR: there's no element before that exists in the list then just add it at 0!")
-                    u.insert(0, i)
+                    u = np.insert(u, 0, i)
                     return u
-            pre_index = u.index(pre_element)
+            pre_index = np.where(u == pre_element)[0][0]
             #insert the new element after the pre_element
-            u.insert(pre_index + 1, i)
+            u = np.insert(u, pre_index + 1, i)
             #todo if the index is not available
     return u
 
@@ -75,84 +83,6 @@ def assign_ids(ids, idtype):
     return np.array(manager(ids, idtype))
 
 
-### The actual diff functions ###
-#compares two lists and logs the diff
-#todo consider sorting
-def compare_ids(ids1, ids2, u_ids, e_type, diff_arrays):
-    merge_delimiter = "+"
-    deleted = get_deleted_ids(ids1, ids2)
-    to_filter = []
-    deleted_log = []
-    added_log = []
-    merged_log = []
-    split_log = []
-    merge_id = 0
-    #todo is to check for the split here
-    for i in deleted:
-        #check for a + for a split operation
-        if str(i).find(merge_delimiter) == -1:
-            if i in u_ids:
-                pos = u_ids.index(i)
-            else:
-                print("This should not happen!", u_ids, i)
-                pos = 20
-            deleted_log += [{"id": i, "pos": pos}]
-        else:
-            #split found
-            split_log += [{"id": str(i), "pos": u_ids.index(i), "split_id": merge_id, "is_added": False}]
-            split_ids = str(i).split(merge_delimiter)
-            to_filter += split_ids  #will be filtered in next step
-            for s in split_ids:
-                split_log += [{"id": s, "pos": u_ids.index(s), "split_id": merge_id, "is_added": True}]
-            merge_id += 1 #increment it
-    for j in get_added_ids(ids1, ids2):
-        #check for a + for merge operations!
-        if str(j).find(merge_delimiter) == -1:
-            if j not in to_filter:
-                apos = u_ids.index(j)
-                added_log += [{"id": j, "pos": apos}]
-                #else:
-                #   print("this should not be logged because it's part of a split", j)
-        else:
-            #merge found
-            merged_log += [{"id": str(j), "pos": u_ids.index(j), "merge_id": merge_id, "is_added": True}]
-            merged_ids = str(j).split(merge_delimiter)
-            for s in merged_ids:
-                #delete the delete operations related to those IDs
-                deleted_log = filter(lambda obj: obj['id'] != s, deleted_log)
-                merged_log += [{"id": s, "pos": u_ids.index(s), "merge_id": merge_id, "is_added": False}]
-            merge_id += 1 #increment it
-    #log
-    diff_arrays["merged_" + e_type + "s"] = merged_log
-    diff_arrays["split_" + e_type + "s"] = split_log
-    diff_arrays["added_" + e_type + "s"] = added_log
-    diff_arrays["deleted_" + e_type + "s"] = deleted_log
-    return diff_arrays
-
-
-def compare_values(full_table1, full_table2, ru_ids, cu_ids, diff_arrays):
-    rows = get_intersection(full_table1.row_ids, full_table2.row_ids)
-    cols = get_intersection(full_table1.col_ids, full_table2.col_ids)
-    value_ch_counter = 0
-    for i in rows:
-        r1 = full_table1.row_ids.index(i)
-        r2 = full_table2.row_ids.index(i)
-        for j in cols:
-            c1 = full_table1.col_ids.index(j)
-            c2 = full_table2.col_ids.index(j)
-            # cell_diff = full_table1.content[r1,c1] - full_table2.content[r2,c2]
-            # doesn't work like this because it's a string
-            if full_table1.content[r1, c1] != full_table2.content[r2, c2]:
-                value_ch_counter += 1
-                #todo find a diff for different datatypes!
-                cell_diff = float(full_table1.content[r1, c1]) - float(full_table2.content[r2, c2])
-                rpos = ru_ids.index(i)
-                cpos = cu_ids.index(j)
-                diff_arrays["ch_cells"] += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
-    ch_perc = calc_ch_percentage(value_ch_counter, len(rows), len(cols))
-    return (diff_arrays, ch_perc)
-
-
 #calcuate the percentage of changed cells regarding the intersection table
 def calc_ch_percentage(chc, rc, cc):
     return float(chc)/(rc * cc)
@@ -161,50 +91,16 @@ def calc_ch_percentage(chc, rc, cc):
 def generate_diff_from_files(file1, file2):
     full_table1 = get_full_table(file1)
     full_table2 = get_full_table(file2)
-    return generate_diff(full_table1, full_table2, None, None, 2)
+    #todo use the classes
+    #return generate_diff(full_table1, full_table2, None, None, 2)
 
-
-# testing
-def generate_diff(full_table1, full_table2, rowtype, coltype, direction):
-    print(direction)
-    if len(get_intersection(full_table1.col_ids, full_table2.col_ids)) == 0:
-        #there's no ids in common within the two compared tables
-        #todo handle this
-        return {}
-
-    diff_arrays = {
-        "added_rows": [],
-        "deleted_rows": [],
-        "added_cols": [],
-        "deleted_cols": [],
-        "merged_rows": [],
-        "split_rows": [],
-        "merged_cols": [],
-        "split_cols": [],
-        "ch_cells": [],
-        "union": {}
-    }
-
-    uc_ids = get_union_ids(full_table1.col_ids, full_table2.col_ids)
-    ur_ids = get_union_ids(full_table1.row_ids, full_table2.row_ids)
-
-    diff_arrays = compare_ids(full_table1.col_ids, full_table2.col_ids, uc_ids, "col", diff_arrays)
-    diff_arrays = compare_ids(full_table1.row_ids, full_table2.row_ids, ur_ids, "row", diff_arrays)
-
-    diff_arrays, ch_perc = compare_values(full_table1, full_table2, ur_ids, uc_ids, diff_arrays)
-    c_ids = assign_ids(uc_ids, coltype)
-    r_ids = assign_ids(ur_ids, rowtype)
-    #use tolist() to solve the json serializable problem
-    diff_arrays["union"] = {"uc_ids": uc_ids, "ur_ids": ur_ids, "c_ids": c_ids.tolist(), "r_ids": r_ids.tolist()}
-
-    return diff_arrays
 
 
 #Table data structure
 class Table:
     def __init__(self, rows, cols, content):
-        self.row_ids = rows
-        self.col_ids = cols
+        self.row_ids = np.array(rows)
+        self.col_ids = np.array(cols)
         self.content = content
 
 
@@ -219,7 +115,11 @@ class Diff:
 
     #todo decide if the union should be here or in the diff finder
     def add_union(self, union):
-        self.union = union
+        self.union = {}
+        self.union["uc_ids"] = union["uc_ids"].tolist()
+        self.union["c_ids"] = union["c_ids"]
+        self.union["ur_ids"] = union["ur_ids"].tolist()
+        self.union["r_ids"]= union["r_ids"]
 
     def serialize(self):
         return {
@@ -272,22 +172,31 @@ class DiffFinder:
         has_content = "content" in operations
         if self._direction == D_COLS or self._direction == D_ROWS_COLS:
             if has_structure or has_merge:
+                t1 = timeit.default_timer()
                 self._compare_ids("col", self._table1.col_ids, self._table2.col_ids, self.union["uc_ids"], has_merge, has_structure)
+                t2 = timeit.default_timer()
             #todo check for reorder for cols here
         if self._direction == D_ROWS or self._direction == D_ROWS_COLS:
             if has_structure or has_merge:
+                t3 = timeit.default_timer()
                 self._compare_ids("row", self._table1.row_ids, self._table2.row_ids, self.union["ur_ids"], has_merge, has_structure)
+
             #todo check for reorder for rows here
         #check for content change
         #todo move this to be before checking for other changes so that we can aggregate if necessary?
         if has_content:
             #todo do we need both rows and columns here anyway?
-            #first calcuate the rows intersections
+            #first calculate the rows intersections
             self.intersection["ir_ids"] = get_intersection(self._table1.row_ids, self._table2.row_ids)
-            #now we have both interections for rows and columns
-            self._compare_values(self._table1, self._table2, self.union["ur_ids"], self.union["uc_ids"])
+            #now we have both intersections for rows and columns
+            t7 = timeit.default_timer()
+            #todo why do I have to pass all the things that they are already in the class!!! remove this!
+            self._compare_values()
+            t8 = timeit.default_timer()
             #todo check this here
             #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
+
+        print("content: ", t8 - t7)
         return self.diff
 
     #compares two lists of ids
@@ -306,33 +215,33 @@ class DiffFinder:
             if str(i).find(merge_delimiter) == -1:
                 #no delimiter found
                 if i in u_ids:
-                    pos = u_ids.index(i)
+                    pos = np.where(u_ids == i)[0][0]
                     deleted_log += [{"id": i, "pos": pos}]
             else:
                 #split found
-                split_log += [{"id": str(i), "pos": u_ids.index(i), "split_id": merge_id, "is_added": False}]
+                split_log += [{"id": str(i), "pos": np.where(u_ids == i)[0][0] , "split_id": merge_id, "is_added": False}]
                 split_ids = str(i).split(merge_delimiter)
                 to_filter += split_ids  #will be filtered in next step
                 for s in split_ids:
-                    split_log += [{"id": s, "pos": u_ids.index(s), "split_id": merge_id, "is_added": True}]
+                    split_log += [{"id": s, "pos": np.where(u_ids == s)[0][0] , "split_id": merge_id, "is_added": True}]
                 merge_id += 1 #increment it
         for j in get_added_ids(ids1, ids2):
             #check for a + for merge operations!
             if str(j).find(merge_delimiter) == -1:
                 #no delimiter found
                 if j not in to_filter:
-                    apos = u_ids.index(j)
+                    apos = np.where(u_ids == j)[0][0]
                     added_log += [{"id": j, "pos": apos}]
                     #else:
                     #   print("this should not be logged because it's part of a split", j)
             else:
                 #merge found
-                merged_log += [{"id": str(j), "pos": u_ids.index(j), "merge_id": merge_id, "is_added": True}]
+                merged_log += [{"id": str(j), "pos": np.where(u_ids == j)[0][0], "merge_id": merge_id, "is_added": True}]
                 merged_ids = str(j).split(merge_delimiter)
                 for s in merged_ids:
                     #delete the delete operations related to those IDs
                     deleted_log = filter(lambda obj: obj['id'] != s, deleted_log)
-                    merged_log += [{"id": s, "pos": u_ids.index(s), "merge_id": merge_id, "is_added": False}]
+                    merged_log += [{"id": s, "pos": np.where(u_ids == s)[0][0], "merge_id": merge_id, "is_added": False}]
                 merge_id += 1 #increment it
         #log
         if has_merge:
@@ -343,21 +252,86 @@ class DiffFinder:
             self.diff.structure["deleted_" + e_type + "s"] = deleted_log
 
     #content changes
-    def _compare_values(self, table1, table2, ru_ids, cu_ids):
+    def _compare_values1(self):
         for i in self.intersection["ir_ids"]:
-            r1 = table1.row_ids.index(i)
-            r2 = table2.row_ids.index(i)
+            r1 = np.where(self._table1.row_ids == i)[0][0]
+            r2 = np.where(self._table2.row_ids == i)[0][0]
             for j in self.intersection["ic_ids"]:
-                c1 = table1.col_ids.index(j)
-                c2 = table2.col_ids.index(j)
+                c1 = np.where(self._table1.col_ids == j)[0][0]
+                c2 = np.where(self._table2.col_ids == j)[0][0]
                 # cell_diff = full_table1.content[r1,c1] - full_table2.content[r2,c2]
                 # doesn't work like this because it's a string
-                if table1.content[r1, c1] != table2.content[r2, c2]:
+                if self._table1.content[r1, c1] != self._table2.content[r2, c2]:
                     #todo find a diff for different datatypes!
-                    cell_diff = float(table1.content[r1, c1]) - float(table2.content[r2, c2])
-                    rpos = ru_ids.index(i)
-                    cpos = cu_ids.index(j)
+                    cell_diff = float(self._table1.content[r1, c1]) - float(self._table2.content[r2, c2])
+                    rpos = np.where(self.union["ur_ids"] == i)[0][0]
+                    cpos = np.where(self.union["uc_ids"] == j)[0][0]
                     self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
         #return diff_arrays
+
+    def _compare_values(self):
+        #todo remove the intersection assignment
+        #get the intersection of rows as numpy
+        r_inter = self.intersection["ir_ids"]
+        #get the intersection of cols as numpy
+        c_inter = self.intersection["ic_ids"]
+        #create a boolean array that represents where the intersection values are available in the first table
+        r_bo1 = np.in1d(self._table1.row_ids, r_inter)
+        #create a boolean array for where the intersection is in the second table (rows)
+        r_bo2 = np.in1d(self._table2.row_ids, r_inter)
+        #the same for columns
+        #create a boolean array that represents where the intersection values are available in the first table
+        c_bo1 = np.in1d(self._table1.col_ids, c_inter)
+        #create a boolean array for where the intersection is in the second table (cols)
+        c_bo2 = np.in1d(self._table2.col_ids, c_inter)
+        #####
+        #ru_bo = np.in1d(self.union["ur_ids"], r_inter)
+        rids1 = self._table1.row_ids[r_bo1]
+        rids2 = self._table2.row_ids[r_bo2]
+        #ruids = self.union["ur_ids"][ru_bo]
+        diff_order = np.where(rids2 != rids1)
+        ri = np.argsort(r_inter)
+        condition = diff_order[0].shape[0] > 0
+        #####
+        #slicing work to get the intersection tables
+        inter1 = np.asmatrix(self._table1.content)[:, c_bo1][r_bo1, :]
+        inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
+        #diff work
+        diff = inter1 - inter2
+        #done :)
+        #now min and max for normalization
+        #dmin = diff.min()
+        #dmax = diff.max()
+        #notice float(1)/2 * m gives a float result better than m/2
+        #todo normalization
+        #create a serialized thing for the log
+        before = timeit.default_timer()
+        self._content_to_json(diff)
+        after = timeit.default_timer()
+        print("logging", after - before)
+        #return diff_arrays
+
+    def _content_to_json(self, diff):
+        #find the position of the intersection things in union ids
+        #assuming that we have the same order of the intersection!
+        r_bo_inter_u = np.in1d(self.union["ur_ids"], self.intersection["ir_ids"])
+        c_bo_inter_u = np.in1d(self.union["uc_ids"], self.intersection["ic_ids"])
+        r_indices = np.arange(self.union["ur_ids"].shape[0])[r_bo_inter_u]
+        c_indices = np.arange(self.union["uc_ids"].shape[0])[c_bo_inter_u]
+        ru = self.union["ur_ids"][r_indices]
+        cu = self.union["uc_ids"][c_indices]
+        for (i,j), value in np.ndenumerate(diff):
+            if value != 0:
+                self.diff.content += [{"row": ru[i], "col": cu[j], "diff_data": float(value),
+                                       "rpos": r_indices[i], "cpos": c_indices[j]}]
+        ## other idea could be
+        # doing something like res = np.where(m!=0) //not in the case of normalization
+        # the res is 2 matrices
+        # res[0] is the indices of the rows (where the values are != 0)
+        # res[1] is the indices of the cols
+        # res[1].item(0,0)
+        # to access the value it would be m[res[0].item(0,0), res[1].item(0,0)] (the 0,0 would be i,j)
+        # np.apply_along_axis(myfunc, 0, res)
+        # array([['x is [0 2]', 'x is [1 1]', 'x is [2 5]']], dtype='|S10') --> these are the i,j of where i have changes, i can just wrap them and send them
 
 #todo might be an idea to find the merged things first then handle the rest separately
