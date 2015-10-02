@@ -303,9 +303,9 @@ class DiffFinder:
         c_bo2 = np.in1d(self._table2.col_ids, c_inter)
         #####
         #ru_bo = np.in1d(self.union["ur_ids"], r_inter)
-        #rids1 = self._table1.row_ids[r_bo1]
-        #rids2 = self._table2.row_ids[r_bo2]
-        #r_indices = self._find_reorder(rids1, rids2)
+        rids1 = self._table1.row_ids[r_bo1]
+        rids2 = self._table2.row_ids[r_bo2]
+        r_indices = self._find_reorder(rids1, rids2)
         #ruids = self.union["ur_ids"][ru_bo]
         # diff_order = np.where(rids2 != rids1)
         # ri = np.argsort(r_inter)
@@ -313,7 +313,7 @@ class DiffFinder:
         #####
         #slicing work to get the intersection tables
         inter1 = np.asmatrix(self._table1.content)[:, c_bo1][r_bo1, :]
-        inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
+        inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_indices, :]
         #diff work
         diff = inter1 - inter2
         #done :)
