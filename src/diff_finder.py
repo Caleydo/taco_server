@@ -269,6 +269,19 @@ class DiffFinder:
                     self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
         #return diff_arrays
 
+    def _find_reorder(self, x, y):
+        z = x[ x != y]
+        for i in z:
+            old = np.where(x == i)[0][0]
+            new = np.where(y == i)[0][0]
+            #todo substitute this with the new one!
+        index = []
+        for i in x:
+            if i != y[np.where(x == i)[0][0]]:
+                index += [np.where(y == i)[0][0]]
+            else:
+                index += [np.where(x == i)[0][0]]
+
     def _compare_values(self):
         #todo remove the intersection assignment
         #get the intersection of rows as numpy
@@ -288,6 +301,7 @@ class DiffFinder:
         #ru_bo = np.in1d(self.union["ur_ids"], r_inter)
         rids1 = self._table1.row_ids[r_bo1]
         rids2 = self._table2.row_ids[r_bo2]
+        self._find_reorder(rids1, rids2)
         #ruids = self.union["ur_ids"][ru_bo]
         diff_order = np.where(rids2 != rids1)
         ri = np.argsort(r_inter)
