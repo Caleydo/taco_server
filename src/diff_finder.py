@@ -99,8 +99,8 @@ def generate_diff_from_files(file1, file2):
 #Table data structure
 class Table:
     def __init__(self, rows, cols, content):
-        self.row_ids = np.array(rows)
-        self.col_ids = np.array(cols)
+        self.row_ids = np.asarray(rows, np.string_)
+        self.col_ids = np.asarray(cols, np.string_)
         self.content = content
 
 
@@ -201,7 +201,7 @@ class DiffFinder:
 
     #compares two lists of ids
     #todo consider sorting
-    def _compare_ids(self, e_type, ids1, ids2, u_ids, has_merge, has_structure, merge_delimiter= "+"):
+    def _compare_ids(self, e_type, ids1, ids2, u_ids, has_merge, has_structure, merge_delimiter="+"):
         deleted = get_deleted_ids(ids1, ids2)
         deleted_log = []
         added_log = []
@@ -312,6 +312,7 @@ class DiffFinder:
         # condition = diff_order[0].shape[0] > 0
         #####
         #slicing work to get the intersection tables
+        #todo for columns
         inter1 = np.asmatrix(self._table1.content)[:, c_bo1][r_bo1, :]
         inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_indices, :]
         #diff work

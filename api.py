@@ -31,8 +31,8 @@ def diff_log(id1, id2, lod, direction, ops):
 
     #todo find a way cash this
     #create the table object
-    table1 = Table(list(ds1.rows()), list(ds1.cols()), ds1.asnumpy())
-    table2 = Table(list(ds2.rows()), list(ds2.cols()), ds2.asnumpy())
+    table1 = Table(ds1.rows(), ds1.cols(), ds1.asnumpy())
+    table2 = Table(ds2.rows(), ds2.cols(), ds2.asnumpy())
     t1 = timeit.default_timer()
     dfinder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, lod, direction)
     t2 = timeit.default_timer()
