@@ -269,10 +269,14 @@ class DiffFinder:
                     self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
         #return diff_arrays
 
-    def _find_reorder(self, x, y):
-        z = x[ x != y]
+    #@disordered is an array of the IDs that are available in x and not in the matching position in y (or not available at all)
+    #in case x and y are a result of the intersection then disordered is the list of disordered IDs in x
+    def _find_reorder(self, x, y, disordered):
+        #todo this should be as the size of the original ids not just the intesection ids
+        #x shape or y shape should be the same
+        #or the shape of the IDs in the second table (original y)
         indices = np.arange(x.shape[0])
-        for i in z:
+        for i in disordered:
             #todo check this with more than 2 changes
             old = np.where(x == i)[0][0]
             new = np.where(y == i)[0][0]
@@ -305,16 +309,28 @@ class DiffFinder:
         #ru_bo = np.in1d(self.union["ur_ids"], r_inter)
         rids1 = self._table1.row_ids[r_bo1]
         rids2 = self._table2.row_ids[r_bo2]
-        r_indices = self._find_reorder(rids1, rids2)
+        rdis = rids1[ rids1 != rids2]
         #ruids = self.union["ur_ids"][ru_bo]
         # diff_order = np.where(rids2 != rids1)
         # ri = np.argsort(r_inter)
         # condition = diff_order[0].shape[0] > 0
         #####
         #slicing work to get the intersection tables
-        #todo for columns
         inter1 = np.asmatrix(self._table1.content)[:, c_bo1][r_bo1, :]
-        inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_indices, :]
+        inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
+        if (rdis.shape[0]>0):
+            #todo do this in one step
+            r_indices = self._find_reorder(rids1, rids2, rdis)
+            inter2 = inter2[r_indices,:]
+        #for columns
+        cids1 = self._table1.col_ids[c_bo1]
+        cids2 = self._table2.col_ids[c_bo2]
+        cdis = cids1[ cids1 != cids2]
+        #if there's a disorder in the columns
+        if (cdis.shape[0]>0):
+            c_indices = self._find_reorder(cids1, cids2, cdis)
+            inter2 = inter2[:,c_indices]
+        #at this point inter2 should look good hopefully!
         #diff work
         diff = inter1 - inter2
         #done :)
