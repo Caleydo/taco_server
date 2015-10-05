@@ -190,7 +190,6 @@ class DiffFinder:
             self.intersection["ir_ids"] = get_intersection(self._table1.row_ids, self._table2.row_ids)
             #now we have both intersections for rows and columns
             t7 = timeit.default_timer()
-            #todo why do I have to pass all the things that they are already in the class!!! remove this!
             self._compare_values()
             t8 = timeit.default_timer()
             #todo check this here
@@ -325,7 +324,7 @@ class DiffFinder:
         #for columns
         cids1 = self._table1.col_ids[c_bo1]
         cids2 = self._table2.col_ids[c_bo2]
-        cdis = cids1[ cids1 != cids2]
+        cdis = cids1[cids1 != cids2]
         #if there's a disorder in the columns
         if (cdis.shape[0]>0):
             c_indices = self._find_reorder(cids1, cids2, cdis)
@@ -335,16 +334,15 @@ class DiffFinder:
         diff = inter1 - inter2
         #done :)
         #now min and max for normalization
-        #dmin = diff.min()
-        #dmax = diff.max()
-        #notice float(1)/2 * m gives a float result better than m/2
-        #todo normalization
+        dmin = diff.min()
+        dmax = diff.max()
+        #normalization
+        normalized_diff = self._normalize_float(diff)
         #create a serialized thing for the log
         before = timeit.default_timer()
         self._content_to_json(diff)
         after = timeit.default_timer()
         print("logging", after - before)
-        #return diff_arrays
 
     def _content_to_json(self, diff):
         #find the position of the intersection things in union ids
@@ -368,5 +366,16 @@ class DiffFinder:
         # to access the value it would be m[res[0].item(0,0), res[1].item(0,0)] (the 0,0 would be i,j)
         # np.apply_along_axis(myfunc, 0, res)
         # array([['x is [0 2]', 'x is [1 1]', 'x is [2 5]']], dtype='|S10') --> these are the i,j of where i have changes, i can just wrap them and send them
+
+
+    def _normalize_float(self, diff_matrix):
+        min = diff_matrix.min()
+        max = diff_matrix.max()
+        #notice float(1)/2 * m gives a float result better than m/2
+        normalized = (diff_matrix - min) * (float(1)/(max - min))
+        m = normalized.min()
+        x = normalized.max()
+        return normalized
+
 
 #todo might be an idea to find the merged things first then handle the rest separately
