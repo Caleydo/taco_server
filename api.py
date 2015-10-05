@@ -2,7 +2,7 @@ __author__ = 'Reem'
 
 import flask
 from src import diff_finder
-from src.diff_finder import Table, DiffFinder
+from src.diff_finder import Table, DiffFinder, Diff
 import caleydo_server.dataset as dataset
 import timeit
 
@@ -39,9 +39,15 @@ def diff_log(id1, id2, lod, direction, ops):
     d = dfinder.generate_diff(ops)
     t3 = timeit.default_timer()
     print("times", t2 - t1 , t3 - t2)
-    d.add_union(dfinder.union)
-    t4 = timeit.default_timer()
-    json_result = flask.jsonify(d.serialize())
+    if isinstance(d, Diff):
+        d.add_union(dfinder.union)
+        t4 = timeit.default_timer()
+        json_result = flask.jsonify(d.serialize())
+    else:
+        #todo later find a way to send the error
+        # e.g. there's no matching column in this case
+        t4 = timeit.default_timer()
+        json_result = flask.jsonify(d) #which is {} for now!
     t5 = timeit.default_timer()
     print("time for jsonify", t5 - t4, "time for everything ", t5 - t1)
     return json_result

@@ -37,7 +37,7 @@ def get_intersection(ids1, ids2):
 
 
 def get_union_ids(ids1, ids2):
-    if len(ids1) < len(ids2):
+    if ids1.shape[0] < ids2.shape[0]:
         first = ids1
         second = ids2
     else:
@@ -143,7 +143,7 @@ class DiffFinder:
         self.union = {}
         self.intersection = {} #we only need this for rows when we have content changes
         self.intersection["ic_ids"] = get_intersection(self._table1.col_ids, self._table2.col_ids)
-        if len(self.intersection["ic_ids"]) >= 0:
+        if self.intersection["ic_ids"].shape[0] > 0:
         #there's at least one common column between the tables
         #otherwise there's no need to calculate the unions
             #for now drop the if about directions because we need the unions for showing the details level and for calculating the content changes :|
