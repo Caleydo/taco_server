@@ -309,7 +309,7 @@ class DiffFinder:
         #ru_bo = np.in1d(self.union["ur_ids"], r_inter)
         rids1 = self._table1.row_ids[r_bo1]
         rids2 = self._table2.row_ids[r_bo2]
-        rdis = rids1[ rids1 != rids2]
+        rdis = rids1[rids1 != rids2]
         #ruids = self.union["ur_ids"][ru_bo]
         # diff_order = np.where(rids2 != rids1)
         # ri = np.argsort(r_inter)
