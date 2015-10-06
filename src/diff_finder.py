@@ -75,6 +75,25 @@ def get_union_ids(ids1, ids2):
     return u
 
 
+#this returns values between [0,1]
+def normalize_float01(diff_matrix):
+    min = diff_matrix.min()
+    max = diff_matrix.max()
+    #notice float(1)/2 * m gives a float result better than m/2
+    #x = (x - min) / (max - min)
+    normalized = (diff_matrix - min) * (float(1)/(max - min))
+    return normalized
+
+
+#this returns values between [-1,1]
+def normalize_float_11(diff_matrix):
+    min = diff_matrix.min()
+    max = diff_matrix.max()
+    max = abs(min) if abs(min) > abs(max) else abs(max)
+    #notice float(1)/2 * m gives a float result better than m/2
+    normalized = diff_matrix * (float(1)/max)
+    return normalized
+
 #helping functions from caleydo
 def assign_ids(ids, idtype):
     import caleydo_server.plugin
@@ -333,14 +352,11 @@ class DiffFinder:
         #diff work
         diff = inter1 - inter2
         #done :)
-        #now min and max for normalization
-        dmin = diff.min()
-        dmax = diff.max()
         #normalization
-        normalized_diff = self._normalize_float(diff)
+        normalized_diff = normalize_float_11(diff)
         #create a serialized thing for the log
         before = timeit.default_timer()
-        self._content_to_json(diff)
+        self._content_to_json(normalized_diff)
         after = timeit.default_timer()
         print("logging", after - before)
 
@@ -354,8 +370,11 @@ class DiffFinder:
         ru = self.union["ur_ids"][r_indices]
         cu = self.union["uc_ids"][c_indices]
         for (i,j), value in np.ndenumerate(diff):
+            #todo if the normalization gives results between [0,1] this should change as it considers values between [-1,1]
             if value != 0:
-                self.diff.content += [{"row": ru[i], "col": cu[j], "diff_data": float(value),
+                self.diff.content += [{"row": ru[i], "col": cu[j],
+                                       #todo to get the original change value we can pass the original diff matrix then get the element m.item((i,j))
+                                       "diff_data": float(value),
                                        "rpos": r_indices[i], "cpos": c_indices[j]}]
         ## other idea could be
         # doing something like res = np.where(m!=0) //not in the case of normalization
@@ -366,16 +385,6 @@ class DiffFinder:
         # to access the value it would be m[res[0].item(0,0), res[1].item(0,0)] (the 0,0 would be i,j)
         # np.apply_along_axis(myfunc, 0, res)
         # array([['x is [0 2]', 'x is [1 1]', 'x is [2 5]']], dtype='|S10') --> these are the i,j of where i have changes, i can just wrap them and send them
-
-
-    def _normalize_float(self, diff_matrix):
-        min = diff_matrix.min()
-        max = diff_matrix.max()
-        #notice float(1)/2 * m gives a float result better than m/2
-        normalized = (diff_matrix - min) * (float(1)/(max - min))
-        m = normalized.min()
-        x = normalized.max()
-        return normalized
 
 
 #todo might be an idea to find the merged things first then handle the rest separately
