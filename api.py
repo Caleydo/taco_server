@@ -10,7 +10,6 @@ import ujson
 
 #create an Flask app for hosting my namespace
 app = flask.Flask(__name__)
-
 #request my configuration
 #import caleydo_server.config
 #config = caleydo_server.config.view('taco_server')
@@ -53,15 +52,15 @@ def diff_log(id1, id2, lod, direction, ops):
         t4 = timeit.default_timer()
         json_result = flask.jsonify(d) #which is {} for now!
     t5 = timeit.default_timer()
-    print("time for jsonify", t5 - t4, "time for everything ", t5 - t1)
-    return json_result
+    #creating flask response
+    response = flask.make_response(json_result)
+    response.headers["content-type"] = 'application/json'
+    t6 = timeit.default_timer()
+    print("time for jsonify", t5 - t4,"time for response", t6 - t5, "time for everything ", t6 - t1)
+    return response
     #todo make sure that both dataset have same rowtype and coltype before calling this api function
-    #return flask.jsonify(diff_finder.generate_diff(table1, table2, ds1.rowtype, ds1.coltype, direction))
-    #else:
-        #print("one of the files is missing!!")
-    #return flask.jsonify(ds1.asjson())
     #todo return a value that could be handled to show an error in the client side
-    #return "{}"
+
 
 def create():
   """
