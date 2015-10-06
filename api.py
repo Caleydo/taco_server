@@ -6,6 +6,7 @@ from src.diff_finder import Table, DiffFinder, Diff
 import caleydo_server.dataset as dataset
 import timeit
 import json
+import ujson
 
 #create an Flask app for hosting my namespace
 app = flask.Flask(__name__)
@@ -44,7 +45,8 @@ def diff_log(id1, id2, lod, direction, ops):
         d.add_union(dfinder.union)
         t4 = timeit.default_timer()
         #json_result = flask.jsonify(d.serialize())
-        json_result = json.dumps(d.serialize())
+        #json_result = json.dumps(d.serialize())
+        json_result = ujson.dumps(d.serialize())
     else:
         #todo later find a way to send the error
         # e.g. there's no matching column in this case
