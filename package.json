@@ -19,7 +19,14 @@
           "namespace": "/api/taco"
         }
       ]
-    }
+    },
+    "products": [
+      {
+        "name": "TaCo",
+        "type": "python",
+        "app": "taco"
+      }
+    ]
   },
   "publishConfig": {
     "registry": "http://registry.caleydo.org/"
