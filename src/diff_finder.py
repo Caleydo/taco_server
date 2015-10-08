@@ -37,7 +37,7 @@ def get_intersection(ids1, ids2):
 
 
 def get_union_ids(ids1, ids2):
-    if len(ids1) < len(ids2):
+    if ids1.shape[0] < ids2.shape[0]:
         first = ids1
         second = ids2
     else:
@@ -75,6 +75,25 @@ def get_union_ids(ids1, ids2):
     return u
 
 
+#this returns values between [0,1]
+def normalize_float01(diff_matrix):
+    min = diff_matrix.min()
+    max = diff_matrix.max()
+    #notice float(1)/2 * m gives a float result better than m/2
+    #x = (x - min) / (max - min)
+    normalized = (diff_matrix - min) * (float(1)/(max - min))
+    return normalized
+
+
+#this returns values between [-1,1]
+def normalize_float_11(diff_matrix):
+    min = diff_matrix.min()
+    max = diff_matrix.max()
+    max = abs(min) if abs(min) > abs(max) else abs(max)
+    #notice float(1)/2 * m gives a float result better than m/2
+    normalized = diff_matrix * (float(1)/max)
+    return normalized
+
 #helping functions from caleydo
 def assign_ids(ids, idtype):
     import caleydo_server.plugin
@@ -99,8 +118,8 @@ def generate_diff_from_files(file1, file2):
 #Table data structure
 class Table:
     def __init__(self, rows, cols, content):
-        self.row_ids = np.array(rows)
-        self.col_ids = np.array(cols)
+        self.row_ids = np.asarray(rows, np.string_)
+        self.col_ids = np.asarray(cols, np.string_)
         self.content = content
 
 
@@ -143,7 +162,7 @@ class DiffFinder:
         self.union = {}
         self.intersection = {} #we only need this for rows when we have content changes
         self.intersection["ic_ids"] = get_intersection(self._table1.col_ids, self._table2.col_ids)
-        if len(self.intersection["ic_ids"]) >= 0:
+        if self.intersection["ic_ids"].shape[0] > 0:
         #there's at least one common column between the tables
         #otherwise there's no need to calculate the unions
             #for now drop the if about directions because we need the unions for showing the details level and for calculating the content changes :|
@@ -190,7 +209,6 @@ class DiffFinder:
             self.intersection["ir_ids"] = get_intersection(self._table1.row_ids, self._table2.row_ids)
             #now we have both intersections for rows and columns
             t7 = timeit.default_timer()
-            #todo why do I have to pass all the things that they are already in the class!!! remove this!
             self._compare_values()
             t8 = timeit.default_timer()
             #todo check this here
@@ -201,7 +219,7 @@ class DiffFinder:
 
     #compares two lists of ids
     #todo consider sorting
-    def _compare_ids(self, e_type, ids1, ids2, u_ids, has_merge, has_structure, merge_delimiter= "+"):
+    def _compare_ids(self, e_type, ids1, ids2, u_ids, has_merge, has_structure, merge_delimiter="+"):
         deleted = get_deleted_ids(ids1, ids2)
         deleted_log = []
         added_log = []
@@ -269,6 +287,27 @@ class DiffFinder:
                     self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
         #return diff_arrays
 
+    #@disordered is an array of the IDs that are available in x and not in the matching position in y (or not available at all)
+    #in case x and y are a result of the intersection then disordered is the list of disordered IDs in x
+    def _find_reorder(self, x, y, disordered):
+        #todo this should be as the size of the original ids not just the intesection ids
+        #x shape or y shape should be the same
+        #or the shape of the IDs in the second table (original y)
+        indices = np.arange(x.shape[0])
+        for i in disordered:
+            #todo check this with more than 2 changes
+            old = np.where(x == i)[0][0]
+            new = np.where(y == i)[0][0]
+            #todo substitute this with the new one!
+            np.put(indices, old, new)
+        # index = []
+        # for i in x:
+        #     if i != y[np.where(x == i)[0][0]]:
+        #         index += [np.where(y == i)[0][0]]
+        #     else:
+        #         index += [np.where(x == i)[0][0]]
+        return indices
+
     def _compare_values(self):
         #todo remove the intersection assignment
         #get the intersection of rows as numpy
@@ -288,28 +327,38 @@ class DiffFinder:
         #ru_bo = np.in1d(self.union["ur_ids"], r_inter)
         rids1 = self._table1.row_ids[r_bo1]
         rids2 = self._table2.row_ids[r_bo2]
+        rdis = rids1[rids1 != rids2]
         #ruids = self.union["ur_ids"][ru_bo]
-        diff_order = np.where(rids2 != rids1)
-        ri = np.argsort(r_inter)
-        condition = diff_order[0].shape[0] > 0
+        # diff_order = np.where(rids2 != rids1)
+        # ri = np.argsort(r_inter)
+        # condition = diff_order[0].shape[0] > 0
         #####
         #slicing work to get the intersection tables
         inter1 = np.asmatrix(self._table1.content)[:, c_bo1][r_bo1, :]
         inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
+        if (rdis.shape[0]>0):
+            #todo do this in one step
+            r_indices = self._find_reorder(rids1, rids2, rdis)
+            inter2 = inter2[r_indices,:]
+        #for columns
+        cids1 = self._table1.col_ids[c_bo1]
+        cids2 = self._table2.col_ids[c_bo2]
+        cdis = cids1[cids1 != cids2]
+        #if there's a disorder in the columns
+        if (cdis.shape[0]>0):
+            c_indices = self._find_reorder(cids1, cids2, cdis)
+            inter2 = inter2[:,c_indices]
+        #at this point inter2 should look good hopefully!
         #diff work
         diff = inter1 - inter2
         #done :)
-        #now min and max for normalization
-        #dmin = diff.min()
-        #dmax = diff.max()
-        #notice float(1)/2 * m gives a float result better than m/2
-        #todo normalization
+        #normalization
+        normalized_diff = normalize_float_11(diff)
         #create a serialized thing for the log
         before = timeit.default_timer()
-        self._content_to_json(diff)
+        self._content_to_json(normalized_diff)
         after = timeit.default_timer()
         print("logging", after - before)
-        #return diff_arrays
 
     def _content_to_json(self, diff):
         #find the position of the intersection things in union ids
@@ -321,8 +370,11 @@ class DiffFinder:
         ru = self.union["ur_ids"][r_indices]
         cu = self.union["uc_ids"][c_indices]
         for (i,j), value in np.ndenumerate(diff):
+            #todo if the normalization gives results between [0,1] this should change as it considers values between [-1,1]
             if value != 0:
-                self.diff.content += [{"row": ru[i], "col": cu[j], "diff_data": float(value),
+                self.diff.content += [{"row": ru[i], "col": cu[j],
+                                       #todo to get the original change value we can pass the original diff matrix then get the element m.item((i,j))
+                                       "diff_data": float(value),
                                        "rpos": r_indices[i], "cpos": c_indices[j]}]
         ## other idea could be
         # doing something like res = np.where(m!=0) //not in the case of normalization
@@ -333,5 +385,6 @@ class DiffFinder:
         # to access the value it would be m[res[0].item(0,0), res[1].item(0,0)] (the 0,0 would be i,j)
         # np.apply_along_axis(myfunc, 0, res)
         # array([['x is [0 2]', 'x is [1 1]', 'x is [2 5]']], dtype='|S10') --> these are the i,j of where i have changes, i can just wrap them and send them
+
 
 #todo might be an idea to find the merged things first then handle the rest separately
