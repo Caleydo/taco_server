@@ -6,17 +6,24 @@ import timeit
 import json
 import ujson
 import io
+import os
 
-data_directory = '../cache/'
+data_directory = 'plugins/taco_server/cache/'
 
 def get_diff_cache(name):
+    file_name = data_directory + name + '.json'
+    if os.path.isfile(file_name):
+        with open(file_name) as data_file:
+          data = json.load(data_file)
+        return data
+    #if the file doesn't exist
     return None
 
 
 def set_diff_cache(name, data):
     file_name = data_directory + name + '.json'
-    with io.open(file_name, 'w', encoding='utf-8') as f:
-        f.write(unicode(json.dumps(data, ensure_ascii=False)))
+    with open(file_name, 'w') as outfile:
+        json.dump(data, outfile)
 
 
 def calc_diff(id1, id2, lod, direction, ops):

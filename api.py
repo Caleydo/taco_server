@@ -1,12 +1,7 @@
 __author__ = 'Reem'
 
 import flask
-from src import diff_finder
-from src.diff_finder import Table, DiffFinder, Diff
-import caleydo_server.dataset as dataset
 import timeit
-import json
-import ujson
 from src import diff_cache
 import hashlib
 
