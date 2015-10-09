@@ -231,15 +231,15 @@ DEL_COL = 4
 CH_CELL = 5
 
 data_directory = '../data/'
-file_name = 'ch_table'
+file_name = 'multi_table'
 in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 12
-cols = 21
-min_data = 0
-max_data = 5 #don't forget to update this in the index.json and restart the server
+rows = 50
+cols = 20
+min_data = 1
+max_data = 10 #don't forget to update this in the index.json and restart the server
 
 # I know it's a bit crazy like this but I couldn't come up with a smarter way
 # the problem that this has no order
@@ -264,17 +264,25 @@ result = gen.create_table(rows, cols, min_data, max_data, data_type=int)
 gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_directory + in_file_name)
 
 # change
-result = change_table(result, min_data, max_data, operations_count)
-
-# the old testing
-# random.seed(10)
-# num_of_changes = random.randint(2, 15)
-# print("num of changes is ", num_of_changes - 1)
-# for i in xrange(1, num_of_changes):
-#     result = randomly_change_table(result, min_data, max_data, 1)
-
-#save the output file
-gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_directory + out_file_name)
+ch_count = 5
+for i in range(ch_count):
+    result = change_table(result, min_data, max_data, operations_count)
+    #save the output file
+    gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_directory + file_name + str(i+1) + '_out.csv')
+    #just print the size to add it manually to index.json
+    print (result['table'].shape[0],result['table'].shape[1],i)
+    #update the ... for next round
+    operations_count = {
+        'del_row': random.randint(0,5),
+        'del_col': random.randint(0,5),
+        'add_row': random.randint(1,7),
+        'add_col': random.randint(0,4),
+        'ch_cell': random.randint(1,100), #todo changing in a new row is not considered
+       # 'me_col': [[0,1], [3,5]], #important to have the array in order ! so not [5,3]!
+        'me_col': [],
+        'me_row': [],
+       # 'me_row': [[0,2,3]],
+        }
 
 #print(result, result['table'].shape)
 
