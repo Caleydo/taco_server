@@ -91,8 +91,10 @@ def normalize_float_11(diff_matrix):
     max = diff_matrix.max()
     max = abs(min) if abs(min) > abs(max) else abs(max)
     #notice float(1)/2 * m gives a float result better than m/2
-    normalized = diff_matrix * (float(1)/max)
-    return normalized
+    if max > 0:
+        normalized = diff_matrix * (float(1)/max)
+        return normalized
+    return None
 
 #helping functions from caleydo
 def assign_ids(ids, idtype):
@@ -361,6 +363,9 @@ class DiffFinder:
         print("logging", after - before)
 
     def _content_to_json(self, diff):
+        #check if the diff is None (the case of all 0s diff)
+        if diff is None:
+            return
         #find the position of the intersection things in union ids
         #assuming that we have the same order of the intersection!
         r_bo_inter_u = np.in1d(self.union["ur_ids"], self.intersection["ir_ids"])
