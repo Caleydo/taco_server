@@ -26,7 +26,12 @@
         "type": "python",
         "app": "taco"
       }
-    ]
+    ],
+    "dependencies": {
+      "python": {
+        "ujson": "==1.33"
+      }
+    }
   },
   "publishConfig": {
     "registry": "http://registry.caleydo.org/"
