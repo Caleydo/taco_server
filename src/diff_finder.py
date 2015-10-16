@@ -216,7 +216,7 @@ class DiffFinder:
             #todo check this here
             #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
 
-        print("content: ", t8 - t7)
+        #print("content: ", t8 - t7)
         return self.diff
 
     #compares two lists of ids
