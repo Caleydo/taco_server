@@ -4,6 +4,9 @@ import flask
 import timeit
 from src import diff_cache
 import hashlib
+import os
+import json
+import ujson
 
 #create an Flask app for hosting my namespace
 app = flask.Flask(__name__)
@@ -36,6 +39,17 @@ def diff_log(id1, id2, lod, direction, ops):
     t6 = timeit.default_timer()
     print("time for everything ", t6 - t1)
     return response
+
+@app.route('/mds')
+def mds():
+    mds_directory = 'plugins/taco_server/mds_data/'
+    file_name = mds_directory + 'mdsdata.json'
+    if os.path.isfile(file_name):
+        with open(file_name) as data_file:
+          data = json.load(data_file)
+        return ujson.dumps(data)
+    #if the file doesn't exist
+    return None
 
 
 def create():
