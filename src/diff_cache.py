@@ -5,8 +5,8 @@ import caleydo_server.dataset as dataset
 import timeit
 import json
 import ujson
-import io
 import os
+import hashlib
 
 data_directory = 'plugins/taco_server/cache/'
 
@@ -52,6 +52,9 @@ def calc_diff(id1, id2, lod, direction, ops):
     print("time for jsonify", t5 - t4)
     return json_result
 
+def create_hashname(id1, id2, lod, direction, ops):
+    name = str(id1) + '_' + str(id2) + '_' + str(lod) + '_' + str(direction) + '_' + str(ops)
+    return hashlib.md5(name).hexdigest()
 
   # todo make sure that both dataset have same rowtype and coltype before calling this api function
   # todo return a value that could be handled to show an error in the client side

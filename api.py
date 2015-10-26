@@ -3,7 +3,6 @@ __author__ = 'Reem'
 import flask
 import timeit
 from src import diff_cache
-import hashlib
 import os
 import json
 import ujson
@@ -24,11 +23,11 @@ def jsontest():
 
 
 #@direction: 0 rows, 1 cols, 2 both rows and cols
+# /4/2/structure,content
 @app.route('/diff_log/<id1>/<id2>/<lod>/<direction>/<ops>')
 def diff_log(id1, id2, lod, direction, ops):
     t1 = timeit.default_timer()
-    name = str(id1) + '_' + str(id2) + '_' + str(lod) + '_' + str(direction) + '_' + str(ops)
-    hash_name = hashlib.md5(name).hexdigest()
+    hash_name = diff_cache.create_hashname(id1, id2, lod, direction, ops)
     json_result = diff_cache.get_diff_cache(hash_name)
     if json_result is None:
         json_result = diff_cache.calc_diff(id1, id2, lod, direction, ops)
