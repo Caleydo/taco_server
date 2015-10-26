@@ -3,6 +3,8 @@ __author__ = 'Reem'
 
 import numpy as np
 import timeit
+import json
+from collections import namedtuple
 
 D_ROWS = 0
 D_COLS = 1
@@ -151,6 +153,66 @@ class Diff:
             "union": self.union
         }
 
+    # todo as this just normal conversion
+    # we have to assign every attribute or so?
+    def diff_from_json(self, jsonobj):
+        # http://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object#answer-15882054
+        # Parse JSON into an object with attributes corresponding to dict keys.
+        x = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+        print ("structure!", x.structure.added_rows)
+        return x #todo
+
+    def content_ratio_percell(self, ucells):
+        return float(len(self.content)) / ucells
+
+    # rowAdd rowDel colAdd colDel
+    def struct_ratio(self, ucells, dir, st_op):
+        operation = st_op + "eted" if st_op == "del" else st_op + "ed"
+        return float(len(self.structure[operation + "_" + dir + "s"])) / ucells
+
+    def struct_add_ratio(self, width, height):
+        cells = width * height
+        addc = 0
+        h = height
+        w = width
+        h -= len(self.structure["deleted_rows"])
+        w -= len(self.structure["deleted_cols"])
+        addc += len(self.structure["added_rows"]) * w
+        h -= len(self.structure["added_rows"])
+        addc += len(self.structure["added_cols"]) * h
+        w -= len(self.structure["added_cols"]) # we might need this later!
+        # the type here should be just add but i'm using row-add for css
+        return float(addc)/cells
+
+    def struct_del_ratio(self, width, height):
+        cells = width * height
+        h = height
+        w = width
+        delc = 0
+        delc += len(self.structure["deleted_rows"]) * w
+        h -= len(self.structure["deleted_rows"])
+        delc += len(self.structure["deleted_cols"]) * h
+        #the type here should be just add and del but i'm using row-add and row-del for css
+        return float(delc)/cells
+
+    def nochange_ratio(self, width, height):
+        cells = width * height
+        h = height
+        w = width
+        noc = 0
+        #the height without the removed or added rows
+        if self.structure.has_key("deleted_rows"):
+            h -= len(self.structure["deleted_rows"])
+        if self.structure.has_key("added_rows"):
+            h -= len(self.structure["added_rows"])
+        #the width without the deleted or removed cols
+        if self.structure.has_key("deleted_cols"):
+            w -= len(self.structure["deleted_cols"])
+        if self.structure.has_key("added_cols"):
+            w -= len(self.structure["added_cols"])
+        #the rest cells without the changed ones
+        noc = (h * w) - len(self.content)
+        return float(noc) / cells
 
 #DiffFinder class
 class DiffFinder:
@@ -182,6 +244,7 @@ class DiffFinder:
             self.union["r_ids"]= r_ids.tolist()
 
     def generate_diff(self, ops):
+        DETAIL = 4
         if len(self.union) == 0:
             #todo return a special value
             #there's no diff possible
@@ -215,7 +278,11 @@ class DiffFinder:
             t8 = timeit.default_timer()
             #todo check this here
             #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
-
+        #todo check if it's overview or so
+        if self._lod < DETAIL:
+            self._calc_ratios()
+        else:
+            self._calc_ratios() #todo remove this
         #print("content: ", t8 - t7)
         return self.diff
 
@@ -390,6 +457,19 @@ class DiffFinder:
         # to access the value it would be m[res[0].item(0,0), res[1].item(0,0)] (the 0,0 would be i,j)
         # np.apply_along_axis(myfunc, 0, res)
         # array([['x is [0 2]', 'x is [1 1]', 'x is [2 5]']], dtype='|S10') --> these are the i,j of where i have changes, i can just wrap them and send them
+
+
+    def _calc_ratios(self):
+        union_cells = self.union['ur_ids'].shape[0] * self.union['uc_ids'].shape[0]
+        cratio = self.diff.content_ratio_percell(union_cells)
+        ra_ratio = self.diff.struct_ratio(union_cells,"row","add")
+        rd_ratio = self.diff.struct_ratio(union_cells,"row","del")
+        ca_ratio = self.diff.struct_ratio(union_cells,"col","add")
+        cd_ratio = self.diff.struct_ratio(union_cells,"col","del")
+        sratio_a = self.diff.struct_add_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
+        sratio_d = self.diff.struct_del_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
+        no_ratio = self.diff.nochange_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
+        return None
 
 
 #todo might be an idea to find the merged things first then handle the rest separately

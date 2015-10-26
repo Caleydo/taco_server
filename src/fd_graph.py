@@ -2,9 +2,7 @@ __author__ = 'Reem'
 
 import diff_cache
 import json
-import ujson
 import os
-from collections import namedtuple
 
 data_directory = 'plugins/taco_server/MDS_data/'
 
@@ -38,8 +36,5 @@ def calc_fd_graph(ids, lod, direction, ops):
                     json_result = diff_cache.calc_diff(id1, id2, lod, direction, ops)
                     diff_cache.set_diff_cache(hash_name, json_result)
                 #todo use this json_result
-                # http://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object#answer-15882054
-                # Parse JSON into an object with attributes corresponding to dict keys.
-                x = json.loads(json_result, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-                print ("content", x.structure.added_rows)
+
     return None
