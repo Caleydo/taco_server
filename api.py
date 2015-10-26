@@ -2,7 +2,7 @@ __author__ = 'Reem'
 
 import flask
 import timeit
-from src import diff_cache
+from src import diff_cache, fd_graph
 import os
 import json
 import ujson
@@ -41,6 +41,8 @@ def diff_log(id1, id2, lod, direction, ops):
 
 @app.route('/mds')
 def mds():
+    id_list = ["tacoServerTacoMultiple5Output", "tacoServerTacoMultiple4Output", "tacoServerTacoMultiple3Output"]
+    fd_res = fd_graph.calc_fd_graph(id_list, 4, 2, "structure,content")
     mds_directory = 'plugins/taco_server/mds_data/'
     #file_name = mds_directory + 'mdsdata.json'
     file_name = mds_directory + 'fddata.json'
