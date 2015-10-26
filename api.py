@@ -43,7 +43,8 @@ def diff_log(id1, id2, lod, direction, ops):
 @app.route('/mds')
 def mds():
     mds_directory = 'plugins/taco_server/mds_data/'
-    file_name = mds_directory + 'mdsdata.json'
+    #file_name = mds_directory + 'mdsdata.json'
+    file_name = mds_directory + 'fddata.json'
     if os.path.isfile(file_name):
         with open(file_name) as data_file:
           data = json.load(data_file)
