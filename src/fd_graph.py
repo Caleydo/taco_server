@@ -33,8 +33,8 @@ def calc_fd_graph(ids, direction, ops):
             # all elements except the i and all before
             # +1 to make sure that they are not identical
             for j, id2 in enumerate(ids[i+1:]):
-                r = diff_cache.get_ratios(id1, id2, direction, ops)
-                links += [{"source": i, "target": j, "value": 1 - float(r.no_ratio)}]
+                r = diff_cache.get_ratios(id1, id2, direction, ops, False)
+                links += [{"source": i, "target": j, "value": 100 - float(r.no_ratio * 100)}]
                 #todo use this json_result
     return {
       "nodes": nodes,

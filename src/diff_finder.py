@@ -218,12 +218,14 @@ class Diff:
 
     def ratios(self):
         # todo check that the union already exists!!
-        union_cells = self.union['ur_ids'].shape[0] * self.union['uc_ids'].shape[0]
+        urows = len(self.union['ur_ids'])
+        ucols = len(self.union['uc_ids'])
+        union_cells = urows * ucols
         # Lineup relevant
         cratio = self.content_ratio_percell(union_cells)
-        sratio_a = self.struct_add_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
-        sratio_d = self.struct_del_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
-        no_ratio = self.nochange_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
+        sratio_a = self.struct_add_ratio(ucols, urows)
+        sratio_d = self.struct_del_ratio(ucols, urows)
+        no_ratio = self.nochange_ratio(ucols, urows)
         # Lineup not relevant
         # ra_ratio = self.struct_ratio(union_cells, "row", "add")
         # rd_ratio = self.struct_ratio(union_cells, "row", "del")

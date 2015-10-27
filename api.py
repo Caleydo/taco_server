@@ -37,7 +37,7 @@ def diff_log(id1, id2, lod, direction, ops):
 @app.route('/mds')
 # /0/2/structure,content
 def mds():
-    id_list = ["tacoServerTacoMultiple5Output", "tacoServerTacoMultiple4Output", "tacoServerTacoMultiple3Output"]
+    id_list = ["tacoServerTacoMultiple1Output", "tacoServerTacoMultiple2Output", "tacoServerTacoMultiple5Output", "tacoServerTacoMultiple4Output", "tacoServerTacoMultiple3Output"]
     fd_res = fd_graph.calc_fd_graph(id_list, 2, "structure,content")
     return ujson.dumps(fd_res)
     # mds_directory = 'plugins/taco_server/mds_data/'

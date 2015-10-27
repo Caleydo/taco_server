@@ -8,7 +8,6 @@ import ujson
 import os
 import hashlib
 from collections import namedtuple
-import numpy as np
 
 data_directory = 'plugins/taco_server/cache/'
 
@@ -101,8 +100,8 @@ def diff_from_json(jsonobj):
     d.merge = x.merge
     d.reorder = x.reorder
     d.union = {}
-    d.union['ur_ids'] = np.array(x.union.ur_ids)
-    d.union['uc_ids'] = np.array(x.union.uc_ids)
+    d.union['ur_ids'] = x.union.ur_ids
+    d.union['uc_ids'] = x.union.uc_ids
     return d #todo
 
 def ratio_from_json(jsonobj):
