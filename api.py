@@ -26,11 +26,7 @@ def jsontest():
 @app.route('/diff_log/<id1>/<id2>/<lod>/<direction>/<ops>')
 def diff_log(id1, id2, lod, direction, ops):
     t1 = timeit.default_timer()
-    hash_name = diff_cache.create_hashname(id1, id2, lod, direction, ops)
-    json_result = diff_cache.get_diff_cache(hash_name)
-    if json_result is None:
-        json_result = diff_cache.calc_diff(id1, id2, lod, direction, ops)
-        diff_cache.set_diff_cache(hash_name, json_result)
+    json_result = diff_cache.get_diff(id1, id2, lod, direction, ops)
     # creating flask response
     response = flask.make_response(json_result)
     response.headers["content-type"] = 'application/json'
@@ -42,7 +38,7 @@ def diff_log(id1, id2, lod, direction, ops):
 # /0/2/structure,content
 def mds():
     id_list = ["tacoServerTacoMultiple5Output", "tacoServerTacoMultiple4Output", "tacoServerTacoMultiple3Output"]
-    fd_res = fd_graph.calc_fd_graph(id_list, 0, 2, "structure,content")
+    fd_res = fd_graph.calc_fd_graph(id_list, 2, "structure,content")
     mds_directory = 'plugins/taco_server/mds_data/'
     #file_name = mds_directory + 'mdsdata.json'
     file_name = mds_directory + 'fddata.json'

@@ -1,6 +1,6 @@
 __author__ = 'Reem'
 
-from diff_finder import Table, DiffFinder, Diff
+from diff_finder import Table, DiffFinder, Diff, Levels
 import caleydo_server.dataset as dataset
 import timeit
 import json
@@ -25,6 +25,13 @@ def set_diff_cache(name, data):
     with open(file_name, 'w') as outfile:
         json.dump(data, outfile)
 
+def get_diff(id1, id2, lod, direction, ops):
+    hash_name = create_hashname(id1, id2, lod, direction, ops)
+    json_result = get_diff_cache(hash_name)
+    if json_result is None:
+        json_result = calc_diff(id1, id2, lod, direction, ops)
+        set_diff_cache(hash_name, json_result)
+    return json_result
 
 def calc_diff(id1, id2, lod, direction, ops):
     ds1 = dataset.get(id1)
