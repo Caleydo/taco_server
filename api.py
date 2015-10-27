@@ -23,7 +23,6 @@ def jsontest():
 
 
 #@direction: 0 rows, 1 cols, 2 both rows and cols
-# /4/2/structure,content
 @app.route('/diff_log/<id1>/<id2>/<lod>/<direction>/<ops>')
 def diff_log(id1, id2, lod, direction, ops):
     t1 = timeit.default_timer()
@@ -40,9 +39,10 @@ def diff_log(id1, id2, lod, direction, ops):
     return response
 
 @app.route('/mds')
+# /0/2/structure,content
 def mds():
     id_list = ["tacoServerTacoMultiple5Output", "tacoServerTacoMultiple4Output", "tacoServerTacoMultiple3Output"]
-    fd_res = fd_graph.calc_fd_graph(id_list, 4, 2, "structure,content")
+    fd_res = fd_graph.calc_fd_graph(id_list, 0, 2, "structure,content")
     mds_directory = 'plugins/taco_server/mds_data/'
     #file_name = mds_directory + 'mdsdata.json'
     file_name = mds_directory + 'fddata.json'

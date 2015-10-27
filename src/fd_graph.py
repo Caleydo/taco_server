@@ -3,6 +3,7 @@ __author__ = 'Reem'
 import diff_cache
 import json
 import os
+from diff_finder import Levels
 
 data_directory = 'plugins/taco_server/MDS_data/'
 
@@ -30,11 +31,14 @@ def calc_fd_graph(ids, lod, direction, ops):
             # all elements except the i and all before
             # +1 to make sure that they are not identical
             for j, id2 in enumerate(ids[i+1:]):
-                hash_name = diff_cache.create_hashname(id1, id2, lod, direction, ops)
-                json_result = diff_cache.get_diff_cache(hash_name)
+                hashname_detail = diff_cache.create_hashname(id1, id2, Levels.detail, direction, ops)
+                json_result = diff_cache.get_diff_cache(hashname_detail)
                 if json_result is None:
                     json_result = diff_cache.calc_diff(id1, id2, lod, direction, ops)
-                    diff_cache.set_diff_cache(hash_name, json_result)
+                    diff_cache.set_diff_cache(hashname_detail, json_result)
+                if lod < Levels.detail: #or less than middle
+                    hashname_overview = diff_cache.create_hashname(id1, id2, Levels.overview, direction, ops)
+                    diff_cache.set_diff_cache(hashname_overview, json_result)
                 #todo use this json_result
 
     return None

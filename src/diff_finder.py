@@ -5,10 +5,18 @@ import numpy as np
 import timeit
 import json
 from collections import namedtuple
+from enum import Enum
 
 D_ROWS = 0
 D_COLS = 1
 D_ROWS_COLS = 2
+
+
+class Levels(Enum):
+    detail = 4
+    middle = 2
+    overview = 0
+
 
 # reads a csv file (using full file path) and returns the data table with the IDs
 def get_full_table(file):
@@ -118,7 +126,6 @@ def generate_diff_from_files(file1, file2):
     #return generate_diff(full_table1, full_table2, None, None, 2)
 
 
-
 #Table data structure
 class Table:
     def __init__(self, rows, cols, content):
@@ -175,12 +182,16 @@ class Diff:
         addc = 0
         h = height
         w = width
-        h -= len(self.structure["deleted_rows"])
-        w -= len(self.structure["deleted_cols"])
-        addc += len(self.structure["added_rows"]) * w
-        h -= len(self.structure["added_rows"])
-        addc += len(self.structure["added_cols"]) * h
-        w -= len(self.structure["added_cols"]) # we might need this later!
+        if self.structure.has_key("deleted_rows"):
+            h -= len(self.structure["deleted_rows"])
+        if self.structure.has_key("deleted_cols"):
+            w -= len(self.structure["deleted_cols"])
+        if self.structure.has_key("added_rows"):
+            addc += len(self.structure["added_rows"]) * w
+            h -= len(self.structure["added_rows"])
+        if self.structure.has_key("added_cols"):
+            addc += len(self.structure["added_cols"]) * h
+            w -= len(self.structure["added_cols"]) # we might need this later!
         # the type here should be just add but i'm using row-add for css
         return float(addc)/cells
 
@@ -189,9 +200,11 @@ class Diff:
         h = height
         w = width
         delc = 0
-        delc += len(self.structure["deleted_rows"]) * w
-        h -= len(self.structure["deleted_rows"])
-        delc += len(self.structure["deleted_cols"]) * h
+        if self.structure.has_key("deleted_rows"):
+            delc += len(self.structure["deleted_rows"]) * w
+            h -= len(self.structure["deleted_rows"])
+        if self.structure.has_key("deleted_cols"):
+            delc += len(self.structure["deleted_cols"]) * h
         #the type here should be just add and del but i'm using row-add and row-del for css
         return float(delc)/cells
 
@@ -213,6 +226,22 @@ class Diff:
         #the rest cells without the changed ones
         noc = (h * w) - len(self.content)
         return float(noc) / cells
+
+    def ratios(self):
+        # todo check that the union already exists!!
+        union_cells = self.union['ur_ids'].shape[0] * self.union['uc_ids'].shape[0]
+        # Lineup relevant
+        cratio = self.content_ratio_percell(union_cells)
+        sratio_a = self.struct_add_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
+        sratio_d = self.struct_del_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
+        no_ratio = self.nochange_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
+        # Lineup not relevant
+        ra_ratio = self.struct_ratio(union_cells,"row","add")
+        rd_ratio = self.struct_ratio(union_cells,"row","del")
+        ca_ratio = self.struct_ratio(union_cells,"col","add")
+        cd_ratio = self.struct_ratio(union_cells,"col","del")
+        return None
+
 
 #DiffFinder class
 class DiffFinder:
@@ -244,7 +273,6 @@ class DiffFinder:
             self.union["r_ids"]= r_ids.tolist()
 
     def generate_diff(self, ops):
-        DETAIL = 4
         if len(self.union) == 0:
             #todo return a special value
             #there's no diff possible
@@ -276,14 +304,15 @@ class DiffFinder:
             t7 = timeit.default_timer()
             self._compare_values()
             t8 = timeit.default_timer()
+            #print("content: ", t8 - t7)
             #todo check this here
             #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
         #todo check if it's overview or so
-        if self._lod < DETAIL:
-            self._calc_ratios()
-        else:
-            self._calc_ratios() #todo remove this
-        #print("content: ", t8 - t7)
+        if self._lod < Levels.detail:
+            tr1 = timeit.default_timer()
+            self.diff.ratios()
+            tr2 = timeit.default_timer()
+            print("ratios: ", tr2 - tr1)
         return self.diff
 
     #compares two lists of ids
@@ -457,19 +486,6 @@ class DiffFinder:
         # to access the value it would be m[res[0].item(0,0), res[1].item(0,0)] (the 0,0 would be i,j)
         # np.apply_along_axis(myfunc, 0, res)
         # array([['x is [0 2]', 'x is [1 1]', 'x is [2 5]']], dtype='|S10') --> these are the i,j of where i have changes, i can just wrap them and send them
-
-
-    def _calc_ratios(self):
-        union_cells = self.union['ur_ids'].shape[0] * self.union['uc_ids'].shape[0]
-        cratio = self.diff.content_ratio_percell(union_cells)
-        ra_ratio = self.diff.struct_ratio(union_cells,"row","add")
-        rd_ratio = self.diff.struct_ratio(union_cells,"row","del")
-        ca_ratio = self.diff.struct_ratio(union_cells,"col","add")
-        cd_ratio = self.diff.struct_ratio(union_cells,"col","del")
-        sratio_a = self.diff.struct_add_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
-        sratio_d = self.diff.struct_del_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
-        no_ratio = self.diff.nochange_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
-        return None
 
 
 #todo might be an idea to find the merged things first then handle the rest separately
