@@ -240,8 +240,26 @@ class Diff:
         rd_ratio = self.struct_ratio(union_cells,"row","del")
         ca_ratio = self.struct_ratio(union_cells,"col","add")
         cd_ratio = self.struct_ratio(union_cells,"col","del")
-        return None
+        return Ratios(cratio, sratio_a, sratio_d, no_ratio)
 
+class Ratios:
+    def __init__(self,cr, ar, dr, no):
+        self.c_ratio = cr
+        self.a_ratio = ar
+        self.d_ratio = dr
+        self.no_ratio = no
+
+    def seraialize(self):
+        return {
+          "c_ratio" : self.c_ratio,
+          "a_ratio" : self.a_ratio,
+          "d_ratio" : self.d_ratio,
+          "no_ratio": self.no_ratio
+        }
+
+    def from_json(self, jsonobj):
+        x = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+        return x
 
 #DiffFinder class
 class DiffFinder:
