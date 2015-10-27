@@ -107,7 +107,12 @@ def diff_from_json(jsonobj):
 def ratio_from_json(jsonobj):
     #idk
     r = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-    return Ratios(r.c_ratio, r.a_ratio, r.d_ratio, r.no_ratio)
+    #todo find a smarter way, really
+    cr = 0 if not hasattr(r, "c_ratio") else r.c_ratio
+    ar = 0 if not hasattr(r, "a_ratio") else r.a_ratio
+    dr = 0 if not hasattr(r, "d_ratio") else r.d_ratio
+    no = 100 if not hasattr(r, "no_ratio") else r.no_ratio
+    return Ratios(cr , ar, dr, no)
 
 # todo make sure that both dataset have same rowtype and coltype before calling this api function
 # todo return a value that could be handled to show an error in the client side
