@@ -134,7 +134,7 @@ class Table:
 
 #Diff object data structure
 class Diff:
-    def __init__(self, direction):
+    def __init__(self, direction=D_ROWS_COLS):
         self._direction = direction
         self.content = []
         self.structure = {}
@@ -225,10 +225,10 @@ class Diff:
         sratio_d = self.struct_del_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
         no_ratio = self.nochange_ratio(self.union['uc_ids'].shape[0], self.union['ur_ids'].shape[0])
         # Lineup not relevant
-        ra_ratio = self.struct_ratio(union_cells,"row","add")
-        rd_ratio = self.struct_ratio(union_cells,"row","del")
-        ca_ratio = self.struct_ratio(union_cells,"col","add")
-        cd_ratio = self.struct_ratio(union_cells,"col","del")
+        # ra_ratio = self.struct_ratio(union_cells, "row", "add")
+        # rd_ratio = self.struct_ratio(union_cells, "row", "del")
+        # ca_ratio = self.struct_ratio(union_cells, "col", "add")
+        # cd_ratio = self.struct_ratio(union_cells, "col", "del")
         return Ratios(cratio, sratio_a, sratio_d, no_ratio)
 
 class Ratios:

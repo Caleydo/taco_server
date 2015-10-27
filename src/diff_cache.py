@@ -7,8 +7,8 @@ import json
 import ujson
 import os
 import hashlib
-import diff_finder
 from collections import namedtuple
+import numpy as np
 
 data_directory = 'plugins/taco_server/cache/'
 
@@ -90,12 +90,19 @@ def create_hashname(id1, id2, lod, direction, ops):
 def diff_from_json(jsonobj):
     # http://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object#answer-15882054
     # Parse JSON into an object with attributes corresponding to dict keys.
-    x = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-    d = Diff(x._direction)
+    x = json.loads(jsonobj, object_hook=lambda d: namedtuple('Diff', d.keys())(*d.values()))
+    d = Diff()
     d.content = x.content
-    d.structure = x.structure
+    d.structure = {}
+    d.structure["deleted_rows"] = x.structure.deleted_rows
+    d.structure["added_rows"] = x.structure.added_rows
+    d.structure["deleted_cols"] = x.structure.deleted_cols
+    d.structure["added_cols"] = x.structure.added_cols
     d.merge = x.merge
     d.reorder = x.reorder
+    d.union = {}
+    d.union['ur_ids'] = np.array(x.union.ur_ids)
+    d.union['uc_ids'] = np.array(x.union.uc_ids)
     return d #todo
 
 def ratio_from_json(jsonobj):

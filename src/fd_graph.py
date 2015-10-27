@@ -26,12 +26,12 @@ def set_fd_cache(name, data):
 #@ids: should be a list of the table's ids
 def calc_fd_graph(ids, direction, ops):
     if len(ids) > 0:
+        ratios_list = []
         # all elements except the last one
         for i, id1 in enumerate(ids[:-1]):
             # all elements except the i and all before
             # +1 to make sure that they are not identical
             for j, id2 in enumerate(ids[i+1:]):
-                json_result = diff_cache.get_diff(id1, id2, Levels.overview, direction, ops)
+                ratios_list += [diff_cache.get_ratios(id1, id2, direction, ops)]
                 #todo use this json_result
-
-    return None
+    return ratios_list
