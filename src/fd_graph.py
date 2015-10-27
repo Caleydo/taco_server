@@ -3,7 +3,7 @@ __author__ = 'Reem'
 import diff_cache
 import json
 import os
-from diff_finder import Levels
+import caleydo_server.dataset as dataset
 
 data_directory = 'plugins/taco_server/MDS_data/'
 
@@ -25,13 +25,27 @@ def set_fd_cache(name, data):
 
 #@ids: should be a list of the table's ids
 def calc_fd_graph(ids, direction, ops):
+    nodes = graph_nodes(ids)
+    links = []
     if len(ids) > 0:
-        ratios_list = []
         # all elements except the last one
         for i, id1 in enumerate(ids[:-1]):
             # all elements except the i and all before
             # +1 to make sure that they are not identical
             for j, id2 in enumerate(ids[i+1:]):
-                ratios_list += [diff_cache.get_ratios(id1, id2, direction, ops)]
+                r = diff_cache.get_ratios(id1, id2, direction, ops)
+                links += [{"source": i, "target": j, "value": 1 - float(r.no_ratio)}]
                 #todo use this json_result
-    return ratios_list
+    return {
+      "nodes": nodes,
+      "links": links
+    }
+
+
+def graph_nodes(ids):
+    # dataset.get(ids).name
+    # todo get the name from the dataset caleydo api
+    nodes = [{"name": str(i)} for i in ids]
+    return nodes
+
+
