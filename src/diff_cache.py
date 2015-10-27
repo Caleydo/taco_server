@@ -8,6 +8,7 @@ import ujson
 import os
 import hashlib
 import diff_finder
+from collections import namedtuple
 
 data_directory = 'plugins/taco_server/cache/'
 
@@ -45,23 +46,25 @@ def get_diff(id1, id2, lod, direction, ops, jsonit=True):
             json_result = ujson.dumps(diffobj)  # which is {} for now!
             set_diff_cache(hash_name, json_result)
     if not jsonit:
-        return diff_finder.diff_from_json(json_result)
+        return diff_from_json(json_result)
     return json_result
 
 def get_ratios(id1, id2, direction, ops, jsonit=True):
-    hash_name = create_hashname(id1, id2, Levels.overview, direction, ops)
-    json_ratios = get_diff_cache(hash_name)
+    overview_hashname = create_hashname(id1, id2, Levels.overview, direction, ops)
+    json_ratios = get_diff_cache(overview_hashname)
     if json_ratios is None:
         #we calculate the new one
         diffobj = get_diff(id1, id2, Levels.detail, direction, ops, False)
         # calculate the ratios for the overview
         ratios = diffobj.ratios()
-        json_result = ujson.dumps(ratios.seraialize())
+        json_ratios = ujson.dumps(ratios.seraialize())
         # cache this as overview
-        overview_hashname = create_hashname(id1, id2, Levels.overview, direction, ops)
-        set_diff_cache(overview_hashname, json_result)
+        set_diff_cache(overview_hashname, json_ratios)
         if not jsonit:
             return ratios
+    if not jsonit:
+        return ratio_from_json(json_ratios)
+    return json_ratios
 
 def calc_diff(id1, id2, lod, direction, ops):
     ds1 = dataset.get(id1)
@@ -69,7 +72,7 @@ def calc_diff(id1, id2, lod, direction, ops):
     # create the table object
     table1 = Table(ds1.rows(), ds1.cols(), ds1.asnumpy())
     table2 = Table(ds2.rows(), ds2.cols(), ds2.asnumpy())
-    dfinder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, lod, direction)
+    dfinder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, direction)
     t2 = timeit.default_timer()
     d = dfinder.generate_diff(ops)
     t3 = timeit.default_timer()
@@ -81,6 +84,24 @@ def calc_diff(id1, id2, lod, direction, ops):
 def create_hashname(id1, id2, lod, direction, ops):
     name = str(id1) + '_' + str(id2) + '_' + str(lod) + '_' + str(direction) + '_' + str(ops)
     return hashlib.md5(name).hexdigest()
+
+# todo as this just normal conversion
+# we have to assign every attribute or so?
+def diff_from_json(jsonobj):
+    # http://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object#answer-15882054
+    # Parse JSON into an object with attributes corresponding to dict keys.
+    x = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+    d = Diff(x._direction)
+    d.content = x.content
+    d.structure = x.structure
+    d.merge = x.merge
+    d.reorder = x.reorder
+    return d #todo
+
+def ratio_from_json(jsonobj):
+    #idk
+    r = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+    return Ratios(r.c_ratio, r.a_ratio, r.d_ratio, r.no_ratio)
 
 # todo make sure that both dataset have same rowtype and coltype before calling this api function
 # todo return a value that could be handled to show an error in the client side

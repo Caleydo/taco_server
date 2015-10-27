@@ -3,8 +3,6 @@ __author__ = 'Reem'
 
 import numpy as np
 import timeit
-import json
-from collections import namedtuple
 from enum import Enum
 
 D_ROWS = 0
@@ -125,19 +123,6 @@ def generate_diff_from_files(file1, file2):
     #todo use the classes
     #return generate_diff(full_table1, full_table2, None, None, 2)
 
-
-# todo as this just normal conversion
-# we have to assign every attribute or so?
-def diff_from_json(jsonobj):
-    # http://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object#answer-15882054
-    # Parse JSON into an object with attributes corresponding to dict keys.
-    x = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-    d = Diff(x._direction)
-    d.content = x.content
-    d.structure = x.structure
-    d.merge = x.merge
-    d.reorder = x.reorder
-    return d #todo
 
 #Table data structure
 class Table:
