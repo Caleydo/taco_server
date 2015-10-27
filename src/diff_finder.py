@@ -126,6 +126,19 @@ def generate_diff_from_files(file1, file2):
     #return generate_diff(full_table1, full_table2, None, None, 2)
 
 
+# todo as this just normal conversion
+# we have to assign every attribute or so?
+def diff_from_json(jsonobj):
+    # http://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object#answer-15882054
+    # Parse JSON into an object with attributes corresponding to dict keys.
+    x = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+    d = Diff(x._direction)
+    d.content = x.content
+    d.structure = x.structure
+    d.merge = x.merge
+    d.reorder = x.reorder
+    return d #todo
+
 #Table data structure
 class Table:
     def __init__(self, rows, cols, content):
@@ -159,15 +172,6 @@ class Diff:
             "reorder": self.reorder,
             "union": self.union
         }
-
-    # todo as this just normal conversion
-    # we have to assign every attribute or so?
-    def diff_from_json(self, jsonobj):
-        # http://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object#answer-15882054
-        # Parse JSON into an object with attributes corresponding to dict keys.
-        x = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-        print ("structure!", x.structure.added_rows)
-        return x #todo
 
     def content_ratio_percell(self, ucells):
         return float(len(self.content)) / ucells
@@ -243,7 +247,7 @@ class Diff:
         return Ratios(cratio, sratio_a, sratio_d, no_ratio)
 
 class Ratios:
-    def __init__(self,cr, ar, dr, no):
+    def __init__(self,cr=0, ar=0, dr=0, no=100):
         self.c_ratio = cr
         self.a_ratio = ar
         self.d_ratio = dr
@@ -257,17 +261,12 @@ class Ratios:
           "no_ratio": self.no_ratio
         }
 
-    def from_json(self, jsonobj):
-        x = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-        return x
-
 #DiffFinder class
 class DiffFinder:
     #todo add the operations?
-    def __init__(self, t1, t2, rowtype, coltype, lod, direction):
+    def __init__(self, t1, t2, rowtype, coltype, direction):
         self._table1 = t1
         self._table2 = t2
-        self._lod = lod
         self._direction = int(direction)
         self.diff = Diff(self._direction)
         self.union = {}
@@ -325,12 +324,6 @@ class DiffFinder:
             #print("content: ", t8 - t7)
             #todo check this here
             #ch_perc = calc_ch_percentage(len(self.diff.content), len(self.intersection["ir_ids"]), len(self.intersection["ic_ids"]))
-        #todo check if it's overview or so
-        if self._lod < Levels.detail:
-            tr1 = timeit.default_timer()
-            self.diff.ratios()
-            tr2 = timeit.default_timer()
-            print("ratios: ", tr2 - tr1)
         return self.diff
 
     #compares two lists of ids

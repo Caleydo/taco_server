@@ -7,6 +7,7 @@ import json
 import ujson
 import os
 import hashlib
+import diff_finder
 
 data_directory = 'plugins/taco_server/cache/'
 
@@ -26,12 +27,8 @@ def set_diff_cache(name, data):
         json.dump(data, outfile)
 
 def get_diff(id1, id2, lod, direction, ops, jsonit=True):
-    # todo either lod here should be 0 for overview (not 1) or we make sure of this in the client
     hash_name = create_hashname(id1, id2, lod, direction, ops)
     json_result = get_diff_cache(hash_name)
-    if not jsonit and lod < Levels.detail:
-        r = Ratios(0,0,0,100)
-        return r.from_json(json_result)
     ## it's not in the cache
     if json_result is None:
         #get one for the detail
@@ -40,21 +37,31 @@ def get_diff(id1, id2, lod, direction, ops, jsonit=True):
             #log the detail
             json_result = ujson.dumps(diffobj.serialize())
             set_diff_cache(hash_name, json_result)
-            if lod < Levels.detail: # or check for being overview or +1
-                # calculate the ratios for the overview
-                ratios = diffobj.ratios()
-                json_result = ujson.dumps(ratios.seraialize())
-                # cache this as overview
-                overview_hashname = create_hashname(id1, id2, Levels.overview, direction, ops)
-                set_diff_cache(overview_hashname, json_result)
-                if not jsonit:
-                    return ratios
+            if not jsonit:
+                return diffobj
         else:
             # todo later find a way to send the error
             # e.g. there's no matching column in this case
             json_result = ujson.dumps(diffobj)  # which is {} for now!
             set_diff_cache(hash_name, json_result)
+    if not jsonit:
+        return diff_finder.diff_from_json(json_result)
     return json_result
+
+def get_ratios(id1, id2, direction, ops, jsonit=True):
+    hash_name = create_hashname(id1, id2, Levels.overview, direction, ops)
+    json_ratios = get_diff_cache(hash_name)
+    if json_ratios is None:
+        #we calculate the new one
+        diffobj = get_diff(id1, id2, Levels.detail, direction, ops, False)
+        # calculate the ratios for the overview
+        ratios = diffobj.ratios()
+        json_result = ujson.dumps(ratios.seraialize())
+        # cache this as overview
+        overview_hashname = create_hashname(id1, id2, Levels.overview, direction, ops)
+        set_diff_cache(overview_hashname, json_result)
+        if not jsonit:
+            return ratios
 
 def calc_diff(id1, id2, lod, direction, ops):
     ds1 = dataset.get(id1)
