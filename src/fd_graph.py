@@ -34,8 +34,8 @@ def calc_fd_graph(ids, direction, ops):
             # +1 to make sure that they are not identical
             for j, id2 in enumerate(ids[i+1:]):
                 r = diff_cache.get_ratios(id1, id2, direction, ops, False)
-                links += [{"source": i, "target": j, "value": 100 - float(r.no_ratio * 100)}]
-                #todo use this json_result
+                links += [{"source": ids.index(id1), "target": ids.index(id2), "value": 100 - float(r.no_ratio * 100)}]
+    # todo cache this in the MDS data
     return {
       "nodes": nodes,
       "links": links
