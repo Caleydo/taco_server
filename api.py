@@ -3,8 +3,6 @@ __author__ = 'Reem'
 import flask
 import timeit
 from src import diff_cache, fd_graph
-import os
-import json
 import ujson
 
 #create an Flask app for hosting my namespace
@@ -34,21 +32,12 @@ def diff_log(id1, id2, lod, direction, ops):
     print("time for everything ", t6 - t1)
     return response
 
-@app.route('/mds')
+@app.route('/mds/<ids>')
 # /0/2/structure,content
-def mds():
-    id_list = ["tacoServerTacoMultipleInput", "tacoServerTacoMultiple1Output", "tacoServerTacoMultiple2Output", "tacoServerTacoMultiple5Output", "tacoServerTacoMultiple4Output", "tacoServerTacoMultiple3Output"]
+def mds(ids):
+    id_list = ids.split(',')
     fd_res = fd_graph.calc_fd_graph(id_list, 2, "structure,content")
     return ujson.dumps(fd_res)
-    # mds_directory = 'plugins/taco_server/mds_data/'
-    # #file_name = mds_directory + 'mdsdata.json'
-    # file_name = mds_directory + 'fddata.json'
-    # if os.path.isfile(file_name):
-    #     with open(file_name) as data_file:
-    #       data = json.load(data_file)
-    #     return ujson.dumps(data)
-    # #if the file doesn't exist
-    # return None
 
 
 def create():
