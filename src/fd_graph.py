@@ -25,7 +25,6 @@ def set_fd_cache(name, data):
 
 #@ids: should be a list of the table's ids
 def calc_fd_graph(ids, direction, ops):
-    nodes = graph_nodes(ids)
     links = []
     if len(ids) > 0:
         # all elements except the last one
@@ -36,10 +35,7 @@ def calc_fd_graph(ids, direction, ops):
                 r = diff_cache.get_ratios(id1, id2, direction, ops, False)
                 links += [{"source": ids.index(id1), "target": ids.index(id2), "value": 100 - float(r.no_ratio * 100)}]
     # todo cache this in the MDS data
-    return {
-      "nodes": nodes,
-      "links": links
-    }
+    return links
 
 
 def graph_nodes(ids):
