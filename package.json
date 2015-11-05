@@ -29,7 +29,8 @@
     ],
     "dependencies": {
       "python": {
-        "ujson": "==1.33"
+        "ujson": "==1.33",
+        "enum": "0.4.6"
       }
     }
   },
