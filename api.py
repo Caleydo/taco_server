@@ -40,6 +40,13 @@ def mds(ids):
     return ujson.dumps(fd_res)
 
 
+@app.route('/realmds/<ids>')
+def realmds(ids):
+    id_list = ids.split(',')
+    mds_res = fd_graph.calc_mds_graph(id_list)
+    return ujson.dumps(mds_res)
+
+
 def create():
   """
   by convention contain a factory called create returning the extension implementation

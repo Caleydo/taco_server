@@ -3,7 +3,9 @@ __author__ = 'Reem'
 import diff_cache
 import json
 import os
-import caleydo_server.dataset as dataset
+import numpy as np
+from sklearn import manifold
+from sklearn.decomposition import PCA
 
 data_directory = 'plugins/taco_server/MDS_data/'
 
@@ -23,7 +25,7 @@ def set_fd_cache(name, data):
         json.dump(data, outfile)
 
 
-#@ids: should be a list of the table's ids
+#@param ids: should be a list of the table's ids
 def calc_fd_graph(ids, direction, ops):
     links = []
     if len(ids) > 0:
@@ -36,6 +38,48 @@ def calc_fd_graph(ids, direction, ops):
                 links += [{"source": ids.index(id1), "target": ids.index(id2), "value": 100 - float(r.no_ratio * 100)}]
     # todo cache this in the MDS data
     return links
+
+
+def calc_mds_graph(ids):
+    similarities = []
+    for i, id1 in enumerate(ids):
+        sim_row = []
+        for j, id2 in enumerate(ids):
+            if id1 == id2:
+                sim_row += [0]
+            else:
+                r = diff_cache.get_ratios(id1, id2, 2, "structure,content", False)
+                sim_row += [r.no_ratio]
+        similarities.append(sim_row)
+
+    mds = manifold.MDS(n_components=2, max_iter=3000, eps=1e-9,
+                       dissimilarity="precomputed", n_jobs=1)
+    pos = mds.fit(similarities).embedding_
+
+    nmds = manifold.MDS(n_components=2, metric=False, max_iter=3000, eps=1e-12,
+                        dissimilarity="precomputed", n_jobs=1,
+                        n_init=1)
+    npos = nmds.fit_transform(similarities, init=pos)
+
+    # Rescale the data
+    # pos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((pos ** 2).sum())
+    # npos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((npos ** 2).sum())
+
+    # Rotate the data
+    clf = PCA(n_components=2)
+
+    pos = clf.fit_transform(pos)
+
+    npos = clf.fit_transform(npos)
+
+    #np
+    #similarities = similarities.max() / similarities * 100
+    #similarities[np.isinf(similarities)] = 0
+
+    # Plot the edges
+    #start_idx, end_idx = np.where(pos)
+
+    return similarities
 
 
 def graph_nodes(ids):

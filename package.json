@@ -30,7 +30,8 @@
     "dependencies": {
       "python": {
         "ujson": "==1.33",
-        "enum": "0.4.6"
+        "enum": "==0.4.6",
+        "sklearn": "==0.0"
       }
     }
   },
