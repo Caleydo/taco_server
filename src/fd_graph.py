@@ -41,7 +41,8 @@ def calc_fd_graph(ids, direction, ops):
 
 
 def calc_mds_graph(ids):
-    similarities = []
+    # this is diff not similarities :|!
+    distances = []
     for i, id1 in enumerate(ids):
         sim_row = []
         for j, id2 in enumerate(ids):
@@ -49,17 +50,19 @@ def calc_mds_graph(ids):
                 sim_row += [0]
             else:
                 r = diff_cache.get_ratios(id1, id2, 2, "structure,content", False)
-                sim_row += [r.no_ratio]
-        similarities.append(sim_row)
+                sim_row += [1 - r.no_ratio]
+        distances.append(sim_row)
 
     # http://baoilleach.blogspot.co.at/2014/01/convert-distance-matrix-to-2d.html
+    # it doesn't really change the result :|
     # adist = np.array(similarities)
     # amax = np.amax(adist)
     # adist /= amax
 
     mds = manifold.MDS(n_components=2, max_iter=3000, random_state=6, eps=1e-9,
                        dissimilarity="precomputed", n_jobs=1)
-    res = mds.fit(similarities)
+    res = mds.fit(distances)
+    # res = mds.fit(adist)
     pos = res.embedding_
 
     # Rescale the data
@@ -96,4 +99,4 @@ def pos_to_json(pos):
   json_pos = []
   for i, p in enumerate(pos):
     json_pos += [{'x': p[0], 'y': p[1]}]
-  return {'nodes': json_pos, 'xmin': pos[:,0].min(), 'xmax': pos[:,0].max(), 'ymin': pos[:,1].min(), 'ymax': pos[:,1].max()}
+  return {'pos': json_pos, 'xmin': pos[:,0].min(), 'xmax': pos[:,0].max(), 'ymin': pos[:,1].min(), 'ymax': pos[:,1].max()}
