@@ -32,16 +32,16 @@ def diff_log(id1, id2, lod, direction, ops):
     print("time for everything ", t6 - t1)
     return response
 
-@app.route('/mds/<ids>')
+@app.route('/fd/<ids>')
 # /0/2/structure,content
-def mds(ids):
+def fd(ids):
     id_list = ids.split(',')
     fd_res = fd_graph.calc_fd_graph(id_list, 2, "structure,content")
     return ujson.dumps(fd_res)
 
 
-@app.route('/realmds/<ids>')
-def realmds(ids):
+@app.route('/mds/<ids>')
+def mds(ids):
     id_list = ids.split(',')
     mds_res = fd_graph.calc_mds_graph(id_list)
     return ujson.dumps(mds_res)
