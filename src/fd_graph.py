@@ -52,25 +52,26 @@ def calc_mds_graph(ids):
                 sim_row += [r.no_ratio]
         similarities.append(sim_row)
 
-    mds = manifold.MDS(n_components=2, max_iter=3000, eps=1e-9,
-                       dissimilarity="precomputed", n_jobs=1)
-    pos = mds.fit(similarities).embedding_
+    # http://baoilleach.blogspot.co.at/2014/01/convert-distance-matrix-to-2d.html
+    # adist = np.array(similarities)
+    # amax = np.amax(adist)
+    # adist /= amax
 
-    nmds = manifold.MDS(n_components=2, metric=False, max_iter=3000, eps=1e-12,
-                        dissimilarity="precomputed", n_jobs=1,
-                        n_init=1)
-    npos = nmds.fit_transform(similarities, init=pos)
+    mds = manifold.MDS(n_components=2, max_iter=3000, random_state=6, eps=1e-9,
+                       dissimilarity="precomputed", n_jobs=1)
+    res = mds.fit(similarities)
+    pos = res.embedding_
 
     # Rescale the data
     # pos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((pos ** 2).sum())
     # npos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((npos ** 2).sum())
 
     # Rotate the data
-    clf = PCA(n_components=2)
-
-    pos = clf.fit_transform(pos)
-
-    npos = clf.fit_transform(npos)
+    # clf = PCA(n_components=2)
+    #
+    # pos = clf.fit_transform(pos)
+    #
+    # npos = clf.fit_transform(npos)
 
     #np
     #similarities = similarities.max() / similarities * 100
@@ -79,7 +80,8 @@ def calc_mds_graph(ids):
     # Plot the edges
     #start_idx, end_idx = np.where(pos)
 
-    return similarities
+    #return pos
+    return pos_to_json(pos)
 
 
 def graph_nodes(ids):
@@ -89,3 +91,9 @@ def graph_nodes(ids):
     return nodes
 
 
+# convert the ndarray to a parsable json thing :|
+def pos_to_json(pos):
+  json_pos = []
+  for i, p in enumerate(pos):
+    json_pos += [{'x': p[0], 'y': p[1]}]
+  return {'nodes': json_pos, 'xmin': pos[:,0].min(), 'xmax': pos[:,0].max(), 'ymin': pos[:,1].min(), 'ymax': pos[:,1].max()}
