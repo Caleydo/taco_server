@@ -2,7 +2,7 @@ __author__ = 'Reem'
 
 import flask
 import timeit
-from src import diff_cache, fd_graph
+from src import diff_cache, graph
 import ujson
 
 #create an Flask app for hosting my namespace
@@ -36,14 +36,14 @@ def diff_log(id1, id2, lod, direction, ops):
 # /0/2/structure,content
 def fd(ids):
     id_list = ids.split(',')
-    fd_res = fd_graph.calc_fd_graph(id_list, 2, "structure,content")
+    fd_res = graph.calc_fd_graph(id_list, 2, "structure,content")
     return ujson.dumps(fd_res)
 
 
 @app.route('/mds/<ids>')
 def mds(ids):
     id_list = ids.split(',')
-    mds_res = fd_graph.calc_mds_graph(id_list)
+    mds_res = graph.calc_mds_graph(id_list)
     return ujson.dumps(mds_res)
 
 

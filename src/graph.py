@@ -5,11 +5,12 @@ import json
 import os
 import numpy as np
 from sklearn import manifold
-from sklearn.decomposition import PCA
 
 data_directory = 'plugins/taco_server/MDS_data/'
 
-def get_fd_cache(name):
+# this cache should cache the result with positions from MDS
+# todo either use the following functions or delete them
+def get_MDS_cache(name):
     file_name = data_directory + name + '.json'
     if os.path.isfile(file_name):
         with open(file_name) as data_file:
@@ -19,7 +20,7 @@ def get_fd_cache(name):
     return None
 
 
-def set_fd_cache(name, data):
+def set_MDS_cache(name, data):
     file_name = data_directory + name + '.json'
     with open(file_name, 'w') as outfile:
         json.dump(data, outfile)
@@ -64,29 +65,10 @@ def calc_mds_graph(ids):
     res = mds.fit(distances)
     # res = mds.fit(adist)
     pos = res.embedding_
-
-    # Rescale the data
-    # pos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((pos ** 2).sum())
-    # npos *= np.sqrt((X_true ** 2).sum()) / np.sqrt((npos ** 2).sum())
-
-    # Rotate the data
-    # clf = PCA(n_components=2)
-    #
-    # pos = clf.fit_transform(pos)
-    #
-    # npos = clf.fit_transform(npos)
-
-    #np
-    #similarities = similarities.max() / similarities * 100
-    #similarities[np.isinf(similarities)] = 0
-
-    # Plot the edges
-    #start_idx, end_idx = np.where(pos)
-
-    #return pos
     return pos_to_json(pos)
 
 
+# we are not using this function as we get the name from the client anyway
 def graph_nodes(ids):
     # dataset.get(ids).name
     # todo get the name from the dataset caleydo api
@@ -96,7 +78,11 @@ def graph_nodes(ids):
 
 # convert the ndarray to a parsable json thing :|
 def pos_to_json(pos):
-  json_pos = []
-  for i, p in enumerate(pos):
-    json_pos += [{'x': p[0], 'y': p[1]}]
-  return {'pos': json_pos, 'xmin': pos[:,0].min(), 'xmax': pos[:,0].max(), 'ymin': pos[:,1].min(), 'ymax': pos[:,1].max()}
+    json_pos = []
+    for i, p in enumerate(pos):
+      json_pos += [{'x': p[0], 'y': p[1]}]
+    return {'pos': json_pos,
+            'xmin': pos[:, 0].min(),
+            'xmax': pos[:, 0].max(),
+            'ymin': pos[:, 1].min(),
+            'ymax': pos[:, 1].max()}
