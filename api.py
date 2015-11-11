@@ -43,7 +43,7 @@ def fd(ids):
 @app.route('/mds/<ids>')
 def mds(ids):
     id_list = ids.split(',')
-    mds_res = graph.calc_mds_graph(id_list)
+    mds_res = graph.calc_mds_graph(id_list,  2, "structure,content")
     return ujson.dumps(mds_res)
 
 

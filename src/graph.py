@@ -10,7 +10,7 @@ data_directory = 'plugins/taco_server/MDS_data/'
 
 # this cache should cache the result with positions from MDS
 # todo either use the following functions or delete them
-def get_MDS_cache(name):
+def get_mds_cache(name):
     file_name = data_directory + name + '.json'
     if os.path.isfile(file_name):
         with open(file_name) as data_file:
@@ -20,7 +20,7 @@ def get_MDS_cache(name):
     return None
 
 
-def set_MDS_cache(name, data):
+def set_mds_cache(name, data):
     file_name = data_directory + name + '.json'
     with open(file_name, 'w') as outfile:
         json.dump(data, outfile)
@@ -41,17 +41,24 @@ def calc_fd_graph(ids, direction, ops):
     return links
 
 
-def calc_mds_graph(ids):
+def calc_mds_graph(ids, direction, ops):
     # this is diff not similarities :|!
     distances = []
     for i, id1 in enumerate(ids):
-        sim_row = []
+        sim_row = [0] * len(ids)
         for j, id2 in enumerate(ids):
-            if id1 == id2:
-                sim_row += [0]
-            else:
-                r = diff_cache.get_ratios(id1, id2, 2, "structure,content", False)
-                sim_row += [1 - r.no_ratio]
+            if j >= i:
+                break  # because we already have this half or will fill it later
+            if id1 != id2:
+                # the direction here might always have to be 2 or we make it more flexible
+                r = diff_cache.get_ratios(id1, id2, direction, ops, False)
+                # todo to consider only the selected operations
+                # sim_row += [r.a_ratio + r.d_ratio + r.c_ratio]
+                val = 1 - r.no_ratio
+                # j column
+                sim_row[j] = val
+                # j row and i column
+                distances[j][i] = val
         distances.append(sim_row)
 
     # http://baoilleach.blogspot.co.at/2014/01/convert-distance-matrix-to-2d.html
