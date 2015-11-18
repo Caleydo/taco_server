@@ -2,7 +2,7 @@ __author__ = 'Reem'
 
 import flask
 import timeit
-from src import diff_cache, graph
+from src import diff_cache, graph, diff_finder
 import ujson
 
 #create an Flask app for hosting my namespace
@@ -24,7 +24,10 @@ def jsontest():
 @app.route('/diff_log/<id1>/<id2>/<lod>/<direction>/<ops>')
 def diff_log(id1, id2, lod, direction, ops):
     t1 = timeit.default_timer()
-    json_result = diff_cache.get_diff(id1, id2, lod, direction, ops)
+    if lod == str(diff_finder.Levels.overview):
+        json_result = diff_cache.get_ratios(id1, id2, direction, ops)
+    else:
+        json_result = diff_cache.get_diff(id1, id2, direction, ops)
     # creating flask response
     response = flask.make_response(json_result)
     response.headers["content-type"] = 'application/json'

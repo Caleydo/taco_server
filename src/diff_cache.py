@@ -26,8 +26,9 @@ def set_diff_cache(name, data):
     with open(file_name, 'w') as outfile:
         json.dump(data, outfile)
 
-def get_diff(id1, id2, lod, direction, ops, jsonit=True):
-    hash_name = create_hashname(id1, id2, lod, direction, ops)
+# this is now by default for the detail diff
+def get_diff(id1, id2, direction, ops, jsonit=True):
+    hash_name = create_hashname(id1, id2, Levels.detail, direction, ops)
     json_result = get_diff_cache(hash_name)
     ## it's not in the cache
     if json_result is None:
@@ -53,7 +54,8 @@ def get_ratios(id1, id2, direction, ops, jsonit=True):
     json_ratios = get_diff_cache(overview_hashname)
     if json_ratios is None:
         #we calculate the new one
-        diffobj = get_diff(id1, id2, Levels.detail, direction, ops, False)
+        # get the detail diff
+        diffobj = get_diff(id1, id2, direction, ops, False)
         # calculate the ratios for the overview
         ratios = diffobj.ratios()
         json_ratios = ujson.dumps(ratios.seraialize())
