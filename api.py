@@ -21,11 +21,13 @@ def jsontest():
 
 
 #@direction: 0 rows, 1 cols, 2 both rows and cols
-@app.route('/diff_log/<id1>/<id2>/<lod>/<direction>/<ops>')
-def diff_log(id1, id2, lod, direction, ops):
+@app.route('/diff_log/<id1>/<id2>/<lod>/<direction>/<ops>/<bins>')
+def diff_log(id1, id2, lod, direction, ops, bins):
     t1 = timeit.default_timer()
     if lod == str(diff_finder.Levels.overview):
         json_result = diff_cache.get_ratios(id1, id2, direction, ops)
+    elif lod == str(diff_finder.Levels.middle):
+        json_result = diff_cache.get_aggregated(id1, id2, direction, ops)
     else:
         json_result = diff_cache.get_diff(id1, id2, direction, ops)
     # creating flask response
@@ -48,6 +50,16 @@ def mds(ids):
     id_list = ids.split(',')
     mds_res = graph.calc_mds_graph(id_list,  2, "structure,content")
     return ujson.dumps(mds_res)
+
+
+@app.route('/aggregate/<id1>/<id2>/<direction>/<ops>/<bins>')
+def aggregate(id1, id2, direction, ops, bins):
+
+    json_result = diff_cache.get_diff(id1, id2, direction, ops)
+    # creating flask response
+    response = flask.make_response(json_result)
+    response.headers["content-type"] = 'application/json'
+    return response
 
 
 def create():

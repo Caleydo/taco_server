@@ -234,7 +234,7 @@ class Diff:
         return Ratios(cratio, sratio_a, sratio_d, no_ratio)
 
 class Ratios:
-    def __init__(self,cr=0, ar=0, dr=0, no=100):
+    def __init__(self,cr=0.0, ar=0.0, dr=0.0, no=100.0):
         self.c_ratio = cr
         self.a_ratio = ar
         self.d_ratio = dr

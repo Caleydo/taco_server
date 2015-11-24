@@ -1,5 +1,9 @@
 __author__ = 'Reem'
 
+# This file contains the main functions that deal with caching the diff
+# at different levels of details
+# detail (as detail), middle (as count), overview (as ratios)
+
 from diff_finder import Table, DiffFinder, Diff, Levels, Ratios
 import caleydo_server.dataset as dataset
 import timeit
@@ -33,7 +37,7 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
     ## it's not in the cache
     if json_result is None:
         #get one for the detail
-        diffobj = calc_diff(id1, id2, Levels.detail, direction, ops)
+        diffobj = calc_diff(id1, id2, direction, ops)
         if isinstance(diffobj, Diff):
             #log the detail
             json_result = ujson.dumps(diffobj.serialize())
@@ -67,7 +71,29 @@ def get_ratios(id1, id2, direction, ops, jsonit=True):
         return ratio_from_json(json_ratios)
     return json_ratios
 
-def calc_diff(id1, id2, lod, direction, ops):
+# get the aggregated results for the middle view
+def get_aggregated(id1, id2, direction, ops, jsonit=True):
+    mid_hashname = create_hashname(id1, id2, Levels.middle, direction, ops)
+    bin_list = get_diff_cache(mid_hashname)
+    if bin_list is None:
+        #we calculate the new one
+        # get the detail diff
+        diffobj = get_diff(id1, id2, direction, ops, False)
+        # calculate the ratios for the overview
+        ratios = diffobj.ratios()
+        bin_list = ujson.dumps(ratios.seraialize())
+        # cache this as overview
+        set_diff_cache(mid_hashname, bin_list)
+        if not jsonit:
+            return ratios
+    if not jsonit:
+        return ratio_from_json(bin_list)
+    return bin_list
+    return
+
+
+# calc the detailed diff
+def calc_diff(id1, id2, direction, ops):
     ds1 = dataset.get(id1)
     ds2 = dataset.get(id2)
     # create the table object
