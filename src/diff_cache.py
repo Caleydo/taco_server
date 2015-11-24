@@ -72,7 +72,7 @@ def get_ratios(id1, id2, direction, ops, jsonit=True):
     return json_ratios
 
 # get the aggregated results for the middle view
-def get_aggregated(id1, id2, direction, ops, jsonit=True):
+def get_aggregated(id1, id2, direction, ops, bins, jsonit=True):
     mid_hashname = create_hashname(id1, id2, Levels.middle, direction, ops)
     bin_list = get_diff_cache(mid_hashname)
     if bin_list is None:

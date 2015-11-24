@@ -20,16 +20,21 @@ def jsontest():
   return flask.jsonify({'x': 'where are you', 'y': "too"})
 
 
-#@direction: 0 rows, 1 cols, 2 both rows and cols
-@app.route('/diff_log/<id1>/<id2>/<lod>/<direction>/<ops>/<bins>')
-def diff_log(id1, id2, lod, direction, ops, bins):
+# @param direction: 0 rows, 1 cols, 2 both rows and cols
+# @param: bins is the number of bins
+# see https://github.com/Reemh/taco_server/wiki/Diff-Aggregation
+@app.route('/diff_log/<id1>/<id2>/<bins>/<direction>/<ops>')
+def diff_log(id1, id2, bins, direction, ops):
     t1 = timeit.default_timer()
-    if lod == str(diff_finder.Levels.overview):
+    if bins == "1":
+        # one bin is for lineup (overview)
         json_result = diff_cache.get_ratios(id1, id2, direction, ops)
-    elif lod == str(diff_finder.Levels.middle):
-        json_result = diff_cache.get_aggregated(id1, id2, direction, ops)
-    else:
+    elif bins == "0":
+        # no bins which is the diff heatmap (detail)
         json_result = diff_cache.get_diff(id1, id2, direction, ops)
+    else:
+        # the middle view based on the number of bins or lines i.e. rows/columns (middle)
+        json_result = diff_cache.get_aggregated(id1, id2, direction, ops, bins)
     # creating flask response
     response = flask.make_response(json_result)
     response.headers["content-type"] = 'application/json'
@@ -50,16 +55,6 @@ def mds(ids):
     id_list = ids.split(',')
     mds_res = graph.calc_mds_graph(id_list,  2, "structure,content")
     return ujson.dumps(mds_res)
-
-
-@app.route('/aggregate/<id1>/<id2>/<direction>/<ops>/<bins>')
-def aggregate(id1, id2, direction, ops, bins):
-
-    json_result = diff_cache.get_diff(id1, id2, direction, ops)
-    # creating flask response
-    response = flask.make_response(json_result)
-    response.headers["content-type"] = 'application/json'
-    return response
 
 
 def create():
