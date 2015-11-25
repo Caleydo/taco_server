@@ -219,9 +219,9 @@ class Diff:
 
     def aggregate(self, bins):
         if bins == 1 or bins == "1": # I don't wanna care if it's a string or int
-            self.ratios()
+            return self.ratios()
         else:
-            self.ratios() #todo change this
+            return self.ratios() #todo change this
 
 
     def ratios(self):
@@ -263,7 +263,7 @@ class DiffFinder:
         self._table1 = t1
         self._table2 = t2
         self._direction = int(direction)
-        self.diff = Diff(self._direction)
+        self.diff = Diff(direction=self._direction)
         self.union = {}
         self.intersection = {} #we only need this for rows when we have content changes
         self.intersection["ic_ids"] = get_intersection(self._table1.col_ids, self._table2.col_ids)

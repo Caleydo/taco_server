@@ -35,7 +35,7 @@ def calc_fd_graph(ids, direction, ops):
             # all elements except the i and all before
             # +1 to make sure that they are not identical
             for j, id2 in enumerate(ids[i+1:]):
-                r = diff_cache.get_ratios(id1, id2, direction, ops, False)
+                r = diff_cache.get_ratios(id1, id2, direction, ops, bins=1, jsonit=False)
                 links += [{"source": ids.index(id1), "target": ids.index(id2), "value": 100 - float(r.no_ratio * 100)}]
     # todo cache this in the MDS data
     return links
@@ -51,7 +51,7 @@ def calc_mds_graph(ids, direction, ops):
                 break  # because we already have this half or will fill it later
             if id1 != id2:
                 # the direction here might always have to be 2 or we make it more flexible
-                r = diff_cache.get_ratios(id1, id2, direction, ops, False)
+                r = diff_cache.get_ratios(id1, id2, direction, ops, bins=1, jsonit=False)
                 # todo to consider only the selected operations
                 # sim_row += [r.a_ratio + r.d_ratio + r.c_ratio]
                 val = 1 - r.no_ratio

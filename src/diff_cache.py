@@ -54,7 +54,7 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
     return json_result
 
 # get the ratios for the overview or the aggregated results for the middle view
-def get_ratios(id1, id2, direction, ops, bins, jsonit=True):
+def get_ratios(id1, id2, direction, ops, bins=1, jsonit=True):
     hashname = create_hashname(id1, id2, bins, direction, ops)
     json_ratios = get_diff_cache(hashname)
     if json_ratios is None:
