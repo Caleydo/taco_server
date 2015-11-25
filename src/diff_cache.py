@@ -62,7 +62,7 @@ def get_ratios(id1, id2, direction, ops, bins, jsonit=True):
         # get the detail diff
         diffobj = get_diff(id1, id2, direction, ops, False)
         # calculate the ratios for the overview
-        ratios = diffobj.ratios(bins)
+        ratios = diffobj.aggregate(bins)
         json_ratios = ujson.dumps(ratios.seraialize())
         # cache this as overview
         set_diff_cache(hashname, json_ratios)

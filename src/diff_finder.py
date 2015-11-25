@@ -134,12 +134,13 @@ class Table:
 
 #Diff object data structure
 class Diff:
-    def __init__(self, direction=D_ROWS_COLS):
+    def __init__(self, content=None, structure=None, merge=None, reorder=None, union=None, direction=D_ROWS_COLS):
         self._direction = direction
-        self.content = []
-        self.structure = {}
-        self.merge = {}
-        self.reorder = {}
+        self.content = [] if content is None else content
+        self.structure = {} if structure is None else structure
+        self.merge = {} if merge is None else merge
+        self.reorder = {} if reorder is None else reorder
+        self.union = {} if union is None else union
 
     #todo decide if the union should be here or in the diff finder
     def add_union(self, union):
@@ -216,7 +217,14 @@ class Diff:
         noc = (h * w) - len(self.content)
         return float(noc) / cells
 
-    def ratios(self, bins):
+    def aggregate(self, bins):
+        if bins == 1 or bins == "1": # I don't wanna care if it's a string or int
+            self.ratios()
+        else:
+            self.ratios() #todo change this
+
+
+    def ratios(self):
         # todo check that the union already exists!!
         urows = len(self.union['ur_ids'])
         ucols = len(self.union['uc_ids'])
