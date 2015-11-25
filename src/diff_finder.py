@@ -124,6 +124,36 @@ def generate_diff_from_files(file1, file2):
     #return generate_diff(full_table1, full_table2, None, None, 2)
 
 
+def dimensionStats(content, selector):
+    hist = []
+    for e in content:
+        sel = selector(e)
+        #result = $.grep(hist, function(e){ return e.id == sel.row; });
+        result = filter(lambda h: h["id"] == sel["row"], hist)
+        if len(result) == 0:
+            hist += [{
+              "id" : sel["row"],
+              "count": 1,
+              "pos": sel["rpos"]
+            }]
+        else:
+            result[0]["count"] += 1
+
+    return hist
+
+def rowSelector(entry):
+    return {
+      "row": entry.row,
+      "rpos": entry.rpos
+    }
+
+def colSelector(entry):
+    return {
+        "row": entry.col,
+        "rpos": entry.cpos
+    }
+
+
 #Table data structure
 class Table:
     def __init__(self, rows, cols, content):
@@ -218,10 +248,29 @@ class Diff:
         return float(noc) / cells
 
     def aggregate(self, bins):
-        if bins == 1 or bins == "1": # I don't wanna care if it's a string or int
+        if bins == 1:
+            # todo do we want to return it as an array of one element?
+            # the ratios for line up
             return self.ratios()
         else:
-            return self.ratios() #todo change this
+            # it's the case of histogram of bar plot
+            # get the direction
+            union_rows = self.union['ur_ids']
+            if self._direction == D_COLS:
+                # if it's the cols not the rows then switch
+                union_rows = self.union['uc_ids']
+                # todo handle the case of both rows and columns
+            max_height = len(union_rows)
+            if bins == max_height:
+                # this is the case of bar plot
+                for i in union_rows:
+                    dimensionStats(self.content, rowSelector)
+            elif bins < max_height:
+                #todo change this
+                dimensionStats(self.content, rowSelector)
+            partial = Diff()
+            #return partial.ratios() #todo change this
+            return self.ratios()
 
 
     def ratios(self):
