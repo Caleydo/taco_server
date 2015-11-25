@@ -26,15 +26,13 @@ def jsontest():
 @app.route('/diff_log/<id1>/<id2>/<bins>/<direction>/<ops>')
 def diff_log(id1, id2, bins, direction, ops):
     t1 = timeit.default_timer()
-    if bins == "1":
-        # one bin is for lineup (overview)
-        json_result = diff_cache.get_ratios(id1, id2, direction, ops)
-    elif bins == "0":
+    if bins == "0":
         # no bins which is the diff heatmap (detail)
         json_result = diff_cache.get_diff(id1, id2, direction, ops)
     else:
+        # the overview view and
         # the middle view based on the number of bins or lines i.e. rows/columns (middle)
-        json_result = diff_cache.get_aggregated(id1, id2, direction, ops, bins)
+        json_result = diff_cache.get_ratios(id1, id2, direction, ops, bins)
     # creating flask response
     response = flask.make_response(json_result)
     response.headers["content-type"] = 'application/json'

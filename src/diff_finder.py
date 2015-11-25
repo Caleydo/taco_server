@@ -216,7 +216,7 @@ class Diff:
         noc = (h * w) - len(self.content)
         return float(noc) / cells
 
-    def ratios(self):
+    def ratios(self, bins):
         # todo check that the union already exists!!
         urows = len(self.union['ur_ids'])
         ucols = len(self.union['uc_ids'])

@@ -32,7 +32,7 @@ def set_diff_cache(name, data):
 
 # this is now by default for the detail diff
 def get_diff(id1, id2, direction, ops, jsonit=True):
-    hash_name = create_hashname(id1, id2, Levels.detail, direction, ops)
+    hash_name = create_hashname(id1, id2, 0, direction, ops)
     json_result = get_diff_cache(hash_name)
     ## it's not in the cache
     if json_result is None:
@@ -53,44 +53,24 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
         return diff_from_json(json_result)
     return json_result
 
-def get_ratios(id1, id2, direction, ops, jsonit=True):
-    overview_hashname = create_hashname(id1, id2, Levels.overview, direction, ops)
-    json_ratios = get_diff_cache(overview_hashname)
+# get the ratios for the overview or the aggregated results for the middle view
+def get_ratios(id1, id2, direction, ops, bins, jsonit=True):
+    hashname = create_hashname(id1, id2, bins, direction, ops)
+    json_ratios = get_diff_cache(hashname)
     if json_ratios is None:
         #we calculate the new one
         # get the detail diff
         diffobj = get_diff(id1, id2, direction, ops, False)
         # calculate the ratios for the overview
-        ratios = diffobj.ratios()
+        ratios = diffobj.ratios(bins)
         json_ratios = ujson.dumps(ratios.seraialize())
         # cache this as overview
-        set_diff_cache(overview_hashname, json_ratios)
+        set_diff_cache(hashname, json_ratios)
         if not jsonit:
             return ratios
     if not jsonit:
         return ratio_from_json(json_ratios)
     return json_ratios
-
-# get the aggregated results for the middle view
-def get_aggregated(id1, id2, direction, ops, bins, jsonit=True):
-    mid_hashname = create_hashname(id1, id2, Levels.middle, direction, ops)
-    bin_list = get_diff_cache(mid_hashname)
-    if bin_list is None:
-        #we calculate the new one
-        # get the detail diff
-        diffobj = get_diff(id1, id2, direction, ops, False)
-        # calculate the ratios for the overview
-        ratios = diffobj.ratios()
-        bin_list = ujson.dumps(ratios.seraialize())
-        # cache this as overview
-        set_diff_cache(mid_hashname, bin_list)
-        if not jsonit:
-            return ratios
-    if not jsonit:
-        return ratio_from_json(bin_list)
-    return bin_list
-    return
-
 
 # calc the detailed diff
 def calc_diff(id1, id2, direction, ops):
@@ -108,8 +88,8 @@ def calc_diff(id1, id2, direction, ops):
         d.add_union(dfinder.union)
     return d
 
-def create_hashname(id1, id2, lod, direction, ops):
-    name = str(id1) + '_' + str(id2) + '_' + str(lod) + '_' + str(direction) + '_' + str(ops)
+def create_hashname(id1, id2, bins, direction, ops):
+    name = str(id1) + '_' + str(id2) + '_' + str(bins) + '_' + str(direction) + '_' + str(ops)
     return hashlib.md5(name).hexdigest()
 
 # todo as this just normal conversion
