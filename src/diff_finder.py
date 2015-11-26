@@ -251,7 +251,8 @@ class Diff:
         if bins == 1:
             # todo do we want to return it as an array of one element?
             # the ratios for line up
-            return self.ratios()
+            # todo change this and remove the serialize
+            return self.ratios().seraialize()
         else:
             # it's the case of histogram or bar plot
             # 1. Partition
@@ -292,16 +293,19 @@ class Diff:
                 pstructure["added_rows"] = filter(lambda obj: obj.id == id, self.structure["added_rows"])
                 if len(pstructure["added_" + e_type]) == 0:
                     # find the deleted
-                    pstructure["deleted_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["deleted_" + e_type])
+                    pstructure["deleted_" + e_type] = filter(lambda obj: obj.id == id, self.structure["deleted_" + e_type])
                     if len(pstructure["deleted_" + e_type]) == 0:
                         # find the content
                         # todo
                         #result = filter(lambda h: h["id"] == sel["row"], self.content)
-                        pcontent = filter(lambda obj: obj["row"] == id, self.content)
+                        pcontent = filter(lambda obj: obj.row == id, self.content)
 
-                        partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
-                        #return partial.ratios() #todo change this
-                        ratios_list += [partial.ratios()]
+                # 2. create the partial diff
+                partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
+                # 3. calcualte the ratio for this part :|
+                #todo remove the serialize
+                ratios_list += [partial.ratios().seraialize()]
+
             return ratios_list
 
 
