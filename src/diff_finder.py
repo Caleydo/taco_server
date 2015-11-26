@@ -252,7 +252,7 @@ class Diff:
             # todo do we want to return it as an array of one element?
             # the ratios for line up
             # todo change this and remove the serialize
-            return self.ratios().seraialize()
+            return self.ratios()
         else:
             # it's the case of histogram or bar plot
             # 1. Partition
@@ -280,7 +280,7 @@ class Diff:
 
             # get a partial diff where every row is a diff
             ratios_list = []
-            for id in union_rows:
+            for i, id in enumerate(union_rows):
                 # todo change this in case of columns
                 punion = {
                     "ur_ids" : [id], #should be a list or might cause troubles :|
@@ -300,11 +300,15 @@ class Diff:
                         #result = filter(lambda h: h["id"] == sel["row"], self.content)
                         pcontent = filter(lambda obj: obj.row == id, self.content)
 
+                # more resonable in the case of subtable
                 # 2. create the partial diff
                 partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
                 # 3. calcualte the ratio for this part :|
                 #todo remove the serialize
-                ratios_list += [partial.ratios().seraialize()]
+                partial_ratio = partial.ratios().serialize()
+                ratios_list += [{"ratio": partial.ratios().serialize(),
+                                 "id": id,
+                                 "pos": i}]
 
             return ratios_list
 
@@ -333,12 +337,12 @@ class Ratios:
         self.d_ratio = dr
         self.no_ratio = no
 
-    def seraialize(self):
+    def serialize(self):
         return {
-          "c_ratio" : self.c_ratio,
-          "a_ratio" : self.a_ratio,
-          "d_ratio" : self.d_ratio,
-          "no_ratio": self.no_ratio
+            "c_ratio" : self.c_ratio,
+            "a_ratio" : self.a_ratio,
+            "d_ratio" : self.d_ratio,
+            "no_ratio": self.no_ratio
         }
 
 #DiffFinder class
