@@ -253,24 +253,56 @@ class Diff:
             # the ratios for line up
             return self.ratios()
         else:
-            # it's the case of histogram of bar plot
+            # it's the case of histogram or bar plot
+            # 1. Partition
             # get the direction
             union_rows = self.union['ur_ids']
+            selector = rowSelector
+            e_type = "rows"
             if self._direction == D_COLS:
                 # if it's the cols not the rows then switch
                 union_rows = self.union['uc_ids']
                 # todo handle the case of both rows and columns
+                selector = colSelector
+                e_type = "cols"
             max_height = len(union_rows)
-            if bins == max_height:
+            #if bins >= max_height:
                 # this is the case of bar plot
-                for i in union_rows:
-                    dimensionStats(self.content, rowSelector)
-            elif bins < max_height:
+                # assume that the bins are the max_height
+                #for i in union_rows:
+                    #dimensionStats(self.content, selector)
+            #elif bins < max_height:
+                # this is the case of histogram
                 #todo change this
-                dimensionStats(self.content, rowSelector)
-            partial = Diff()
-            #return partial.ratios() #todo change this
-            return self.ratios()
+                #dimensionStats(self.content, selector)
+                # we ignore the max thing for now and just try it
+
+            # get a partial diff where every row is a diff
+            ratios_list = []
+            for id in union_rows:
+                # todo change this in case of columns
+                punion = {
+                    "ur_ids" : [id], #should be a list or might cause troubles :|
+                    "uc_ids" : self.union['uc_ids']
+                }
+                pcontent = None
+                pstructure = {}
+                # filter for the structure changes, because once there's a structure change, there's no need to find content
+                # idk why but obj is Diff!
+                pstructure["added_rows"] = filter(lambda obj: obj.id == id, self.structure["added_rows"])
+                if len(pstructure["added_" + e_type]) == 0:
+                    # find the deleted
+                    pstructure["deleted_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["deleted_" + e_type])
+                    if len(pstructure["deleted_" + e_type]) == 0:
+                        # find the content
+                        # todo
+                        #result = filter(lambda h: h["id"] == sel["row"], self.content)
+                        pcontent = filter(lambda obj: obj["row"] == id, self.content)
+
+                        partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
+                        #return partial.ratios() #todo change this
+                        ratios_list += [partial.ratios()]
+            return ratios_list
 
 
     def ratios(self):
