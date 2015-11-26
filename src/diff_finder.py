@@ -291,22 +291,26 @@ class Diff:
                 # filter for the structure changes, because once there's a structure change, there's no need to find content
                 # idk why but obj is Diff!
                 pstructure["added_rows"] = filter(lambda obj: obj.id == id, self.structure["added_rows"])
-                if len(pstructure["added_" + e_type]) == 0:
+                if len(pstructure["added_" + e_type]) != 0:
+                    # create a ratio where it's only added
+                    partial_ratio = Ratios(0,1,0,0)
+                else:
                     # find the deleted
                     pstructure["deleted_" + e_type] = filter(lambda obj: obj.id == id, self.structure["deleted_" + e_type])
-                    if len(pstructure["deleted_" + e_type]) == 0:
+                    if len(pstructure["deleted_" + e_type]) != 0:
+                        partial_ratio = Ratios(0,0,1,0)
+                    else:
                         # find the content
                         # todo
                         #result = filter(lambda h: h["id"] == sel["row"], self.content)
                         pcontent = filter(lambda obj: obj.row == id, self.content)
-
-                # more resonable in the case of subtable
-                # 2. create the partial diff
-                partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
-                # 3. calcualte the ratio for this part :|
-                #todo remove the serialize
-                partial_ratio = partial.ratios().serialize()
-                ratios_list += [{"ratio": partial.ratios().serialize(),
+                        # more resonable in the case of subtable
+                        # 2. create the partial diff
+                        partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
+                        # 3. calcualte the ratio for this part :|
+                        #todo remove the serialize
+                        partial_ratio = partial.ratios()
+                ratios_list += [{"ratio": partial_ratio.serialize(),
                                  "id": id,
                                  "pos": i}]
 
