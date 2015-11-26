@@ -4,6 +4,7 @@ __author__ = 'Reem'
 import numpy as np
 import timeit
 from enum import Enum
+from math import floor
 
 D_ROWS = 0
 D_COLS = 1
@@ -269,57 +270,58 @@ class Diff:
                 return self.per_entity_ratios()
             else: # bins < max_height:
                 # this is the case of histogram
-                return self.per_bin_ratios()
+                return self.per_bin_ratios(bins)
                 #todo change this
                 #dimensionStats(self.content, selector)
 
 
-    def per_bin_ratios(self):
+    def per_bin_ratios(self, bins):
         # get a partial diff where every row is a diff
         # 1. Partition
         # get the direction
         union_rows = self.union['ur_ids']
-        selector = rowSelector
         e_type = "rows"
         if self._direction == D_COLS:
             # if it's the cols not the rows then switch
             union_rows = self.union['uc_ids']
             # todo handle the case of both rows and columns
-            selector = colSelector
             e_type = "cols"
         ratios_list = []
-        for i, id in enumerate(union_rows):
+        length = len(union_rows)
+        mod = length % bins
+        items = length / bins # by default in python you get the floor
+        index = 0
+        addi = 0
+        for i in xrange(bins):
+            if i < mod:
+                addi = items + 1
+                temp = union_rows[index:index+addi]
+                index += addi
+            else:
+                temp = union_rows[index:index+items]
+                index += items
+            pcontent = filter(lambda obj: obj.row in temp, self.content) #id or row idk
             # todo change this in case of columns
+            if len(pcontent) == 0:
+                pcontent = None
             punion = {
-                "ur_ids" : [id], #should be a list or might cause troubles :|
+                "ur_ids" : temp,
                 "uc_ids" : self.union['uc_ids']
             }
-            pcontent = None
             pstructure = {}
             # filter for the structure changes, because once there's a structure change, there's no need to find content
             # idk why but obj is Diff!
-            pstructure["added_rows"] = filter(lambda obj: obj.id == id, self.structure["added_rows"])
-            if len(pstructure["added_" + e_type]) != 0:
-                # create a ratio where it's only added
-                partial_ratio = Ratios(0,1,0,0)
-            else:
-                # find the deleted
-                pstructure["deleted_" + e_type] = filter(lambda obj: obj.id == id, self.structure["deleted_" + e_type])
-                if len(pstructure["deleted_" + e_type]) != 0:
-                    partial_ratio = Ratios(0,0,1,0)
-                else:
-                    # find the content
-                    # todo
-                    #result = filter(lambda h: h["id"] == sel["row"], self.content)
-                    pcontent = filter(lambda obj: obj.row == id, self.content)
-                    # more resonable in the case of subtable
-                    # 2. create the partial diff
-                    partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
-                    # 3. calcualte the ratio for this part :|
-                    #todo remove the serialize
-                    partial_ratio = partial.ratios()
+            pstructure["added_" + e_type] = filter(lambda obj: obj.id in temp, self.structure["added_" + e_type])
+            # find the deleted
+            pstructure["deleted_" + e_type] = filter(lambda obj: obj.id in temp, self.structure["deleted_" + e_type])
+
+            # 2. create the partial diff
+            partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
+            # 3. calcualte the ratio for this part :|
+            #todo remove the serialize
+            partial_ratio = partial.ratios()
             ratios_list += [{"ratio": partial_ratio.serialize(),
-                             "id": id,
+                             "id": temp[0] + '-' + temp[-1], #first and last id
                              "pos": i}]
 
         return ratios_list
