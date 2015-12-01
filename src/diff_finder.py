@@ -146,12 +146,16 @@ def rowSelector(entry):
     return {
       "row": entry.row,
       "rpos": entry.rpos
+      # "ur_ids" : entry.union['ur_ids'],
+      # "uc_ids" : entry.union['uc_ids']
     }
 
 def colSelector(entry):
     return {
         "row": entry.col,
         "rpos": entry.cpos
+        # "ur_ids" : entry.union['ur_ids'],
+        # "uc_ids" : entry.union['uc_ids']
     }
 
 
@@ -270,22 +274,33 @@ class Diff:
                 return self.per_entity_ratios()
             else: # bins < max_height:
                 # this is the case of histogram
-                return self.per_bin_ratios(bins)
+                result = {}
+                if self._direction == D_ROWS_COLS or self._direction == D_ROWS:
+                    result["rows"] = self.per_bin_ratios(bins, "rows")
+                #todo the rows might have different bins number than the cols
+                if self._direction == D_ROWS_COLS or self._direction == D_COLS:
+                    result["cols"] = self.per_bin_ratios(bins, "cols")
+                return result
                 #todo change this
                 #dimensionStats(self.content, selector)
 
 
-    def per_bin_ratios(self, bins):
+    def per_bin_ratios(self, bins, e_type):
         # get a partial diff where every row is a diff
         # 1. Partition
         # get the direction
-        union_rows = self.union['ur_ids']
-        e_type = "rows"
-        if self._direction == D_COLS:
+        if e_type == "rows":
+            union_rows = self.union['ur_ids']
+            union_cols = self.union['uc_ids']
+            dir = D_ROWS
+        elif e_type == "cols":
             # if it's the cols not the rows then switch
             union_rows = self.union['uc_ids']
+            union_cols = self.union['ur_ids']
+            dir = D_COLS
+        else:
+            return [] #this should not happen!
             # todo handle the case of both rows and columns
-            e_type = "cols"
         ratios_list = []
         length = len(union_rows)
         mod = length % bins
@@ -300,13 +315,17 @@ class Diff:
             else:
                 temp = union_rows[index:index+items]
                 index += items
-            pcontent = filter(lambda obj: obj.row in temp, self.content) #id or row idk
+            # todo handle the error here when there's no row !
+            if dir == D_COLS:
+                pcontent = filter(lambda obj: obj.col in temp, self.content) #id or row idk
+            elif dir == D_ROWS:
+                pcontent = filter(lambda obj: obj.row in temp, self.content) #id or row idk
             # todo change this in case of columns
             if len(pcontent) == 0:
                 pcontent = None
             punion = {
                 "ur_ids" : temp,
-                "uc_ids" : self.union['uc_ids']
+                "uc_ids" : union_cols
             }
             pstructure = {}
             # filter for the structure changes, because once there's a structure change, there's no need to find content
@@ -316,7 +335,7 @@ class Diff:
             pstructure["deleted_" + e_type] = filter(lambda obj: obj.id in temp, self.structure["deleted_" + e_type])
 
             # 2. create the partial diff
-            partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
+            partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=dir)
             # 3. calcualte the ratio for this part :|
             #todo remove the serialize
             partial_ratio = partial.ratios()

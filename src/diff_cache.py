@@ -105,6 +105,7 @@ def diff_from_json(jsonobj):
     d = Diff()
     d.content = x.content
     d.structure = {}
+    # todo what if there's no deleted rows or colmns -> fix the bug
     d.structure["deleted_rows"] = x.structure.deleted_rows
     d.structure["added_rows"] = x.structure.added_rows
     d.structure["deleted_cols"] = x.structure.deleted_cols
