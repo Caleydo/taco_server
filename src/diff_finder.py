@@ -317,16 +317,23 @@ class Diff:
                 index += items
             # todo handle the error here when there's no row !
             if dir == D_COLS:
+                #  'dict' object has no attribute 'col'
                 pcontent = filter(lambda obj: obj.col in temp, self.content) #id or row idk
             elif dir == D_ROWS:
                 pcontent = filter(lambda obj: obj.row in temp, self.content) #id or row idk
             # todo change this in case of columns
             if len(pcontent) == 0:
                 pcontent = None
-            punion = {
-                "ur_ids" : temp,
-                "uc_ids" : union_cols
-            }
+            if dir == D_ROWS:
+                punion = {
+                    "ur_ids" : temp,
+                    "uc_ids" : union_cols,
+                }
+            else:
+                punion = {
+                    "ur_ids" : union_cols, # which are union rows
+                    "uc_ids" : temp,
+                }
             pstructure = {}
             # filter for the structure changes, because once there's a structure change, there's no need to find content
             # idk why but obj is Diff!
