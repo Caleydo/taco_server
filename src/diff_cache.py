@@ -105,12 +105,11 @@ def diff_from_json(jsonobj):
     d = Diff()
     d.content = x.content
     d.structure = {}
-    # todo what if there's no deleted rows or colmns -> fix the bug
-    d.structure["deleted_rows"] = x.structure.deleted_rows
-    d.structure["added_rows"] = x.structure.added_rows
-    d.structure["deleted_cols"] = x.structure.deleted_cols
-    d.structure["added_cols"] = x.structure.added_cols
-    d.merge = x.merge
+    # if there's no deleted rows or colmns
+    d.structure["deleted_rows"] = x.structure.deleted_rows if hasattr(x.structure, "deleted_rows") else []
+    d.structure["added_rows"] = x.structure.added_rows if hasattr(x.structure, "added_rows") else []
+    d.structure["deleted_cols"] = x.structure.deleted_cols if hasattr(x.structure, "deleted_cols") else []
+    d.structure["added_cols"] = x.structure.added_cols if hasattr(x.structure, "added_cols") else []
     d.reorder = x.reorder
     d.union = {}
     d.union['ur_ids'] = x.union.ur_ids
