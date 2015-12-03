@@ -198,9 +198,10 @@ class Diff:
         return float(len(self.content)) / ucells
 
     # rowAdd rowDel colAdd colDel
-    def struct_ratio(self, ucells, dir, st_op):
+    def struct_ratio(self, urows, ucols, dir, st_op):
         operation = st_op + "eted" if st_op == "del" else st_op + "ed"
-        return float(len(self.structure[operation + "_" + dir + "s"])) / ucells
+        rows = urows if dir == "row" else ucols
+        return float(len(self.structure[operation + "_" + dir + "s"])) / rows
 
     def struct_add_ratio(self, width, height):
         cells = width * height
@@ -237,12 +238,48 @@ class Diff:
         cells = width * height
         h = height
         w = width
-        noc = 0
         #the height without the removed or added rows
         if self.structure.has_key("deleted_rows"):
             h -= len(self.structure["deleted_rows"])
         if self.structure.has_key("added_rows"):
             h -= len(self.structure["added_rows"])
+        #the width without the deleted or removed cols
+        if self.structure.has_key("deleted_cols"):
+            w -= len(self.structure["deleted_cols"])
+        if self.structure.has_key("added_cols"):
+            w -= len(self.structure["added_cols"])
+        #the rest cells without the changed ones
+        noc = (h * w) - len(self.content)
+        return float(noc) / cells
+
+    def nochange_rows_ratio(self, width, height):
+        cells = width * height
+        h = height
+        w = width
+        #the width without the deleted or removed cols
+        if self.structure.has_key("deleted_cols"):
+            w -= len(self.structure["deleted_cols"])
+        if self.structure.has_key("added_cols"):
+            w -= len(self.structure["added_cols"])
+        cells = w * h
+        #the height without the removed or added rows
+        if self.structure.has_key("deleted_rows"):
+            h -= len(self.structure["deleted_rows"])
+        if self.structure.has_key("added_rows"):
+            h -= len(self.structure["added_rows"])
+        #the rest cells without the changed ones
+        noc = (h * w) - len(self.content)
+        return float(noc) / cells
+
+    def nochange_cols_ratio(self, width, height):
+        h = height
+        w = width
+        #the height without the removed or added rows
+        if self.structure.has_key("deleted_rows"):
+            h -= len(self.structure["deleted_rows"])
+        if self.structure.has_key("added_rows"):
+            h -= len(self.structure["added_rows"])
+        cells = w * h
         #the width without the deleted or removed cols
         if self.structure.has_key("deleted_cols"):
             w -= len(self.structure["deleted_cols"])
@@ -412,23 +449,34 @@ class Diff:
         ucols = len(self.union['uc_ids'])
         union_cells = urows * ucols
         # content and no changes are the same for both directions
-        cratio = self.content_ratio_percell(union_cells)
-        no_ratio = self.nochange_ratio(ucols, urows)
         if combined:
             # Lineup relevant
+            cratio = self.content_ratio_percell(union_cells)
+            no_ratio = self.nochange_ratio(ucols, urows)
             sratio_a = self.struct_add_ratio(ucols, urows)
             sratio_d = self.struct_del_ratio(ucols, urows)
             return Ratios(cratio, sratio_a, sratio_d, no_ratio)
         else:
         # Lineup not relevant
-            ra_ratio = self.struct_ratio(union_cells, "row", "add")
-            rd_ratio = self.struct_ratio(union_cells, "row", "del")
-            ca_ratio = self.struct_ratio(union_cells, "col", "add")
-            cd_ratio = self.struct_ratio(union_cells, "col", "del")
+            # rows
+            ra_ratio = self.struct_ratio(urows, ucols, "row", "add")
+            rd_ratio = self.struct_ratio(urows, ucols, "row", "del")
+            # calc new union cells as the are less now
+            # todo check if the attribute is there
+            r_union_cells = (ucols - len(self.structure["added_cols"]) - len(self.structure["deleted_cols"])) * urows
+            r_cratio = self.content_ratio_percell(r_union_cells)
+            r_no_ratio = self.nochange_rows_ratio(ucols, urows)
 
+            # columns
+            ca_ratio = self.struct_ratio(urows, ucols, "col", "add")
+            cd_ratio = self.struct_ratio(urows, ucols, "col", "del")
+            # todo check if the attribute is there
+            c_union_cells = (urows - len(self.structure["added_rows"]) - len(self.structure["deleted_rows"])) * ucols
+            c_cratio = self.content_ratio_percell(c_union_cells)
+            c_no_ratio = self.nochange_cols_ratio(ucols, urows)
             return {
-              "rows": Ratios(cratio, ra_ratio, rd_ratio, no_ratio),
-              "cols": Ratios(cratio, ca_ratio, cd_ratio, no_ratio)
+              "rows": Ratios(r_cratio, ra_ratio, rd_ratio, r_no_ratio),
+              "cols": Ratios(c_cratio, ca_ratio, cd_ratio, c_no_ratio)
             }
 
 
