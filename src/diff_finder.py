@@ -257,7 +257,10 @@ class Diff:
             # todo do we want to return it as an array of one element?
             # the ratios for line up
             # todo change this and remove the serialize
-            return self.ratios()
+            return self.ratios(True)
+        elif bins == -1:
+            # the ratios for the 2d histogram
+            return self.ratios(False)
         else:
             union_rows = self.union['ur_ids']
             if self._direction == D_COLS:
@@ -403,22 +406,31 @@ class Diff:
         return ratios_list
 
 
-    def ratios(self):
+    def ratios(self, combined=True):
         # todo check that the union already exists!!
         urows = len(self.union['ur_ids'])
         ucols = len(self.union['uc_ids'])
         union_cells = urows * ucols
-        # Lineup relevant
+        # content and no changes are the same for both directions
         cratio = self.content_ratio_percell(union_cells)
-        sratio_a = self.struct_add_ratio(ucols, urows)
-        sratio_d = self.struct_del_ratio(ucols, urows)
         no_ratio = self.nochange_ratio(ucols, urows)
+        if combined:
+            # Lineup relevant
+            sratio_a = self.struct_add_ratio(ucols, urows)
+            sratio_d = self.struct_del_ratio(ucols, urows)
+            return Ratios(cratio, sratio_a, sratio_d, no_ratio)
+        else:
         # Lineup not relevant
-        # ra_ratio = self.struct_ratio(union_cells, "row", "add")
-        # rd_ratio = self.struct_ratio(union_cells, "row", "del")
-        # ca_ratio = self.struct_ratio(union_cells, "col", "add")
-        # cd_ratio = self.struct_ratio(union_cells, "col", "del")
-        return Ratios(cratio, sratio_a, sratio_d, no_ratio)
+            ra_ratio = self.struct_ratio(union_cells, "row", "add")
+            rd_ratio = self.struct_ratio(union_cells, "row", "del")
+            ca_ratio = self.struct_ratio(union_cells, "col", "add")
+            cd_ratio = self.struct_ratio(union_cells, "col", "del")
+
+            return {
+              "rows": Ratios(cratio, ra_ratio, rd_ratio, no_ratio),
+              "cols": Ratios(cratio, ca_ratio, cd_ratio, no_ratio)
+            }
+
 
 class Ratios:
     def __init__(self,cr=0.0, ar=0.0, dr=0.0, no=100.0):
