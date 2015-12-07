@@ -20,6 +20,7 @@ def get_diff_cache(name):
     if os.path.isfile(file_name):
         with open(file_name) as data_file:
           data = json.load(data_file)
+          #todo why i don't use ujson here?
         return data
     #if the file doesn't exist
     return None
@@ -60,9 +61,15 @@ def get_ratios(id1, id2, direction, ops, bins=1, jsonit=True):
     if json_ratios is None:
         #we calculate the new one
         # get the detail diff
+        t4 = timeit.default_timer()
         diffobj = get_diff(id1, id2, direction, ops, False)
+        t5 = timeit.default_timer()
+        print("get diff in get ratios ", bins, t5-t4)
         # calculate the ratios for the overview
+        t1 = timeit.default_timer()
         ratios = diffobj.aggregate(bins)
+        t2 = timeit.default_timer()
+        print("time to aggregate with ", bins, t2-t1)
         #todo find a better solution for this serialize thing :|
         if bins == 1:
             json_ratios = ujson.dumps(ratios.serialize())
@@ -73,7 +80,11 @@ def get_ratios(id1, id2, direction, ops, bins=1, jsonit=True):
         if not jsonit:
             return ratios
     if not jsonit:
-        return ratio_from_json(json_ratios)
+        t0 = timeit.default_timer()
+        rj = ratio_from_json(json_ratios)
+        t3 = timeit.default_timer()
+        print("time ratio from json", bins, t3 - t0 )
+        return rj
     return json_ratios
 
 # calc the detailed diff
