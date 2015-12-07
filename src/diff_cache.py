@@ -34,7 +34,10 @@ def set_diff_cache(name, data):
 # this is now by default for the detail diff
 def get_diff(id1, id2, direction, ops, jsonit=True):
     hash_name = create_hashname(id1, id2, 0, direction, ops)
+    t1 = timeit.default_timer()
     json_result = get_diff_cache(hash_name)
+    t2 = timeit.default_timer()
+    print("get diff: cache ", t2 - t1)
     ## it's not in the cache
     if json_result is None:
         #get one for the detail
@@ -51,7 +54,11 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
             json_result = ujson.dumps(diffobj)  # which is {} for now!
             set_diff_cache(hash_name, json_result)
     if not jsonit:
-        return diff_from_json(json_result)
+        t3 = timeit.default_timer()
+        dj = diff_from_json(json_result)
+        t4 = timeit.default_timer()
+        print("get diff: diff from json ", t4 - t3)
+        return dj
     return json_result
 
 # get the ratios for the overview or the aggregated results for the middle view
