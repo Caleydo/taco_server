@@ -357,10 +357,9 @@ class Diff:
                 index += items
             # todo handle the error here when there's no row !
             if dir == D_COLS:
-                #  'dict' object has no attribute 'col'
-                pcontent = filter(lambda obj: obj.col in temp, self.content) #id or row idk
+                pcontent = filter(lambda obj: obj['col'] in temp, self.content) #id or row idk
             elif dir == D_ROWS:
-                pcontent = filter(lambda obj: obj.row in temp, self.content) #id or row idk
+                pcontent = filter(lambda obj: obj['row'] in temp, self.content) #id or row idk
             # todo change this in case of columns
             if len(pcontent) == 0:
                 pcontent = None
@@ -377,9 +376,9 @@ class Diff:
             pstructure = {}
             # filter for the structure changes, because once there's a structure change, there's no need to find content
             # idk why but obj is Diff!
-            pstructure["added_" + e_type] = filter(lambda obj: obj.id in temp, self.structure["added_" + e_type])
+            pstructure["added_" + e_type] = filter(lambda obj: obj["id"] in temp, self.structure["added_" + e_type])
             # find the deleted
-            pstructure["deleted_" + e_type] = filter(lambda obj: obj.id in temp, self.structure["deleted_" + e_type])
+            pstructure["deleted_" + e_type] = filter(lambda obj: obj["id"] in temp, self.structure["deleted_" + e_type])
 
             # 2. create the partial diff
             partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=dir)
