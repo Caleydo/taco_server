@@ -327,7 +327,6 @@ class Diff:
 
     def per_bin_ratios(self, bins, e_type):
         # get a partial diff where every row is a diff
-        # 1. Partition
         # get the direction
         if e_type == "rows":
             union_rows = self.union['ur_ids']
@@ -350,54 +349,62 @@ class Diff:
         last_bin = bins - 1
         index = 0
         bins_list = [0] * bins
-        temps = [None] * bins
-        for i in xrange(bins):
-            if i != last_bin:
-                temps[i] = union_rows[index:index+items]
-                index += items
-            else:
-                temps[i] = union_rows[index:index+items+mod]
 
         # todo handle the error here when there's no row !
         pcontent = [[] for x in xrange(bins)]
         for c in self.content:
             ci = union_rows.index(c[row])
-            c_index = ci / bins
+            c_index = ci / items
             if c_index > last_bin:
                 c_index = last_bin
             bins_list[c_index] += 1 #we don't add the value changes for now
             pcontent[c_index] += [c]
 
         # for structure changes
-        pstructure = {}
-        # filter for the structure changes, because once there's a structure change, there's no need to find content
-        # idk why but obj is Diff!
-        pstructure["added_" + e_type] = filter(lambda obj: obj["id"] in temp, self.structure["added_" + e_type])
+        pstructure = [{"added_" + e_type: [], "deleted_" + e_type: []} for x in xrange(bins)]
+        # filter for the structure changes, because once there's a structure change, there's no need to find content #what!!
+        for a in self.structure["added_" + e_type]:
+            ai = union_rows.index(a['id'])
+            a_index = ai / items
+            if a_index > last_bin:
+                a_index = last_bin
+            pstructure[a_index]["added_" + e_type] += [a]
         # find the deleted
-        pstructure["deleted_" + e_type] = filter(lambda obj: obj["id"] in temp, self.structure["deleted_" + e_type])
+        for d in self.structure["deleted_" + e_type]:
+            di = union_rows.index(d['id'])
+            d_index = di / items
+            if d_index > last_bin:
+                d_index = last_bin
+            pstructure[d_index]["deleted_" + e_type] += [d]
 
-        # todo change this in case of columns
-        if len(pcontent) == 0:
-            pcontent = None
-        if dir == D_ROWS:
-            punion = {
-                "ur_ids" : temp,
-                "uc_ids" : union_cols,
-            }
-        else:
-            punion = {
-                "ur_ids" : union_cols, # which are union rows
-                "uc_ids" : temp,
-            }
+        for i in xrange(bins):
+            # 1. Partition
+            if i != last_bin:
+                temp = union_rows[index:index+items]
+                index += items
+            else:
+                temp = union_rows[index:index+items+mod]
+            if dir == D_ROWS:
+                punion = {
+                    "ur_ids" : temp,
+                    "uc_ids" : union_cols,
+                }
+            else:
+                punion = {
+                    "ur_ids" : union_cols, # which are union rows
+                    "uc_ids" : temp,
+                }
 
-        # 2. create the partial diff
-        partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=dir)
-        # 3. calcualte the ratio for this part :|
-        #todo remove the serialize
-        partial_ratio = partial.ratios()
-        ratios_list += [{"ratio": partial_ratio.serialize(),
-                         "id": temp[0] + '-' + temp[-1], #first and last id
-                         "pos": i}]
+            # 2. create the partial diff
+            if len(pcontent[i]) == 0:
+                pcontent[i] = None
+            partial = Diff(content=pcontent[i], structure=pstructure[i], merge=None, reorder=None, union=punion, direction=dir)
+            # 3. calcualte the ratio for this part :|
+            #todo remove the serialize
+            partial_ratio = partial.ratios()
+            ratios_list += [{"ratio": partial_ratio.serialize(),
+                             "id": temp[0] + '-' + temp[-1], #first and last id
+                             "pos": i}]
 
         return ratios_list
 
