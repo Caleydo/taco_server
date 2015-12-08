@@ -55,7 +55,8 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
             set_diff_cache(hash_name, json_result)
     if not jsonit:
         t3 = timeit.default_timer()
-        dj = diff_from_json(json_result)
+        #dj = diff_from_json(json_result)
+        dj = calc_diff(id1, id2, direction, ops)
         t4 = timeit.default_timer()
         print("get diff: diff from json ", t4 - t3)
         return dj

@@ -333,11 +333,13 @@ class Diff:
             union_rows = self.union['ur_ids']
             union_cols = self.union['uc_ids']
             dir = D_ROWS
+            row = 'row'
         elif e_type == "cols":
             # if it's the cols not the rows then switch
             union_rows = self.union['uc_ids']
             union_cols = self.union['ur_ids']
             dir = D_COLS
+            row = 'col'
         else:
             return [] #this should not happen!
             # todo handle the case of both rows and columns
@@ -345,49 +347,57 @@ class Diff:
         length = len(union_rows)
         mod = length % bins
         items = length / bins # by default in python you get the floor
+        last_bin = bins - 1
         index = 0
-        addi = 0
+        bins_list = [0] * bins
+        temps = [None] * bins
         for i in xrange(bins):
-            if i < mod:
-                addi = items + 1
-                temp = union_rows[index:index+addi]
-                index += addi
-            else:
-                temp = union_rows[index:index+items]
+            if i != last_bin:
+                temps[i] = union_rows[index:index+items]
                 index += items
-            # todo handle the error here when there's no row !
-            if dir == D_COLS:
-                pcontent = filter(lambda obj: obj['col'] in temp, self.content) #id or row idk
-            elif dir == D_ROWS:
-                pcontent = filter(lambda obj: obj['row'] in temp, self.content) #id or row idk
-            # todo change this in case of columns
-            if len(pcontent) == 0:
-                pcontent = None
-            if dir == D_ROWS:
-                punion = {
-                    "ur_ids" : temp,
-                    "uc_ids" : union_cols,
-                }
             else:
-                punion = {
-                    "ur_ids" : union_cols, # which are union rows
-                    "uc_ids" : temp,
-                }
-            pstructure = {}
-            # filter for the structure changes, because once there's a structure change, there's no need to find content
-            # idk why but obj is Diff!
-            pstructure["added_" + e_type] = filter(lambda obj: obj["id"] in temp, self.structure["added_" + e_type])
-            # find the deleted
-            pstructure["deleted_" + e_type] = filter(lambda obj: obj["id"] in temp, self.structure["deleted_" + e_type])
+                temps[i] = union_rows[index:index+items+mod]
 
-            # 2. create the partial diff
-            partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=dir)
-            # 3. calcualte the ratio for this part :|
-            #todo remove the serialize
-            partial_ratio = partial.ratios()
-            ratios_list += [{"ratio": partial_ratio.serialize(),
-                             "id": temp[0] + '-' + temp[-1], #first and last id
-                             "pos": i}]
+        # todo handle the error here when there's no row !
+        pcontent = [[] for x in xrange(bins)]
+        for c in self.content:
+            ci = union_rows.index(c[row])
+            c_index = ci / bins
+            if c_index > last_bin:
+                c_index = last_bin
+            bins_list[c_index] += 1 #we don't add the value changes for now
+            pcontent[c_index] += [c]
+
+        # for structure changes
+        pstructure = {}
+        # filter for the structure changes, because once there's a structure change, there's no need to find content
+        # idk why but obj is Diff!
+        pstructure["added_" + e_type] = filter(lambda obj: obj["id"] in temp, self.structure["added_" + e_type])
+        # find the deleted
+        pstructure["deleted_" + e_type] = filter(lambda obj: obj["id"] in temp, self.structure["deleted_" + e_type])
+
+        # todo change this in case of columns
+        if len(pcontent) == 0:
+            pcontent = None
+        if dir == D_ROWS:
+            punion = {
+                "ur_ids" : temp,
+                "uc_ids" : union_cols,
+            }
+        else:
+            punion = {
+                "ur_ids" : union_cols, # which are union rows
+                "uc_ids" : temp,
+            }
+
+        # 2. create the partial diff
+        partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=dir)
+        # 3. calcualte the ratio for this part :|
+        #todo remove the serialize
+        partial_ratio = partial.ratios()
+        ratios_list += [{"ratio": partial_ratio.serialize(),
+                         "id": temp[0] + '-' + temp[-1], #first and last id
+                         "pos": i}]
 
         return ratios_list
 

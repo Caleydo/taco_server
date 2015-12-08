@@ -29,7 +29,7 @@ def diff_log(id1, id2, bins, direction, ops):
     b = int(bins)
     if b == 0:
         # no bins which is the diff heatmap (detail)
-        json_result = diff_cache.get_diff(id1, id2, direction, ops)
+        json_result = diff_cache.get_diff(id1, id2, direction, ops, True)
     else:
         # the overview view and
         # the middle view based on the number of bins or lines i.e. rows/columns (middle)
