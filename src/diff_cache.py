@@ -12,6 +12,7 @@ import ujson
 import os
 import hashlib
 from collections import namedtuple
+import pickle
 
 data_directory = 'plugins/taco_server/cache/'
 
@@ -31,36 +32,65 @@ def set_diff_cache(name, data):
     with open(file_name, 'w') as outfile:
         json.dump(data, outfile)
 
+def get_diff_pickle(name):
+    file_name = data_directory + name + '.pkl'
+    if os.path.isfile(file_name):
+        pkl_file = open(file_name, 'rb')
+        data = pickle.load(pkl_file)
+        pkl_file.close()
+        return data
+    #if the file doesn't exist
+    return None
+
+def set_diff_pickle(name, data):
+    file_name = data_directory + name + '.pkl'
+    output = open(file_name, 'wb')
+    # Pickle using protocol 0.
+    #pickle.dump(data, output)
+    # Pickle using the highest protocol available.
+    pickle.dump(data, output, -1)
+    output.close()
+
 # this is now by default for the detail diff
 def get_diff(id1, id2, direction, ops, jsonit=True):
     hash_name = create_hashname(id1, id2, 0, direction, ops)
-    t1 = timeit.default_timer()
-    json_result = get_diff_cache(hash_name)
-    t2 = timeit.default_timer()
-    print("get diff: cache ", t2 - t1)
-    ## it's not in the cache
-    if json_result is None:
-        #get one for the detail
-        diffobj = calc_diff(id1, id2, direction, ops)
-        if isinstance(diffobj, Diff):
-            #log the detail
-            json_result = ujson.dumps(diffobj.serialize())
-            set_diff_cache(hash_name, json_result)
-            if not jsonit:
-                return diffobj
-        else:
-            # todo later find a way to send the error
-            # e.g. there's no matching column in this case
-            json_result = ujson.dumps(diffobj)  # which is {} for now!
-            set_diff_cache(hash_name, json_result)
-    if not jsonit:
-        t3 = timeit.default_timer()
-        #dj = diff_from_json(json_result)
-        dj = calc_diff(id1, id2, direction, ops)
-        t4 = timeit.default_timer()
-        print("get diff: diff from json ", t4 - t3)
-        return dj
-    return json_result
+    if jsonit:
+        t1 = timeit.default_timer()
+        json_result = get_diff_cache(hash_name)
+        t2 = timeit.default_timer()
+        print("get diff: cache (json)", t2 - t1)
+        ## it's not in the cache
+        if json_result is None:
+            #get one for the detail
+            diffobj = calc_diff(id1, id2, direction, ops)
+            if isinstance(diffobj, Diff):
+                #log the detail
+                json_result = ujson.dumps(diffobj.serialize())
+                set_diff_cache(hash_name, json_result)
+            else:
+                # todo later find a way to send the error
+                # e.g. there's no matching column in this case
+                json_result = ujson.dumps(diffobj)  # which is {} for now!
+                set_diff_cache(hash_name, json_result)
+        return json_result
+    else:
+        # not jsonit
+        # see the cache
+        t11 = timeit.default_timer()
+        pkl_result = get_diff_pickle(hash_name)
+        t22 = timeit.default_timer()
+        print("get diff: cache (pkl)", t22 - t11)
+        if pkl_result is None:
+            #get one for the detail
+            t3 = timeit.default_timer()
+            diffobj = calc_diff(id1, id2, direction, ops)
+            t4 = timeit.default_timer()
+            print("get diff: diff from json ", t4 - t3)
+            set_diff_pickle(hash_name, diffobj)
+            t5 = timeit.default_timer()
+            print("pickling ", t5 - t4)
+            return diffobj
+        return pkl_result
 
 # get the ratios for the overview or the aggregated results for the middle view
 def get_ratios(id1, id2, direction, ops, bins=1, jsonit=True):
@@ -115,25 +145,6 @@ def create_hashname(id1, id2, bins, direction, ops):
     name = str(id1) + '_' + str(id2) + '_' + str(bins) + '_' + str(direction) + '_' + str(ops)
     return hashlib.md5(name).hexdigest()
 
-# todo as this just normal conversion
-# we have to assign every attribute or so?
-def diff_from_json(jsonobj):
-    # http://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object#answer-15882054
-    # Parse JSON into an object with attributes corresponding to dict keys.
-    x = json.loads(jsonobj, object_hook=lambda d: namedtuple('Diff', d.keys())(*d.values()))
-    d = Diff()
-    d.content = x.content
-    d.structure = {}
-    # if there's no deleted rows or colmns
-    d.structure["deleted_rows"] = x.structure.deleted_rows if hasattr(x.structure, "deleted_rows") else []
-    d.structure["added_rows"] = x.structure.added_rows if hasattr(x.structure, "added_rows") else []
-    d.structure["deleted_cols"] = x.structure.deleted_cols if hasattr(x.structure, "deleted_cols") else []
-    d.structure["added_cols"] = x.structure.added_cols if hasattr(x.structure, "added_cols") else []
-    d.reorder = x.reorder
-    d.union = {}
-    d.union['ur_ids'] = x.union.ur_ids
-    d.union['uc_ids'] = x.union.uc_ids
-    return d #todo
 
 def ratio_from_json(jsonobj):
     #idk
