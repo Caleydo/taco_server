@@ -12,7 +12,7 @@ import ujson
 import os
 import hashlib
 from collections import namedtuple
-import pickle
+import cPickle
 
 data_directory = 'plugins/taco_server/cache/'
 
@@ -36,7 +36,7 @@ def get_diff_pickle(name):
     file_name = data_directory + name + '.pkl'
     if os.path.isfile(file_name):
         pkl_file = open(file_name, 'rb')
-        data = pickle.load(pkl_file)
+        data = cPickle.load(pkl_file)
         pkl_file.close()
         return data
     #if the file doesn't exist
@@ -48,7 +48,7 @@ def set_diff_pickle(name, data):
     # Pickle using protocol 0.
     #pickle.dump(data, output)
     # Pickle using the highest protocol available.
-    pickle.dump(data, output, -1)
+    cPickle.dump(data, output, -1)
     output.close()
 
 # this is now by default for the detail diff
