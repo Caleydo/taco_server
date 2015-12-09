@@ -12,7 +12,7 @@ import ujson
 import os
 import hashlib
 from collections import namedtuple
-import cPickle
+import shelve
 
 data_directory = 'plugins/taco_server/cache/'
 
@@ -34,22 +34,19 @@ def set_diff_cache(name, data):
 
 def get_diff_pickle(name):
     file_name = data_directory + name + '.pkl'
+    data = None
     if os.path.isfile(file_name):
-        pkl_file = open(file_name, 'rb')
-        data = cPickle.load(pkl_file)
-        pkl_file.close()
-        return data
-    #if the file doesn't exist
-    return None
+        shelf = shelve.open(file_name, 'r')
+        if shelf.has_key('d'):
+            data = shelf['d']
+        shelf.close()
+    return data
 
 def set_diff_pickle(name, data):
     file_name = data_directory + name + '.pkl'
-    output = open(file_name, 'wb')
-    # Pickle using protocol 0.
-    #pickle.dump(data, output)
-    # Pickle using the highest protocol available.
-    cPickle.dump(data, output, -1)
-    output.close()
+    shelf = shelve.open(file_name, 'c')
+    shelf['d'] = data
+    shelf.close()
 
 # this is now by default for the detail diff
 def get_diff(id1, id2, direction, ops, jsonit=True):
@@ -78,6 +75,7 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
         # see the cache
         t11 = timeit.default_timer()
         pkl_result = get_diff_pickle(hash_name)
+        #pkl_result = None
         t22 = timeit.default_timer()
         print("get diff: cache (pkl)", t22 - t11)
         if pkl_result is None:
@@ -85,7 +83,7 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
             t3 = timeit.default_timer()
             diffobj = calc_diff(id1, id2, direction, ops)
             t4 = timeit.default_timer()
-            print("get diff: diff from json ", t4 - t3)
+            print("get diff: calc diff ", t4 - t3)
             set_diff_pickle(hash_name, diffobj)
             t5 = timeit.default_timer()
             print("pickling ", t5 - t4)
