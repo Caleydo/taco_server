@@ -32,21 +32,6 @@ def set_diff_cache(name, data):
     with open(file_name, 'w') as outfile:
         json.dump(data, outfile)
 
-def get_diff_pickle(name):
-    file_name = data_directory + name + '.pkl'
-    data = None
-    if os.path.isfile(file_name):
-        shelf = shelve.open(file_name, 'r')
-        if shelf.has_key('d'):
-            data = shelf['d']
-        shelf.close()
-    return data
-
-def set_diff_pickle(name, data):
-    file_name = data_directory + name + '.pkl'
-    shelf = shelve.open(file_name, 'c')
-    shelf['d'] = data
-    shelf.close()
 
 # this is now by default for the detail diff
 def get_diff(id1, id2, direction, ops, jsonit=True):
@@ -72,23 +57,13 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
         return json_result
     else:
         # not jsonit
-        # see the cache
-        t11 = timeit.default_timer()
-        pkl_result = get_diff_pickle(hash_name)
-        #pkl_result = None
-        t22 = timeit.default_timer()
-        print("get diff: cache (pkl)", t22 - t11)
-        if pkl_result is None:
-            #get one for the detail
-            t3 = timeit.default_timer()
-            diffobj = calc_diff(id1, id2, direction, ops)
-            t4 = timeit.default_timer()
-            print("get diff: calc diff ", t4 - t3)
-            set_diff_pickle(hash_name, diffobj)
-            t5 = timeit.default_timer()
-            print("pickling ", t5 - t4)
-            return diffobj
-        return pkl_result
+        # calc diff for the detail
+        t3 = timeit.default_timer()
+        diffobj = calc_diff(id1, id2, direction, ops)
+        t4 = timeit.default_timer()
+        print("get diff: calc diff ", t4 - t3)
+        return diffobj
+
 
 # get the ratios for the overview or the aggregated results for the middle view
 def get_ratios(id1, id2, direction, ops, bins=1, jsonit=True):
