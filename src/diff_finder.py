@@ -409,30 +409,35 @@ class Diff:
         return ratios_list
 
     def per_entity_ratios(self):
+        #todo once for rows and once for columns
         # get a partial diff where every row is a diff
         # 1. Partition
         # get the direction
         union_rows = self.union['ur_ids']
+        union_cols = self.union['uc_ids']
         selector = rowSelector
         e_type = "rows"
+        row_id = "row"
         if self._direction == D_COLS:
             # if it's the cols not the rows then switch
             union_rows = self.union['uc_ids']
+            union_cols = self.union['ur_ids']
             # todo handle the case of both rows and columns
             selector = colSelector
             e_type = "cols"
+            row_id = "col"
         ratios_list = []
         for i, id in enumerate(union_rows):
             # todo change this in case of columns
             punion = {
                 "ur_ids" : [id], #should be a list or might cause troubles :|
-                "uc_ids" : self.union['uc_ids']
+                "uc_ids" : union_cols
             }
             pcontent = None
             pstructure = {}
             # filter for the structure changes, because once there's a structure change, there's no need to find content
             # idk why but obj is Diff!
-            pstructure["added_rows"] = filter(lambda obj: obj.id == id, self.structure["added_rows"])
+            pstructure["added_" + e_type] = filter(lambda obj: obj.id == id, self.structure["added_" + e_type])
             if len(pstructure["added_" + e_type]) != 0:
                 # create a ratio where it's only added
                 partial_ratio = Ratios(0,1,0,0)
@@ -443,9 +448,11 @@ class Diff:
                     partial_ratio = Ratios(0,0,1,0)
                 else:
                     # find the content
-                    # todo
                     #result = filter(lambda h: h["id"] == sel["row"], self.content)
-                    pcontent = filter(lambda obj: obj.row == id, self.content)
+                    #AttributeError: 'dict' object has no attribute 'row'
+                    pcontent = filter(lambda obj: obj[row_id] == id, self.content)
+                    if len(pcontent) == 0:
+                        pcontent = None
                     # more resonable in the case of subtable
                     # 2. create the partial diff
                     partial = Diff(content=pcontent, structure=pstructure, merge=None, reorder=None, union=punion, direction=D_ROWS)
