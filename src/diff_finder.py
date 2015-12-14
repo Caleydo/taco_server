@@ -299,34 +299,34 @@ class Diff:
             # the ratios for the 2d histogram
             return self.ratios(False)
         else:
-            union_rows = self.union['ur_ids']
-            if self._direction == D_COLS:
-                # if it's the cols not the rows then switch
-                union_rows = self.union['uc_ids']
-                # todo handle the case of both rows and columns
-            max_height = len(union_rows)
             # it's the case of histogram or bar plot
-            if bins >= max_height:
-                # this is the case of bar plot
-                # assume that the bins are the max_height
-                #for i in union_rows:
-                    #dimensionStats(self.content, selector)
-                result = {}
-                if self._direction == D_ROWS_COLS or self._direction == D_ROWS:
+            result = {}
+            if self._direction == D_ROWS_COLS or self._direction == D_ROWS:
+                union_rows = self.union['ur_ids']
+                max_height = len(union_rows)
+                if bins >= max_height:
+                    # this is the case of bar plot
+                    # assume that the bins are the max_height
                     result["rows"] = self.per_entity_ratios(D_ROWS)
-                #todo the rows might have different bins number than the cols
-                if self._direction == D_ROWS_COLS or self._direction == D_COLS:
-                    result["cols"] = self.per_entity_ratios(D_COLS)
-                return result
-            else: # bins < max_height:
-                # this is the case of histogram
-                result = {}
-                if self._direction == D_ROWS_COLS or self._direction == D_ROWS:
+                else:
+                    # bins < max_height:
+                    # this is the case of histogram
                     result["rows"] = self.per_bin_ratios(bins, "rows")
-                #todo the rows might have different bins number than the cols
-                if self._direction == D_ROWS_COLS or self._direction == D_COLS:
+
+            #todo the rows might have different bins number than the cols
+            if self._direction == D_ROWS_COLS or self._direction == D_COLS:
+                # if it's the cols not the rows then switch
+                union_cols = self.union['uc_ids']
+                max_width = len(union_cols)
+                if bins >= max_width:
+                    # todo handle the > alone or?
+                    # this is the case of bar plot
+                    # assume that the bins are the max_height
+                    result["cols"] = self.per_entity_ratios(D_COLS)
+                else: # bins < max_width:
+                    # this is the case of histogram
                     result["cols"] = self.per_bin_ratios(bins, "cols")
-                return result
+            return result
                 #todo change this
                 #dimensionStats(self.content, selector)
 
@@ -443,19 +443,17 @@ class Diff:
             pstructure = {}
             # filter for the structure changes, because once there's a structure change, there's no need to find content
             # idk why but obj is Diff!
-            pstructure["added_" + e_type] = filter(lambda obj: obj.id == id, self.structure["added_" + e_type])
+            pstructure["added_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["added_" + e_type])
             if len(pstructure["added_" + e_type]) != 0:
                 # create a ratio where it's only added
                 partial_ratio = Ratios(0,1,0,0)
             else:
                 # find the deleted
-                pstructure["deleted_" + e_type] = filter(lambda obj: obj.id == id, self.structure["deleted_" + e_type])
+                pstructure["deleted_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["deleted_" + e_type])
                 if len(pstructure["deleted_" + e_type]) != 0:
                     partial_ratio = Ratios(0,0,1,0)
                 else:
                     # find the content
-                    #result = filter(lambda h: h["id"] == sel["row"], self.content)
-                    #AttributeError: 'dict' object has no attribute 'row'
                     pcontent = filter(lambda obj: obj[row_id] == id, self.content)
                     if len(pcontent) == 0:
                         pcontent = None
