@@ -311,7 +311,13 @@ class Diff:
                 # assume that the bins are the max_height
                 #for i in union_rows:
                     #dimensionStats(self.content, selector)
-                return self.per_entity_ratios()
+                result = {}
+                if self._direction == D_ROWS_COLS or self._direction == D_ROWS:
+                    result["rows"] = self.per_entity_ratios(D_ROWS)
+                #todo the rows might have different bins number than the cols
+                if self._direction == D_ROWS_COLS or self._direction == D_COLS:
+                    result["cols"] = self.per_entity_ratios(D_COLS)
+                return result
             else: # bins < max_height:
                 # this is the case of histogram
                 result = {}
@@ -408,7 +414,7 @@ class Diff:
 
         return ratios_list
 
-    def per_entity_ratios(self):
+    def per_entity_ratios(self, dir):
         #todo once for rows and once for columns
         # get a partial diff where every row is a diff
         # 1. Partition
@@ -418,7 +424,7 @@ class Diff:
         selector = rowSelector
         e_type = "rows"
         row_id = "row"
-        if self._direction == D_COLS:
+        if dir == D_COLS:
             # if it's the cols not the rows then switch
             union_rows = self.union['uc_ids']
             union_cols = self.union['ur_ids']
