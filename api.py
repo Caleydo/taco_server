@@ -23,8 +23,8 @@ def jsontest():
 # @param direction: 0 rows, 1 cols, 2 both rows and cols
 # @param: bins is the number of bins
 # see https://github.com/Reemh/taco_server/wiki/Diff-Aggregation
-@app.route('/diff_log/<id1>/<id2>/<bins>/<direction>/<ops>')
-def diff_log(id1, id2, bins, direction, ops):
+@app.route('/diff_log/<id1>/<id2>/<bins>/<bins_col>/<direction>/<ops>')
+def diff_log(id1, id2, bins, bins_col, direction, ops):
     t1 = timeit.default_timer()
     b = int(bins)
     if b == 0:
@@ -33,7 +33,8 @@ def diff_log(id1, id2, bins, direction, ops):
     else:
         # the overview view and
         # the middle view based on the number of bins or lines i.e. rows/columns (middle)
-        json_result = diff_cache.get_ratios(id1, id2, direction, ops, b)
+        b_c = int(bins_col)
+        json_result = diff_cache.get_ratios(id1, id2, direction, ops, b, b_c)
     # creating flask response
     response = flask.make_response(json_result)
     response.headers["content-type"] = 'application/json'

@@ -255,7 +255,7 @@ class Diff:
         noc = (h * w) - len(self.content)
         return float(noc) / cells
 
-    def aggregate(self, bins):
+    def aggregate(self, bins, bins_col=2):
         if bins == 1:
             # todo do we want to return it as an array of one element?
             # the ratios for line up
@@ -284,14 +284,14 @@ class Diff:
                 # if it's the cols not the rows then switch
                 union_cols = self.union['uc_ids']
                 max_width = len(union_cols)
-                if bins >= max_width:
+                if bins_col >= max_width:
                     # todo handle the > alone or?
                     # this is the case of bar plot
                     # assume that the bins are the max_height
                     result["cols"] = self.per_entity_ratios(D_COLS)
                 else: # bins < max_width:
                     # this is the case of histogram
-                    result["cols"] = self.per_bin_ratios(bins, "cols")
+                    result["cols"] = self.per_bin_ratios(bins_col, "cols")
             return result
 
 

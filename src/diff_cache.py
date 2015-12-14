@@ -35,7 +35,7 @@ def set_diff_cache(name, data):
 
 # this is now by default for the detail diff
 def get_diff(id1, id2, direction, ops, jsonit=True):
-    hash_name = create_hashname(id1, id2, 0, direction, ops)
+    hash_name = create_hashname(id1, id2, 0, 0, direction, ops)
     if jsonit:
         t1 = timeit.default_timer()
         json_result = get_diff_cache(hash_name)
@@ -66,8 +66,8 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
 
 
 # get the ratios for the overview or the aggregated results for the middle view
-def get_ratios(id1, id2, direction, ops, bins=1, jsonit=True):
-    hashname = create_hashname(id1, id2, bins, direction, ops)
+def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
+    hashname = create_hashname(id1, id2, bins, bins_col, direction, ops)
     json_ratios = get_diff_cache(hashname)
     if json_ratios is None:
         #we calculate the new one
@@ -75,12 +75,12 @@ def get_ratios(id1, id2, direction, ops, bins=1, jsonit=True):
         t4 = timeit.default_timer()
         diffobj = get_diff(id1, id2, direction, ops, False)
         t5 = timeit.default_timer()
-        print("get diff in get ratios ", bins, t5-t4)
+        print("get diff in get ratios ", t5-t4)
         # calculate the ratios for the overview
         t1 = timeit.default_timer()
-        ratios = diffobj.aggregate(bins)
+        ratios = diffobj.aggregate(bins, bins_col)
         t2 = timeit.default_timer()
-        print("time to aggregate with ", bins, t2-t1)
+        print("time to aggregate with ", bins, bins_col, t2-t1)
         #todo find a better solution for this serialize thing :|
         if bins == 1:
             json_ratios = ujson.dumps(ratios.serialize())
@@ -94,7 +94,7 @@ def get_ratios(id1, id2, direction, ops, bins=1, jsonit=True):
         t0 = timeit.default_timer()
         rj = ratio_from_json(json_ratios)
         t3 = timeit.default_timer()
-        print("time ratio from json", bins, t3 - t0 )
+        print("time ratio from json", bins, bins_col, t3 - t0 )
         return rj
     return json_ratios
 
@@ -114,8 +114,8 @@ def calc_diff(id1, id2, direction, ops):
         d.add_union(dfinder.union)
     return d
 
-def create_hashname(id1, id2, bins, direction, ops):
-    name = str(id1) + '_' + str(id2) + '_' + str(bins) + '_' + str(direction) + '_' + str(ops)
+def create_hashname(id1, id2, bins, bins_col, direction, ops):
+    name = str(id1) + '_' + str(id2) + '_' + str(bins) + '_' + str(bins_col) + '_' + str(direction) + '_' + str(ops)
     return hashlib.md5(name).hexdigest()
 
 
