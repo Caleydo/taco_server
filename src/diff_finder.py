@@ -125,40 +125,6 @@ def generate_diff_from_files(file1, file2):
     #return generate_diff(full_table1, full_table2, None, None, 2)
 
 
-def dimensionStats(content, selector):
-    hist = []
-    for e in content:
-        sel = selector(e)
-        #result = $.grep(hist, function(e){ return e.id == sel.row; });
-        result = filter(lambda h: h["id"] == sel["row"], hist)
-        if len(result) == 0:
-            hist += [{
-              "id" : sel["row"],
-              "count": 1,
-              "pos": sel["rpos"]
-            }]
-        else:
-            result[0]["count"] += 1
-
-    return hist
-
-def rowSelector(entry):
-    return {
-      "row": entry.row,
-      "rpos": entry.rpos
-      # "ur_ids" : entry.union['ur_ids'],
-      # "uc_ids" : entry.union['uc_ids']
-    }
-
-def colSelector(entry):
-    return {
-        "row": entry.col,
-        "rpos": entry.cpos
-        # "ur_ids" : entry.union['ur_ids'],
-        # "uc_ids" : entry.union['uc_ids']
-    }
-
-
 #Table data structure
 class Table:
     def __init__(self, rows, cols, content):
@@ -327,8 +293,6 @@ class Diff:
                     # this is the case of histogram
                     result["cols"] = self.per_bin_ratios(bins, "cols")
             return result
-                #todo change this
-                #dimensionStats(self.content, selector)
 
 
     def per_bin_ratios(self, bins, e_type):
@@ -421,7 +385,6 @@ class Diff:
         # get the direction
         union_rows = self.union['ur_ids']
         union_cols = self.union['uc_ids']
-        selector = rowSelector
         e_type = "rows"
         row_id = "row"
         if dir == D_COLS:
@@ -429,7 +392,6 @@ class Diff:
             union_rows = self.union['uc_ids']
             union_cols = self.union['ur_ids']
             # todo handle the case of both rows and columns
-            selector = colSelector
             e_type = "cols"
             row_id = "col"
         ratios_list = []
