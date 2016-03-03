@@ -675,7 +675,18 @@ class DiffFinder:
         #for columns
         cids1 = self._table1.col_ids[c_bo1]
         cids2 = self._table2.col_ids[c_bo2]
-        cdis = cids1[cids1 != cids2]
+        try:
+            cdis = cids1[cids1 != cids2]
+        except ValueError:
+            # fixing an ungly bug when there are NO unique ids!
+            ### warning! bug ###
+            # this happens when one of the tables does NOT have unique ids and the sizes are different... couldn't fix
+            print("Oops! it seems that sizes are not matching", cids1.shape[0], cids2.shape[0])
+            set_boolean = (np.array(list(set(cids1))) != np.array(list(set(cids2))))
+            cdis = cids1[set_boolean]
+            # ignore and leave
+            self._content_to_json(None)
+            return
         #if there's a disorder in the columns
         if (cdis.shape[0]>0):
             c_indices = self._find_reorder(cids1, cids2, cdis)
