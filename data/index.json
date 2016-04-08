@@ -262,6 +262,102 @@
       "type": "real",
       "range": [1, 10]
     }
+  },
+  {
+    "name": "Taco large 0 input",
+    "path": "l_table_in.csv",
+    "type": "matrix",
+    "size": [50, 20],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [1, 20]
+    }
+  },
+  {
+    "name": "Taco large 1 output",
+    "path": "l_table1_out.csv",
+    "type": "matrix",
+    "size": [50, 20],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [1, 20]
+    }
+  },
+  {
+    "name": "Taco large 2 output",
+    "path": "l_table2_out.csv",
+    "type": "matrix",
+    "size": [54, 20],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [1, 20]
+    }
+  },
+  {
+    "name": "Taco large 3 output",
+    "path": "l_table3_out.csv",
+    "type": "matrix",
+    "size": [54, 18],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [1, 20]
+    }
+  },
+  {
+    "name": "Taco large 4 output",
+    "path": "l_table4_out.csv",
+    "type": "matrix",
+    "size": [53, 17],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [1, 20]
+    }
+  },
+  {
+    "name": "Taco large 5 output",
+    "path": "l_table5_out.csv",
+    "type": "matrix",
+    "size": [52, 16],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [1, 20]
+    }
+  },
+  {
+    "name": "Taco large 6 input",
+    "path": "l_table6_out.csv",
+    "type": "matrix",
+    "size": [50, 20],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [1, 20]
+    }
+  },
+  {
+    "name": "Taco large 7 output",
+    "path": "l_table7_out.csv",
+    "type": "matrix",
+    "size": [50, 20],
+    "rowtype": "patient",
+    "coltype": "gene",
+    "value": {
+      "type": "real",
+      "range": [1, 20]
+    }
   }
 
 ]

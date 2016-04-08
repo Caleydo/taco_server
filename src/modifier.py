@@ -231,15 +231,15 @@ DEL_COL = 4
 CH_CELL = 5
 
 data_directory = '../data/'
-file_name = 'multi_table'
+file_name = 'l_table'
 in_file_name = file_name + '_in.csv'
 out_file_name = file_name + '_out.csv'
 log_file = data_directory + file_name + '.log'
 
-rows = 50
-cols = 20
+rows = 5000
+cols = 200
 min_data = 1
-max_data = 10 #don't forget to update this in the index.json and restart the server
+max_data = 20 #don't forget to update this in the index.json and restart the server
 
 # I know it's a bit crazy like this but I couldn't come up with a smarter way
 # the problem that this has no order
@@ -264,7 +264,7 @@ result = gen.create_table(rows, cols, min_data, max_data, data_type=int)
 gen.save_table(result['table'], result['row_ids'], result['col_ids'], data_directory + in_file_name)
 
 # change
-ch_count = 5
+ch_count = 15
 for i in range(ch_count):
     result = change_table(result, min_data, max_data, operations_count)
     #save the output file
@@ -273,11 +273,11 @@ for i in range(ch_count):
     print (result['table'].shape[0],result['table'].shape[1],i)
     #update the ... for next round
     operations_count = {
-        'del_row': random.randint(0,5),
-        'del_col': random.randint(0,5),
-        'add_row': random.randint(1,7),
-        'add_col': random.randint(0,4),
-        'ch_cell': random.randint(1,100), #todo changing in a new row is not considered
+        'del_row': random.randint(0,25),
+        'del_col': random.randint(0,25),
+        'add_row': random.randint(1,37),
+        'add_col': random.randint(0,34),
+        'ch_cell': random.randint(1,300), #todo changing in a new row is not considered
        # 'me_col': [[0,1], [3,5]], #important to have the array in order ! so not [5,3]!
         'me_col': [],
         'me_row': [],
