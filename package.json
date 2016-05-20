@@ -1,8 +1,10 @@
 {
   "name": "taco_server",
+  "description": "The server part for comparing large tabular data using Caleydo Web",
   "version": "0.0.1",
   "license" : "SEE LICENSE IN LICENSE",
   "repository": "Reemh/taco_server",
+  "homepage": "http://caleydo.org",
   "dependencies": {
   },
   "peerDependencies": {
@@ -10,6 +12,7 @@
     "taco": "*"
   },
   "caleydo": {
+    "type": "app",
     "plugins": {
       "python": [
         {
