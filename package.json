@@ -3,7 +3,7 @@
   "description": "The server part for comparing large tabular data using Caleydo Web",
   "version": "0.0.1",
   "license" : "SEE LICENSE IN LICENSE",
-  "repository": "Reemh/taco_server",
+  "repository": "Caleydo/taco_server",
   "homepage": "http://caleydo.org",
   "dependencies": {
   },
