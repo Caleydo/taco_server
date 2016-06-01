@@ -1,4 +1,4 @@
-## TaCo Server ![Caleydo Web Application](https://img.shields.io/badge/Caleydo%20Web-Application-4daf4a.svg)
+## TaCo Server
 
 TaCo (for **Ta**ble **Co**mparison) is an interactive comparison tool that effectively visualizes the differences between multiple tables at various levels of granularity.
 
