@@ -9,7 +9,8 @@
   },
   "peerDependencies": {
     "caleydo_server": "*",
-    "taco": "*"
+    "taco": "*",
+    "caleydo_data_hdf": "*"    
   },
   "caleydo": {
     "type": "app",
