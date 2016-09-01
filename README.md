@@ -24,7 +24,7 @@ If you want this plugin to be dynamically resolved as part of another applicatio
 }
 ```
 
-To use TaCo make sure that you installed the [TaCo application](Caleydo/taco).
+To use TaCo make sure that you installed the [TaCo application](https://github.com/Caleydo/taco).
 
 Generating artificial data
 ------------
