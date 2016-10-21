@@ -19,7 +19,6 @@ def hello_world(whom):
 def jsontest():
   return flask.jsonify({'x': 'where are you', 'y': "too"})
 
-
 # @param direction: 0 rows, 1 cols, 2 both rows and cols
 # @param: bins is the number of bins
 # see https://github.com/Reemh/taco_server/wiki/Diff-Aggregation
