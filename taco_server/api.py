@@ -1,23 +1,23 @@
 __author__ = 'Reem'
 
-import flask
+from phovea_server import ns
 import timeit
 from src import diff_cache, graph, diff_finder
 import ujson
 
-#create an Flask app for hosting my namespace
-app = flask.Flask(__name__)
+#create an Namespace app for hosting my namespace
+app = ns.Namespace(__name__)
 #request my configuration
-#import caleydo_server.config
-#config = caleydo_server.config.view('taco_server')
+#import phovea_server.config
+#config = phovea_server.config.view('taco_server')
 
 @app.route('/hello/<whom>')
 def hello_world(whom):
-  return 'hello world' +  whom+ ' ' + flask.request.args.get('to')
+  return 'hello world' +  whom+ ' ' + ns.request.args.get('to')
 
 @app.route('/jsontest')
 def jsontest():
-  return flask.jsonify({'x': 'where are you', 'y': "too"})
+  return ns.jsonify({'x': 'where are you', 'y': "too"})
 
 
 # @param direction: 0 rows, 1 cols, 2 both rows and cols
@@ -36,7 +36,7 @@ def diff_log(id1, id2, bins, bins_col, direction, ops):
         b_c = int(bins_col)
         json_result = diff_cache.get_ratios(id1, id2, direction, ops, b, b_c)
     # creating flask response
-    response = flask.make_response(json_result)
+    response = ns.make_response(json_result)
     response.headers["content-type"] = 'application/json'
     t6 = timeit.default_timer()
     print("time for everything ", t6 - t1)
