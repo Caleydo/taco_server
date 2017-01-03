@@ -1,5 +1,4 @@
 -e git+https://github.com/phovea/phovea_server.git@v0.0.5#egg=phovea_server
--e git+https://github.com/phovea/phovea_data_hdf.git@v0.0.5#egg=phovea_data_hdf
 ujson==1.33
 enum==0.4.6
 sklearn==0.0

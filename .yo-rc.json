@@ -5,8 +5,7 @@
     "author": "The Caleydo Team",
     "githubAccount": "caleydo",
     "modules": [
-      "phovea_server",
-      "phovea_data_hdf"
+      "phovea_server"
     ],
     "extensions": [],
     "sextensions": [

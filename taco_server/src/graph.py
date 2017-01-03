@@ -8,7 +8,6 @@ from sklearn import manifold
 __author__ = 'Reem'
 
 
-
 data_directory = path.normpath(path.join(path.dirname(__file__), '../../MDS_data')) + '/'
 print(data_directory)
 
