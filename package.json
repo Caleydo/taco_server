@@ -1,44 +1,37 @@
 {
+  "files": [
+    "taco_server",
+    "__init__.py",
+    "__main__.py",
+    "build",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "docker_packages.txt"
+  ],
+  "scripts": {
+    "check": "flake8",
+    "pretest": "npm run check",
+    "test": "test ! -d tests || python setup.py test",
+    "prebuild": "node -e \"process.exit(process.env.PHOVEA_SKIP_TESTS === undefined?1:0)\" || npm run test",
+    "build": "python -c \"from distutils.dir_util import mkpath ; mkpath('./build/source')\" && (tar -c ./taco_server --exclude '*.pyc' | tar -xC build/source)",
+    "predist": "npm run build",
+    "dist": "python setup.py bdist_egg"
+  },
   "name": "taco_server",
-  "description": "The server part for comparing large tabular data using Caleydo Web",
-  "version": "0.0.1",
-  "license" : "SEE LICENSE IN LICENSE",
-  "repository": "Caleydo/taco_server",
+  "description": "The server part for comparing large tabular data using Phovea",
   "homepage": "http://caleydo.org",
-  "dependencies": {
+  "version": "1.0.0",
+  "author": {
+    "name": "The Caleydo Team",
+    "email": "contact@caleydo.org",
+    "url": "https://caleydo.org"
   },
-  "peerDependencies": {
-    "caleydo_server": "*",
-    "caleydo_data_hdf": "*"
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/caleydo/taco_server/issues"
   },
-  "caleydo": {
-    "type": "app",
-    "plugins": {
-      "python": [
-        {
-          "type": "namespace",
-          "id": "taco",
-          "file": "api",
-          "namespace": "/api/taco"
-        }
-      ]
-    },
-    "products": [
-      {
-        "name": "TaCo",
-        "type": "python",
-        "app": "taco"
-      }
-    ],
-    "dependencies": {
-      "python": {
-        "ujson": "==1.33",
-        "enum": "==0.4.6",
-        "sklearn": "==0.0"
-      }
-    }
-  },
-  "publishConfig": {
-    "registry": "http://registry.caleydo.org/"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caleydo/taco_server.git"
   }
 }

@@ -1,0 +1,33 @@
+{
+  "generator-phovea": {
+    "type": "slib",
+    "name": "taco_server",
+    "author": "The Caleydo Team",
+    "githubAccount": "caleydo",
+    "modules": [
+      "phovea_server"
+    ],
+    "extensions": [],
+    "sextensions": [
+      {
+        "type": "namespace",
+        "id": "taco",
+        "module": "api",
+        "extras": {
+          "namespace": "/api/taco"
+        }
+      }
+    ],
+    "libraries": [],
+    "unknown": {
+      "requirements": [
+        "ujson==1.33",
+        "enum==0.4.6",
+        "sklearn==0.0"
+      ],
+      "debianPackages": [],
+      "redhatPackages": []
+    },
+    "today": "Tue, 08 Nov 2016 08:36:05 GMT"
+  }
+}
