@@ -15,6 +15,7 @@ from os import path
 
 __author__ = 'Reem'
 data_directory = path.normpath(path.join(path.dirname(__file__), '../../cache')) + '/'
+os.makedirs(data_directory)
 print(data_directory)
 
 

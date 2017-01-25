@@ -9,6 +9,7 @@ __author__ = 'Reem'
 
 
 data_directory = path.normpath(path.join(path.dirname(__file__), '../../MDS_data')) + '/'
+os.makedirs(data_directory)
 print(data_directory)
 
 
