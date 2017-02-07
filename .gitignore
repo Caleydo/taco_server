@@ -3,6 +3,7 @@
 /.idea
 /build/
 /dist/
+/cache/
 *.egg-info/
 *.egg
 *.py[cod]
