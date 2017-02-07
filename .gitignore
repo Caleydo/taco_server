@@ -17,5 +17,3 @@ __pycache__/
 # due to using tox and pytest
 .tox
 .cache
-/cache/
-/MDS_data/
