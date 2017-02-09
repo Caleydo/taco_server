@@ -13,10 +13,10 @@
     "pretest": "npm run check",
     "test": "test ! -d tests || python setup.py test",
     "prebuild": "node -e \"process.exit(process.env.PHOVEA_SKIP_TESTS === undefined?1:0)\" || npm run test",
-    "build": "python -c \"from distutils.dir_util import mkpath ; mkpath('./build/source')\" && (tar -c ./taco_server --exclude '*.pyc' | tar -xC build/source)",
+    "build": "python build.py",
     "predist": "npm run build && npm run docs",
     "dist": "python setup.py bdist_egg",
-    "docs": "echo todo creating docs..."
+    "docs": "sphinx-apidoc -o docs -f ./taco_server && sphinx-build ./docs build/docs"
   },
   "name": "taco_server",
   "description": "The server part for comparing large tabular data using Phovea",
