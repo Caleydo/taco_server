@@ -1,7 +1,6 @@
 from phovea_server import ns
 import timeit
-from src import diff_cache, graph
-import ujson
+from src import diff_cache
 
 
 __author__ = 'Reem'
@@ -44,22 +43,6 @@ def diff_log(id1, id2, bins, bins_col, direction, ops):
   t6 = timeit.default_timer()
   print("time for everything ", t6 - t1)
   return response
-
-
-@app.route('/fd/<ids>')
-# /0/2/structure,content
-def fd(ids):
-  id_list = ids.split(',')
-  fd_res = graph.calc_fd_graph(id_list, 2, "structure,content")
-  return ujson.dumps(fd_res)
-
-
-@app.route('/mds/<ids>')
-def mds(ids):
-  id_list = ids.split(',')
-  mds_res = graph.calc_mds_graph(id_list, 2, "structure,content")
-  return ujson.dumps(mds_res)
-
 
 def create():
   """
