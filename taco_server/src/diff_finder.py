@@ -2,8 +2,11 @@
 import numpy as np
 import timeit
 from enum import Enum
+import logging
 
 __author__ = 'Reem'
+
+_log = logging.getLogger(__name__)
 
 D_ROWS = 0
 D_COLS = 1
@@ -154,24 +157,37 @@ class Diff:
 
   def serialize(self):
     return {
-        "content": self.content,
-        "structure": self.structure,
-        "merge": self.merge,
-        "reorder": self.reorder,
-        "union": self.union
+      "content": self.content,
+      "structure": self.structure,
+      "merge": self.merge,
+      "reorder": self.reorder,
+      "union": self.union
     }
 
-  def content_ratio_percell(self, ucells):
-    return float(len(self.content)) / ucells
+  def content_counts_percell(self):
+    return float(len(self.content))
+
+  def content_ratio_percell(self, ucells, counts = None):
+    if counts is None:
+      counts = self.content_counts_percell()
+    return  counts / ucells
 
   # rowAdd rowDel colAdd colDel
-  def struct_ratio(self, urows, ucols, dir, st_op):
+  def struct_counts(self, urows, ucols, dir, st_op):
     operation = st_op + "eted" if st_op == "del" else st_op + "ed"
     rows = urows if dir == "row" else ucols
-    return float(len(self.structure[operation + "_" + dir + "s"])) / rows
+    return float(len(self.structure[operation + "_" + dir + "s"]))
 
-  def struct_add_ratio(self, width, height):
-    cells = width * height
+  # rowAdd rowDel colAdd colDel
+  def struct_ratio(self, urows, ucols, dir, st_op, counts = None):
+    rows = urows if dir == "row" else ucols
+
+    if counts is None:
+      counts = self.struct_counts(urows, ucols, dir, st_op)
+
+    return counts / rows
+
+  def struct_add_counts(self, width, height):
     addc = 0
     h = height
     w = width
@@ -186,23 +202,33 @@ class Diff:
       addc += len(self.structure["added_cols"]) * h
       w -= len(self.structure["added_cols"])  # we might need this later!
     # the type here should be just add but i'm using row-add for css
-    return float(addc) / cells
+    return float(addc)
 
-  def struct_del_ratio(self, width, height):
+  def struct_add_ratio(self, width, height, counts = None):
     cells = width * height
+    if counts is None:
+      counts = self.struct_add_counts(width, height)
+    return  counts / cells
+
+  def struct_del_counts(self, width, height):
+    delc = 0
     h = height
     w = width
-    delc = 0
     if "deleted_rows" in self.structure:
       delc += len(self.structure["deleted_rows"]) * w
       h -= len(self.structure["deleted_rows"])
     if "deleted_cols" in self.structure:
       delc += len(self.structure["deleted_cols"]) * h
     # the type here should be just add and del but i'm using row-add and row-del for css
-    return float(delc) / cells
+    return float(delc)
 
-  def nochange_ratio(self, width, height):
+  def struct_del_ratio(self, width, height, counts = None):
     cells = width * height
+    if counts is None:
+      counts = self.struct_del_counts(width, height)
+    return  counts / cells
+
+  def nochange_counts(self, width, height):
     h = height
     w = width
     # the height without the removed or added rows
@@ -217,28 +243,49 @@ class Diff:
       w -= len(self.structure["added_cols"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
-    return float(noc) / cells
+    return float(noc)
 
-  def nochange_rows_ratio(self, width, height):
+  def nochange_ratio(self, width, height, counts = None):
     cells = width * height
-    h = height
-    w = width
-    # the width without the deleted or removed cols
-    if "deleted_cols" in self.structure:
-      w -= len(self.structure["deleted_cols"])
-    if "added_cols" in self.structure:
-      w -= len(self.structure["added_cols"])
-    cells = w * h
-    # the height without the removed or added rows
-    if "deleted_rows" in self.structure:
-      h -= len(self.structure["deleted_rows"])
-    if "added_rows" in self.structure:
-      h -= len(self.structure["added_rows"])
-    # the rest cells without the changed ones
-    noc = (h * w) - len(self.content)
-    return float(noc) / cells
+    if counts is None:
+      counts = self.nochange_counts(width, height)
+    return  counts / cells
 
-  def nochange_cols_ratio(self, width, height):
+  def nochange_rows_counts(self, width, height):
+    h = height
+    w = width
+    # the width without the deleted or removed cols
+    if "deleted_cols" in self.structure:
+      w -= len(self.structure["deleted_cols"])
+    if "added_cols" in self.structure:
+      w -= len(self.structure["added_cols"])
+    # the height without the removed or added rows
+    if "deleted_rows" in self.structure:
+      h -= len(self.structure["deleted_rows"])
+    if "added_rows" in self.structure:
+      h -= len(self.structure["added_rows"])
+    # the rest cells without the changed ones
+    noc = (h * w) - len(self.content)
+    return float(noc)
+
+  def nochange_rows_ratio(self, width, height, counts = None):
+    h = height
+    w = width
+
+    # the width without the deleted or removed cols
+    if "deleted_cols" in self.structure:
+      w -= len(self.structure["deleted_cols"])
+    if "added_cols" in self.structure:
+      w -= len(self.structure["added_cols"])
+
+    cells = w * h
+
+    if counts is None:
+      counts = self.nochange_rows_counts(width, height)
+
+    return counts / cells
+
+  def nochange_cols_counts(self, width, height):
     h = height
     w = width
     # the height without the removed or added rows
@@ -246,7 +293,6 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
-    cells = w * h
     # the width without the deleted or removed cols
     if "deleted_cols" in self.structure:
       w -= len(self.structure["deleted_cols"])
@@ -254,17 +300,38 @@ class Diff:
       w -= len(self.structure["added_cols"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
-    return float(noc) / cells
+    return float(noc)
+
+  def nochange_cols_ratio(self, width, height, counts = None):
+    h = height
+    w = width
+
+    # the height without the removed or added rows
+    if "deleted_rows" in self.structure:
+      h -= len(self.structure["deleted_rows"])
+    if "added_rows" in self.structure:
+      h -= len(self.structure["added_rows"])
+
+    cells = w * h
+
+    if counts is None:
+      counts = self.nochange_cols_counts(width, height)
+
+    return counts / cells
 
   def aggregate(self, bins, bins_col=2):
     if bins == 1:
+      _log.info('combined aggregation for LineUp')
       # todo do we want to return it as an array of one element?
       # the ratios for line up
       # todo change this and remove the serialize
       return self.ratios(True)
+
     elif bins == -1:
+      _log.info('uncombined aggregation for 2D Histogram')
       # the ratios for the 2d histogram
       return self.ratios(False)
+
     else:
       # it's the case of histogram or bar plot
       result = {}
@@ -373,7 +440,8 @@ class Diff:
       # 3. calcualte the ratio for this part :|
       # todo remove the serialize
       partial_ratio = partial.ratios()
-      ratios_list += [{"ratio": partial_ratio.serialize(),
+      ratios_list += [{"ratios": partial_ratio.ratios.serialize(),
+                       "counts": partial_ratio.counts.serialize(),
                        "id": temp[0] + '-' + temp[-1],  # first and last id
                        "pos": i}]
 
@@ -427,7 +495,8 @@ class Diff:
           # 3. calcualte the ratio for this part :|
           # todo remove the serialize
           partial_ratio = partial.ratios()
-      ratios_list += [{"ratio": partial_ratio.serialize(),
+      ratios_list += [{"ratios": partial_ratio.ratios.serialize(),
+                       "counts": partial_ratio.counts.serialize(),
                        "id": id,
                        "pos": i}]
 
@@ -438,39 +507,73 @@ class Diff:
     urows = len(self.union['ur_ids'])
     ucols = len(self.union['uc_ids'])
     union_cells = urows * ucols
+
     # content and no changes are the same for both directions
     if combined:
+
       # Lineup relevant
-      cratio = self.content_ratio_percell(union_cells)
-      no_ratio = self.nochange_ratio(ucols, urows)
-      sratio_a = self.struct_add_ratio(ucols, urows)
-      sratio_d = self.struct_del_ratio(ucols, urows)
-      return Ratios(cratio, sratio_a, sratio_d, no_ratio)
+      ccounts = self.content_counts_percell()
+      no_counts = self.nochange_counts(ucols, urows)
+      scounts_a = self.struct_add_counts(ucols, urows)
+      scounts_d = self.struct_del_counts(ucols, urows)
+      counts = Counts(ccounts, scounts_a, scounts_d, no_counts)
+
+      cratio = self.content_ratio_percell(union_cells, counts.c_counts)
+      no_ratio = self.nochange_ratio(ucols, urows, counts.no_counts)
+      sratio_a = self.struct_add_ratio(ucols, urows, counts.a_counts)
+      sratio_d = self.struct_del_ratio(ucols, urows, counts.d_counts)
+      ratios = Ratios(cratio, sratio_a, sratio_d, no_ratio)
+
+      return RatiosAndCounts(ratios, counts)
+
     else:
       # Lineup not relevant
-      # rows
-      ra_ratio = self.struct_ratio(urows, ucols, "row", "add")
-      rd_ratio = self.struct_ratio(urows, ucols, "row", "del")
+
+      # ROWS
+
       # calc new union cells as the are less now
       # todo check if the attribute is there
       r_union_cells = (ucols - len(self.structure["added_cols"]) - len(self.structure["deleted_cols"])) * urows
-      r_cratio = self.content_ratio_percell(r_union_cells)
-      r_no_ratio = self.nochange_rows_ratio(ucols, urows)
 
-      # columns
-      ca_ratio = self.struct_ratio(urows, ucols, "col", "add")
-      cd_ratio = self.struct_ratio(urows, ucols, "col", "del")
-      # todo check if the attribute is there
+      ra_counts = self.struct_counts(urows, ucols, "row", "add")
+      rd_counts = self.struct_counts(urows, ucols, "row", "del")
+      r_ccounts = self.content_counts_percell()
+      r_no_counts = self.nochange_rows_counts(ucols, urows)
+      row_counts = Counts(r_ccounts, ra_counts, rd_counts, r_no_counts)
+
+      ra_ratio = self.struct_ratio(urows, ucols, "row", "add", row_counts.a_counts)
+      rd_ratio = self.struct_ratio(urows, ucols, "row", "del", row_counts.d_counts)
+      r_cratio = self.content_ratio_percell(r_union_cells, row_counts.c_counts)
+      r_no_ratio = self.nochange_rows_ratio(ucols, urows, row_counts.no_counts)
+      row_ratio = Ratios(r_cratio, ra_ratio, rd_ratio, r_no_ratio)
+
+      # COLUMNS
+
+      # TODO check if the attribute is there
       c_union_cells = (urows - len(self.structure["added_rows"]) - len(self.structure["deleted_rows"])) * ucols
-      c_cratio = self.content_ratio_percell(c_union_cells)
-      c_no_ratio = self.nochange_cols_ratio(ucols, urows)
+
+      ca_counts = self.struct_counts(urows, ucols, "col", "add")
+      cd_counts = self.struct_counts(urows, ucols, "col", "del")
+      c_ccounts = self.content_counts_percell()
+      c_no_counts = self.nochange_cols_counts(ucols, urows)
+      col_counts = Counts(c_ccounts, ca_counts, cd_counts, c_no_counts)
+
+      ca_ratio = self.struct_ratio(urows, ucols, "col", "add", col_counts.a_counts)
+      cd_ratio = self.struct_ratio(urows, ucols, "col", "del", col_counts.d_counts)
+      c_cratio = self.content_ratio_percell(c_union_cells, col_counts.c_counts)
+      c_no_ratio = self.nochange_cols_ratio(ucols, urows, col_counts.no_counts)
+      col_ratio = Ratios(c_cratio, ca_ratio, cd_ratio, c_no_ratio)
+
       return {
-          "rows": Ratios(r_cratio, ra_ratio, rd_ratio, r_no_ratio),
-          "cols": Ratios(c_cratio, ca_ratio, cd_ratio, c_no_ratio)
+        "rows": RatiosAndCounts(row_ratio, row_counts),
+        "cols": RatiosAndCounts(col_ratio, col_counts)
       }
 
 
 class Ratios:
+  """
+  Relative number of changes (aka ratios)
+  """
   def __init__(self, cr=0.0, ar=0.0, dr=0.0, no=100.0):
     self.c_ratio = cr
     self.a_ratio = ar
@@ -479,10 +582,40 @@ class Ratios:
 
   def serialize(self):
     return {
-        "c_ratio": self.c_ratio,
-        "a_ratio": self.a_ratio,
-        "d_ratio": self.d_ratio,
-        "no_ratio": self.no_ratio
+      "c_ratio": self.c_ratio,
+      "a_ratio": self.a_ratio,
+      "d_ratio": self.d_ratio,
+      "no_ratio": self.no_ratio
+    }
+
+class Counts:
+  """
+  Absolute number of changes (aka counts)
+  """
+  def __init__(self, cc=0.0, ac=0.0, dc=0.0, no=100.0):
+    self.c_counts = cc
+    self.a_counts = ac
+    self.d_counts = dc
+    self.no_counts = no
+
+  def serialize(self):
+    return {
+      "c_counts": self.c_counts,
+      "a_counts": self.a_counts,
+      "d_counts": self.d_counts,
+      "no_counts": self.no_counts
+    }
+
+
+class RatiosAndCounts:
+  def __init__(self, ratios, counts):
+    self.ratios = ratios
+    self.counts = counts
+
+  def serialize(self):
+    return {
+      "ratios": self.ratios.serialize(),
+      "counts": self.counts.serialize()
     }
 
 
@@ -705,7 +838,7 @@ class DiffFinder:
     before = timeit.default_timer()
     self._content_to_json(normalized_diff)
     after = timeit.default_timer()
-    print("logging", after - before)
+    _log.debug("TIMER: logging", after - before)
 
   def _content_to_json(self, diff):
     # check if the diff is None (the case of all 0s diff)
