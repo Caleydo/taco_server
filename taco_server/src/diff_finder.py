@@ -157,17 +157,17 @@ class Diff:
 
   def serialize(self):
     return {
-      "content": self.content,
-      "structure": self.structure,
-      "merge": self.merge,
-      "reorder": self.reorder,
-      "union": self.union
+        "content": self.content,
+        "structure": self.structure,
+        "merge": self.merge,
+        "reorder": self.reorder,
+        "union": self.union
     }
 
   def content_counts_percell(self):
     return float(len(self.content))
 
-  def content_ratio_percell(self, ucells, counts = None):
+  def content_ratio_percell(self, ucells, counts=None):
     if counts is None:
       counts = self.content_counts_percell()
     return  counts / ucells
@@ -175,11 +175,10 @@ class Diff:
   # rowAdd rowDel colAdd colDel
   def struct_counts(self, urows, ucols, dir, st_op):
     operation = st_op + "eted" if st_op == "del" else st_op + "ed"
-    rows = urows if dir == "row" else ucols
     return float(len(self.structure[operation + "_" + dir + "s"]))
 
   # rowAdd rowDel colAdd colDel
-  def struct_ratio(self, urows, ucols, dir, st_op, counts = None):
+  def struct_ratio(self, urows, ucols, dir, st_op, counts=None):
     rows = urows if dir == "row" else ucols
 
     if counts is None:
@@ -204,7 +203,7 @@ class Diff:
     # the type here should be just add but i'm using row-add for css
     return float(addc)
 
-  def struct_add_ratio(self, width, height, counts = None):
+  def struct_add_ratio(self, width, height, counts=None):
     cells = width * height
     if counts is None:
       counts = self.struct_add_counts(width, height)
@@ -222,7 +221,7 @@ class Diff:
     # the type here should be just add and del but i'm using row-add and row-del for css
     return float(delc)
 
-  def struct_del_ratio(self, width, height, counts = None):
+  def struct_del_ratio(self, width, height, counts=None):
     cells = width * height
     if counts is None:
       counts = self.struct_del_counts(width, height)
@@ -245,7 +244,7 @@ class Diff:
     noc = (h * w) - len(self.content)
     return float(noc)
 
-  def nochange_ratio(self, width, height, counts = None):
+  def nochange_ratio(self, width, height, counts=None):
     cells = width * height
     if counts is None:
       counts = self.nochange_counts(width, height)
@@ -268,7 +267,7 @@ class Diff:
     noc = (h * w) - len(self.content)
     return float(noc)
 
-  def nochange_rows_ratio(self, width, height, counts = None):
+  def nochange_rows_ratio(self, width, height, counts=None):
     h = height
     w = width
 
@@ -302,7 +301,7 @@ class Diff:
     noc = (h * w) - len(self.content)
     return float(noc)
 
-  def nochange_cols_ratio(self, width, height, counts = None):
+  def nochange_cols_ratio(self, width, height, counts=None):
     h = height
     w = width
 
@@ -582,10 +581,10 @@ class Ratios:
 
   def serialize(self):
     return {
-      "c_ratio": self.c_ratio,
-      "a_ratio": self.a_ratio,
-      "d_ratio": self.d_ratio,
-      "no_ratio": self.no_ratio
+        "c_ratio": self.c_ratio,
+        "a_ratio": self.a_ratio,
+        "d_ratio": self.d_ratio,
+        "no_ratio": self.no_ratio
     }
 
 class Counts:
@@ -600,12 +599,11 @@ class Counts:
 
   def serialize(self):
     return {
-      "c_counts": self.c_counts,
-      "a_counts": self.a_counts,
-      "d_counts": self.d_counts,
-      "no_counts": self.no_counts
+        "c_counts": self.c_counts,
+        "a_counts": self.a_counts,
+        "d_counts": self.d_counts,
+        "no_counts": self.no_counts
     }
-
 
 class RatiosAndCounts:
   def __init__(self, ratios, counts):
@@ -614,10 +612,9 @@ class RatiosAndCounts:
 
   def serialize(self):
     return {
-      "ratios": self.ratios.serialize(),
-      "counts": self.counts.serialize()
+        "ratios": self.ratios.serialize(),
+        "counts": self.counts.serialize()
     }
-
 
 # DiffFinder class
 class DiffFinder:

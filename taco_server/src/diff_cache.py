@@ -29,17 +29,15 @@ def create_cache_dir():
   Create cache directory
   :return:
   """
-  if os.path.isdir(_cache_directory) == False:
+  if os.path.isdir(_cache_directory) is False:
     os.makedirs(_cache_directory)
     _log.info('cache directory created at: ' + _cache_directory)
 
   else:
-    _log.info('use existing cache directory: ' + _cache_directory)
-
+    _log.info('use existing cache directory: ' + _cache_directory
 
 # run immediately!
 create_cache_dir()
-
 
 def get_diff_cache(filename):
   """
