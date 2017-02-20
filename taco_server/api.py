@@ -48,6 +48,7 @@ def diff_log(id1, id2, bins, bins_col, direction, ops):
   _log.debug("TIMER: time for everything ", t6 - t1)
   return response
 
+
 def create():
   """
   by convention contain a factory called create returning the extension implementation

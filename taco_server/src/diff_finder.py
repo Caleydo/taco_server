@@ -170,7 +170,7 @@ class Diff:
   def content_ratio_percell(self, ucells, counts=None):
     if counts is None:
       counts = self.content_counts_percell()
-    return  counts / ucells
+    return counts / ucells
 
   # rowAdd rowDel colAdd colDel
   def struct_counts(self, urows, ucols, dir, st_op):
@@ -207,7 +207,7 @@ class Diff:
     cells = width * height
     if counts is None:
       counts = self.struct_add_counts(width, height)
-    return  counts / cells
+    return counts / cells
 
   def struct_del_counts(self, width, height):
     delc = 0
@@ -225,7 +225,7 @@ class Diff:
     cells = width * height
     if counts is None:
       counts = self.struct_del_counts(width, height)
-    return  counts / cells
+    return counts / cells
 
   def nochange_counts(self, width, height):
     h = height
@@ -248,7 +248,7 @@ class Diff:
     cells = width * height
     if counts is None:
       counts = self.nochange_counts(width, height)
-    return  counts / cells
+    return counts / cells
 
   def nochange_rows_counts(self, width, height):
     h = height
@@ -564,8 +564,8 @@ class Diff:
       col_ratio = Ratios(c_cratio, ca_ratio, cd_ratio, c_no_ratio)
 
       return {
-        "rows": RatiosAndCounts(row_ratio, row_counts),
-        "cols": RatiosAndCounts(col_ratio, col_counts)
+          "rows": RatiosAndCounts(row_ratio, row_counts),
+          "cols": RatiosAndCounts(col_ratio, col_counts)
       }
 
 
@@ -587,6 +587,7 @@ class Ratios:
         "no_ratio": self.no_ratio
     }
 
+
 class Counts:
   """
   Absolute number of changes (aka counts)
@@ -605,6 +606,7 @@ class Counts:
         "no_counts": self.no_counts
     }
 
+
 class RatiosAndCounts:
   def __init__(self, ratios, counts):
     self.ratios = ratios
@@ -615,6 +617,7 @@ class RatiosAndCounts:
         "ratios": self.ratios.serialize(),
         "counts": self.counts.serialize()
     }
+
 
 # DiffFinder class
 class DiffFinder:

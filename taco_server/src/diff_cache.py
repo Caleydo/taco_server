@@ -24,6 +24,7 @@ Path to the cache directory
 """
 _cache_directory = path.normpath(path.join(path.dirname(__file__), '../../cache')) + '/'
 
+
 def create_cache_dir():
   """
   Create cache directory
@@ -34,7 +35,7 @@ def create_cache_dir():
     _log.info('cache directory created at: ' + _cache_directory)
 
   else:
-    _log.info('use existing cache directory: ' + _cache_directory
+    _log.info('use existing cache directory: ' + _cache_directory)
 
 # run immediately!
 create_cache_dir()
