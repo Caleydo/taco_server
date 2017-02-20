@@ -40,6 +40,7 @@ def create_cache_dir():
 # run immediately!
 create_cache_dir()
 
+
 def get_diff_cache(filename):
   """
   Loads a cache result by filename
