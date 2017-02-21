@@ -1,9 +1,13 @@
 from phovea_server import ns
 import timeit
 from src import diff_cache
+import logging
 
 
 __author__ = 'Reem'
+
+_log = logging.getLogger(__name__)
+
 # create an Namespace app for hosting my namespace
 app = ns.Namespace(__name__)
 
@@ -31,7 +35,7 @@ def diff_log(id1, id2, bins, bins_col, direction, ops):
   b = int(bins)
   if b == 0:
     # no bins which is the diff heatmap (detail)
-    json_result = diff_cache.get_diff(id1, id2, direction, ops, True)
+    json_result = diff_cache.get_diff_table(id1, id2, direction, ops, True)
   else:
     # the overview view and
     # the middle view based on the number of bins or lines i.e. rows/columns (middle)
@@ -41,8 +45,9 @@ def diff_log(id1, id2, bins, bins_col, direction, ops):
   response = ns.make_response(json_result)
   response.headers["content-type"] = 'application/json'
   t6 = timeit.default_timer()
-  print("time for everything ", t6 - t1)
+  _log.debug("TIMER: time for everything ", t6 - t1)
   return response
+
 
 def create():
   """
@@ -50,7 +55,6 @@ def create():
   :return:
   """
   return app
-
 
 if __name__ == '__main__':
   app.debug = True

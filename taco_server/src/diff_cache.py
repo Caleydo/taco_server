@@ -2,6 +2,7 @@
 # at different levels of details
 # detail (as detail), middle (as count), overview (as ratios)
 
+
 from __future__ import print_function
 from diff_finder import Table, DiffFinder, Diff, Ratios
 import phovea_server.dataset as dataset
@@ -12,15 +13,41 @@ import os
 import hashlib
 from collections import namedtuple
 from os import path
+import logging
 
 __author__ = 'Reem'
-data_directory = path.normpath(path.join(path.dirname(__file__), '../../cache')) + '/'
-os.makedirs(data_directory)
-print(data_directory)
+
+_log = logging.getLogger(__name__)
+
+"""
+Path to the cache directory
+"""
+_cache_directory = path.normpath(path.join(path.dirname(__file__), '../../cache')) + '/'
 
 
-def get_diff_cache(name):
-  file_name = data_directory + name + '.json'
+def create_cache_dir():
+  """
+  Create cache directory
+  :return:
+  """
+  if os.path.isdir(_cache_directory) is False:
+    os.makedirs(_cache_directory)
+    _log.info('cache directory created at: ' + _cache_directory)
+
+  else:
+    _log.info('use existing cache directory: ' + _cache_directory)
+
+# run immediately!
+create_cache_dir()
+
+
+def get_diff_cache(filename):
+  """
+  Loads a cache result by filename
+  :param filename:
+  :return:
+  """
+  file_name = _cache_directory + filename + '.json'
   if os.path.isfile(file_name):
     with open(file_name) as data_file:
       data = json.load(data_file)
@@ -30,20 +57,36 @@ def get_diff_cache(name):
   return None
 
 
-def set_diff_cache(name, data):
-  file_name = data_directory + name + '.json'
+def set_diff_cache(filename, data):
+  """
+  Writing data to a given cached filename
+  :param filename:
+  :param data:
+  :return:
+  """
+  file_name = _cache_directory + filename + '.json'
   with open(file_name, 'w') as outfile:
     json.dump(data, outfile)
 
 
 # this is now by default for the detail diff
-def get_diff(id1, id2, direction, ops, jsonit=True):
+def get_diff_table(id1, id2, direction, ops, jsonit=True):
+  """
+  Get cached data for the diff table and if not available calculate and cache it
+  :param id1:
+  :param id2:
+  :param direction:
+  :param ops:
+  :param jsonit: If True return result as json string. Otherwise return Python object.
+  :return:
+  """
   hash_name = create_hashname(id1, id2, 0, 0, direction, ops)
+
   if jsonit:
     t1 = timeit.default_timer()
     json_result = get_diff_cache(hash_name)
     t2 = timeit.default_timer()
-    print("get diff: cache (json)", t2 - t1)
+    _log.debug("TIMER: get diff: cache (json)", t2 - t1)
     # it's not in the cache
     if json_result is None:
       # get one for the detail
@@ -64,41 +107,75 @@ def get_diff(id1, id2, direction, ops, jsonit=True):
     t3 = timeit.default_timer()
     diffobj = calc_diff(id1, id2, direction, ops)
     t4 = timeit.default_timer()
-    print("get diff: calc diff ", t4 - t3)
+    _log.debug("TIMER: get diff: calc diff ", t4 - t3)
     return diffobj
 
 
-# get the ratios for the overview or the aggregated results for the middle view
+def get_counts(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
+  """
+  Get the absolute number of changes (aka counts)
+  :param id1:
+  :param id2:
+  :param direction:
+  :param ops:
+  :param bins:
+  :param bins_col:
+  :param jsonit:
+  :return:
+  """
+  pass
+
+
 def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
+  """
+  Get the ratios for the overview or the aggregated results for the middle view
+  :param id1:
+  :param id2:
+  :param direction:
+  :param ops:
+  :param bins:
+  :param bins_col:
+  :param jsonit: If True return result as json string. Otherwise return Python object.
+  :return:
+  """
   hashname = create_hashname(id1, id2, bins, bins_col, direction, ops)
   json_ratios = get_diff_cache(hashname)
+
   if json_ratios is None:
     # we calculate the new one
     # get the detail diff
     t4 = timeit.default_timer()
-    diffobj = get_diff(id1, id2, direction, ops, False)
+
+    diffobj = get_diff_table(id1, id2, direction, ops, False)
+
     t5 = timeit.default_timer()
-    print("get diff in get ratios ", t5 - t4)
+    _log.debug("TIMER: get diff in get ratios ", t5 - t4)
     # calculate the ratios for the overview
     t1 = timeit.default_timer()
+
     ratios = diffobj.aggregate(bins, bins_col)
+
     t2 = timeit.default_timer()
-    print("time to aggregate with ", bins, bins_col, t2 - t1)
+    _log.debug("TIMER: time to aggregate with ", bins, bins_col, t2 - t1)
     # todo find a better solution for this serialize thing :|
     if bins == 1:
       json_ratios = ujson.dumps(ratios.serialize())
     else:
       json_ratios = ujson.dumps(ratios)
+
     # cache this as overview
     set_diff_cache(hashname, json_ratios)
+
     if not jsonit:
       return ratios
+
   if not jsonit:
     t0 = timeit.default_timer()
     rj = ratio_from_json(json_ratios)
     t3 = timeit.default_timer()
-    print("time ratio from json", bins, bins_col, t3 - t0)
+    _log.debug("TIMER: time ratio from json", bins, bins_col, t3 - t0)
     return rj
+
   return json_ratios
 
 
@@ -113,13 +190,23 @@ def calc_diff(id1, id2, direction, ops):
   t2 = timeit.default_timer()
   d = dfinder.generate_diff(ops)
   t3 = timeit.default_timer()
-  print("time to generate diff", t3 - t2)
+  _log.debug("TIMER: time to generate diff", t3 - t2)
   if isinstance(d, Diff):
     d.add_union(dfinder.union)
   return d
 
 
 def create_hashname(id1, id2, bins, bins_col, direction, ops):
+  """
+  Helper function to generate a hash name for the cached filename
+  :param id1:
+  :param id2:
+  :param bins:
+  :param bins_col:
+  :param direction:
+  :param ops:
+  :return:
+  """
   name = str(id1) + '_' + str(id2) + '_' + str(bins) + '_' + str(bins_col) + '_' + str(direction) + '_' + str(ops)
   return hashlib.md5(name).hexdigest()
 
