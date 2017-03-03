@@ -26,7 +26,6 @@ def jsontest():
   return ns.jsonify({'x': 'where are you', 'y': "too"})
 
 
-@app.route('/diff_log/<id1>/<id2>/<bins_row>/<bins_col>/<direction>/<operations>')
 def diff_log(id1, id2, bins_row, bins_col, direction, operations):
   """
   @see: https://github.com/Reemh/taco_server/wiki/Diff-Aggregation
@@ -41,22 +40,20 @@ def diff_log(id1, id2, bins_row, bins_col, direction, operations):
   :return:
   """
   t1 = timeit.default_timer()
-  b = int(bins_row)
-  if b == 0:
-    # no bins which is the diff heatmap (detail)
-    json_result = diff_cache.get_diff_table(id1, id2, direction, operations, True)
-  else:
-    # the overview view and
-    # the middle view based on the number of bins or lines i.e. rows/columns (middle)
-    b_c = int(bins_col)
-    json_result = diff_cache.get_ratios(id1, id2, direction, operations, b, b_c)
+  br = int(bins_row)
+  bc = int(bins_col)
+  json_result = diff_cache.get_ratios(id1, id2, direction, operations, br, bc)
   t6 = timeit.default_timer()
   _log.debug("TIMER: time for everything ", t6 - t1)
-  # creating flask response
   return make_json_response(json_result)
 
 
 def make_json_response(json_string):
+  """
+  Create flask response
+  :param json_string:
+  :return:
+  """
   response = ns.make_response(json_string)
   response.headers["content-type"] = 'application/json'
   return response
@@ -86,10 +83,16 @@ def histogram(id1, id2, bins_row, bins_col, operations):
 
 @app.route('/compare/<id1>/<id2>/<operations>/diff_heat_map')
 def diff_heatmap(id1, id2, operations):
-  bins_row = 0
-  bins_col = 0
   direction = 2
-  return diff_log(id1, id2, bins_row, bins_col, direction, operations)
+
+  ts = timeit.default_timer()
+
+  json_result = diff_cache.get_diff_table(id1, id2, direction, operations, True)
+
+  te = timeit.default_timer()
+  _log.debug("TIMER: time for everything ", te - ts)
+
+  return make_json_response(json_result)
 
 
 def create():

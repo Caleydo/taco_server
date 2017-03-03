@@ -50,8 +50,7 @@ def get_diff_cache(filename):
   file_name = _cache_directory + filename + '.json'
   if os.path.isfile(file_name):
     with open(file_name) as data_file:
-      data = json.load(data_file)
-      # todo why i don't use ujson here?
+      data = ujson.load(data_file)
     return data
   # if the file doesn't exist
   return None
@@ -109,21 +108,6 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
     t4 = timeit.default_timer()
     _log.debug("TIMER: get diff: calc diff ", t4 - t3)
     return diffobj
-
-
-def get_counts(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
-  """
-  Get the absolute number of changes (aka counts)
-  :param id1:
-  :param id2:
-  :param direction:
-  :param ops:
-  :param bins:
-  :param bins_col:
-  :param jsonit:
-  :return:
-  """
-  pass
 
 
 def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
