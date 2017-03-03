@@ -779,7 +779,7 @@ class DiffFinder:
       old = np.where(x == i)[0][0]
       new = np.where(y == i)[0][0]
       # todo substitute this with the new one!
-      reordered.append({'id': i, 'from': old, 'to': new, 'diff': new-old})
+      reordered.append({'id': i, 'from': old, 'to': new, 'diff': new - old})
       np.put(indices, old, new)
     # index = []
     # for i in x:
