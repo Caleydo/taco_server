@@ -50,8 +50,7 @@ def get_diff_cache(filename):
   file_name = _cache_directory + filename + '.json'
   if os.path.isfile(file_name):
     with open(file_name) as data_file:
-      data = json.load(data_file)
-      # todo why i don't use ujson here?
+      data = ujson.load(data_file)
     return data
   # if the file doesn't exist
   return None
