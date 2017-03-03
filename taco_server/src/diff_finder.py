@@ -144,7 +144,7 @@ class Diff:
     self.content = [] if content is None else content
     self.structure = {} if structure is None else structure
     self.merge = {} if merge is None else merge
-    self.reorder = {} if reorder is None else reorder
+    self.reorder = {'rows': [], 'cols': []} if reorder is None else reorder
     self.union = {} if union is None else union
 
   # todo decide if the union should be here or in the diff finder
@@ -739,6 +739,7 @@ class DiffFinder:
       self.diff.structure["deleted_" + e_type + "s"] = deleted_log
 
   # content changes
+  """
   def _compare_values1(self):
     for i in self.intersection["ir_ids"]:
       r1 = np.where(self._table1.row_ids == i)[0][0]
@@ -755,19 +756,22 @@ class DiffFinder:
           cpos = np.where(self.union["uc_ids"] == j)[0][0]
           self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
           # return diff_arrays
+  """
 
   # @disordered is an array of the IDs that are available in x and not in the matching position in y (or not available at all)
   # in case x and y are a result of the intersection then disordered is the list of disordered IDs in x
-  def _find_reorder(self, x, y, disordered):
+  def _find_reorder(self, x, y, disordered, direction):
     # todo this should be as the size of the original ids not just the intesection ids
     # x shape or y shape should be the same
     # or the shape of the IDs in the second table (original y)
     indices = np.arange(x.shape[0])
+    reordered = []
     for i in disordered:
       # todo check this with more than 2 changes
       old = np.where(x == i)[0][0]
       new = np.where(y == i)[0][0]
       # todo substitute this with the new one!
+      reordered.append({'id': i, 'from': old, 'to': new, 'diff': new-old})
       np.put(indices, old, new)
     # index = []
     # for i in x:
@@ -775,6 +779,7 @@ class DiffFinder:
     #         index += [np.where(y == i)[0][0]]
     #     else:
     #         index += [np.where(x == i)[0][0]]
+    self._reorder_to_json(direction, reordered)
     return indices
 
   def _compare_values(self):
@@ -807,7 +812,7 @@ class DiffFinder:
     inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
     if (rdis.shape[0] > 0):
       # todo do this in one step
-      r_indices = self._find_reorder(rids1, rids2, rdis)
+      r_indices = self._find_reorder(rids1, rids2, rdis, 'rows')
       inter2 = inter2[r_indices, :]
     # for columns
     cids1 = self._table1.col_ids[c_bo1]
@@ -826,7 +831,7 @@ class DiffFinder:
       return
     # if there's a disorder in the columns
     if (cdis.shape[0] > 0):
-      c_indices = self._find_reorder(cids1, cids2, cdis)
+      c_indices = self._find_reorder(cids1, cids2, cdis, 'cols')
       inter2 = inter2[:, c_indices]
     # at this point inter2 should look good hopefully!
     # diff work
@@ -839,6 +844,9 @@ class DiffFinder:
     self._content_to_json(normalized_diff)
     after = timeit.default_timer()
     _log.debug("TIMER: logging", after - before)
+
+  def _reorder_to_json(self, direction, disorder):
+    self.diff.reorder[direction] = disorder
 
   def _content_to_json(self, diff):
     # check if the diff is None (the case of all 0s diff)

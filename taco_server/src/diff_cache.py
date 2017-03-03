@@ -181,18 +181,26 @@ def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
 
 # calc the detailed diff
 def calc_diff(id1, id2, direction, ops):
+  """
+  Calculate a detailed difference between two tables
+  :param id1:
+  :param id2:
+  :param direction:
+  :param ops:
+  :return:
+  """
   ds1 = dataset.get(id1)
   ds2 = dataset.get(id2)
   # create the table object
   table1 = Table(ds1.rows(), ds1.cols(), ds1.asnumpy())
   table2 = Table(ds2.rows(), ds2.cols(), ds2.asnumpy())
-  dfinder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, direction)
+  diff_finder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, direction)
   t2 = timeit.default_timer()
-  d = dfinder.generate_diff(ops)
+  d = diff_finder.generate_diff(ops)
   t3 = timeit.default_timer()
   _log.debug("TIMER: time to generate diff", t3 - t2)
   if isinstance(d, Diff):
-    d.add_union(dfinder.union)
+    d.add_union(diff_finder.union)
   return d
 
 
