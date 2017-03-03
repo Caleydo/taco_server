@@ -81,32 +81,35 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
   """
   hash_name = create_hashname(id1, id2, 0, 0, direction, ops)
 
-  if jsonit:
-    t1 = timeit.default_timer()
-    json_result = get_diff_cache(hash_name)
-    t2 = timeit.default_timer()
-    _log.debug("TIMER: get diff: cache (json)", t2 - t1)
-    # it's not in the cache
-    if json_result is None:
-      # get one for the detail
-      diffobj = calc_diff(id1, id2, direction, ops)
-      if isinstance(diffobj, Diff):
-        # log the detail
-        json_result = ujson.dumps(diffobj.serialize())
-        set_diff_cache(hash_name, json_result)
-      else:
-        # todo later find a way to send the error
-        # e.g. there's no matching column in this case
-        json_result = ujson.dumps(diffobj)  # which is {} for now!
-        set_diff_cache(hash_name, json_result)
-    return json_result
-  else:
-    # not jsonit
-    # calc diff for the detail
+  t1 = timeit.default_timer()
+  json_result = get_diff_cache(hash_name)
+  t2 = timeit.default_timer()
+  _log.debug("TIMER: get diff: cache (json)", t2 - t1)
+  diffobj = None
+
+  if json_result is None:
+    # get one for the detail
     t3 = timeit.default_timer()
     diffobj = calc_diff(id1, id2, direction, ops)
     t4 = timeit.default_timer()
     _log.debug("TIMER: get diff: calc diff ", t4 - t3)
+
+    if isinstance(diffobj, Diff):
+      # log the detail
+      json_result = ujson.dumps(diffobj.serialize())
+      set_diff_cache(hash_name, json_result)
+    else:
+      # todo later find a way to send the error
+      # e.g. there's no matching column in this case
+      json_result = ujson.dumps(diffobj)  # which is {} for now!
+      set_diff_cache(hash_name, json_result)
+
+  elif jsonit is False:
+    diffobj = Diff().unserialize(ujson.loads(json_result))
+
+  if jsonit:
+    return json_result
+  else:
     return diffobj
 
 

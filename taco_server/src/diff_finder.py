@@ -164,6 +164,14 @@ class Diff:
         "union": self.union
     }
 
+  def unserialize(self, json_obj):
+    self.content = [] if json_obj['content'] is None else json_obj['content']
+    self.structure = {} if json_obj['structure'] is None else json_obj['structure']
+    self.merge = {} if json_obj['merge'] is None else json_obj['merge']
+    self.reorder = {'rows': [], 'cols': []} if json_obj['reorder'] is None else json_obj['reorder']
+    self.union = {} if json_obj['union'] is None else json_obj['union']
+    return self
+
   def content_counts_percell(self):
     return float(len(self.content))
 
