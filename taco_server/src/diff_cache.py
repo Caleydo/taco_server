@@ -110,21 +110,6 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
     return diffobj
 
 
-def get_counts(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
-  """
-  Get the absolute number of changes (aka counts)
-  :param id1:
-  :param id2:
-  :param direction:
-  :param ops:
-  :param bins:
-  :param bins_col:
-  :param jsonit:
-  :return:
-  """
-  pass
-
-
 def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
   """
   Get the ratios for the overview or the aggregated results for the middle view
