@@ -79,7 +79,11 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
   :param jsonit: If True return result as json string. Otherwise return Python object.
   :return:
   """
-  hash_name = create_hashname(id1, id2, 0, 0, direction, ops)
+
+  # HACK: force calculation of everything. then we only do it once and use the cache in the future
+  all_ops = "structure,content,merge,reorder"
+
+  hash_name = create_hashname(id1, id2, 0, 0, direction, all_ops)
 
   t1 = timeit.default_timer()
   json_result = get_diff_cache(hash_name)
@@ -90,7 +94,7 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
   if json_result is None:
     # get one for the detail
     t3 = timeit.default_timer()
-    diffobj = calc_diff(id1, id2, direction, ops)
+    diffobj = calc_diff(id1, id2, direction, all_ops)
     t4 = timeit.default_timer()
     _log.debug("TIMER: get diff: calc diff ", t4 - t3)
 
