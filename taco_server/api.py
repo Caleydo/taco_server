@@ -53,10 +53,10 @@ def diff_log(id1, id2, bins_row, bins_col, direction, operations):
   t6 = timeit.default_timer()
   _log.debug("TIMER: time for everything ", t6 - t1)
   # creating flask response
-  return makeJSONResponse(json_result)
+  return make_json_response(json_result)
 
 
-def makeJSONResponse(json_string):
+def make_json_response(json_string):
   response = ns.make_response(json_string)
   response.headers["content-type"] = 'application/json'
   return response
@@ -72,8 +72,8 @@ def bar_chart(id1, id2, operations):
 
 @app.route('/compare/<id1>/<id2>/<operations>/ratio_2d')
 def ratio_2d(id1, id2, operations):
-  bins_row = -1 # -1 = aggregate the whole table
-  bins_col = -1 # -1 = aggregate the whole table
+  bins_row = -1  # -1 = aggregate the whole table
+  bins_col = -1  # -1 = aggregate the whole table
   direction = 2
   return diff_log(id1, id2, bins_row, bins_col, direction, operations)
 
