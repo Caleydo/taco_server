@@ -243,11 +243,15 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
+    if "rows" in self.reorder:
+      h -= len(self.reorder["rows"])
     # the width without the deleted or removed cols
     if "deleted_cols" in self.structure:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
+    if "cols" in self.reorder:
+      w -= len(self.reorder["cols"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -266,11 +270,15 @@ class Diff:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
+    if "cols" in self.reorder:
+      w -= len(self.reorder["cols"])
     # the height without the removed or added rows
     if "deleted_rows" in self.structure:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
+    if "rows" in self.reorder:
+      h -= len(self.reorder["rows"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -284,6 +292,8 @@ class Diff:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
+    if "cols" in self.reorder:
+      w -= len(self.reorder["cols"])
 
     cells = w * h
 
@@ -300,11 +310,15 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
+    if "rows" in self.reorder:
+      h -= len(self.reorder["rows"])
     # the width without the deleted or removed cols
     if "deleted_cols" in self.structure:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
+    if "cols" in self.reorder:
+      w -= len(self.reorder["cols"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -318,12 +332,41 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
+    if "rows" in self.reorder:
+      h -= len(self.reorder["rows"])
 
     cells = w * h
 
     if counts is None:
       counts = self.nochange_cols_counts(width, height)
 
+    return counts / cells
+
+  def reorder_rows_counts(self, width, height):
+    return float(len(self.reorder['rows']))
+
+  def reorder_cols_counts(self, width, height):
+    return float(len(self.reorder['cols']))
+
+  def reorder_counts(self, width, height):
+    reordered_counts = 0
+    h = height
+    w = width
+
+    if "rows" in self.reorder:
+      reordered_counts += self.reorder_rows_counts(width, height) * w
+      h -= self.reorder_rows_counts(width, height)
+
+    if "cols" in self.reorder:
+      reordered_counts += self.reorder_cols_counts(width, height) * h
+      w -= self.reorder_cols_counts(width, height)
+
+    return float(reordered_counts)
+
+  def reorder_ratio(self, width, height, counts=None):
+    cells = width * height
+    if counts is None:
+      counts = self.reorder_counts(width, height)
     return counts / cells
 
   def aggregate(self, bins, bins_col=2):
@@ -523,13 +566,15 @@ class Diff:
       no_counts = self.nochange_counts(ucols, urows)
       scounts_a = self.struct_add_counts(ucols, urows)
       scounts_d = self.struct_del_counts(ucols, urows)
-      counts = Counts(ccounts, scounts_a, scounts_d, no_counts)
+      reorder_counts = self.reorder_counts(ucols, urows)
+      counts = Counts(ccounts, scounts_a, scounts_d, no_counts, reorder_counts)
 
       cratio = self.content_ratio_percell(union_cells, counts.c_counts)
       no_ratio = self.nochange_ratio(ucols, urows, counts.no_counts)
       sratio_a = self.struct_add_ratio(ucols, urows, counts.a_counts)
       sratio_d = self.struct_del_ratio(ucols, urows, counts.d_counts)
-      ratios = Ratios(cratio, sratio_a, sratio_d, no_ratio)
+      reorder_ratio = self.reorder_ratio(ucols, urows, counts.r_counts)
+      ratios = Ratios(cratio, sratio_a, sratio_d, no_ratio, reorder_ratio)
 
       return RatiosAndCounts(ratios, counts)
 
@@ -581,18 +626,22 @@ class Ratios:
   """
   Relative number of changes (aka ratios)
   """
-  def __init__(self, cr=0.0, ar=0.0, dr=0.0, no=100.0):
+  def __init__(self, cr=0.0, ar=0.0, dr=0.0, no=100.0, rr=0.0, mr=0.0):
     self.c_ratio = cr
     self.a_ratio = ar
     self.d_ratio = dr
     self.no_ratio = no
+    self.r_ratio = rr
+    self.m_ratio = mr
 
   def serialize(self):
     return {
         "c_ratio": self.c_ratio,
         "a_ratio": self.a_ratio,
         "d_ratio": self.d_ratio,
-        "no_ratio": self.no_ratio
+        "no_ratio": self.no_ratio,
+        "r_ratio": self.r_ratio,
+        "m_ratio": self.m_ratio
     }
 
 
@@ -600,18 +649,22 @@ class Counts:
   """
   Absolute number of changes (aka counts)
   """
-  def __init__(self, cc=0.0, ac=0.0, dc=0.0, no=100.0):
+  def __init__(self, cc=0.0, ac=0.0, dc=0.0, no=100.0, rc=0.0, mc=0.0):
     self.c_counts = cc
     self.a_counts = ac
     self.d_counts = dc
     self.no_counts = no
+    self.r_counts = rc
+    self.m_counts = mc
 
   def serialize(self):
     return {
         "c_counts": self.c_counts,
         "a_counts": self.a_counts,
         "d_counts": self.d_counts,
-        "no_counts": self.no_counts
+        "no_counts": self.no_counts,
+        "r_counts": self.r_counts,
+        "m_counts": self.m_counts
     }
 
 
