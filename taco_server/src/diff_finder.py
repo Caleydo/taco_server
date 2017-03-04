@@ -243,15 +243,15 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
-    #if "rows" in self.reorder:
-    #  h -= len(self.reorder["rows"])
+    # if "rows" in self.reorder:
+    #   h -= len(self.reorder["rows"])
     # the width without the deleted or removed cols
     if "deleted_cols" in self.structure:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
-    #if "cols" in self.reorder:
-    #  w -= len(self.reorder["cols"])
+    # if "cols" in self.reorder:
+    #   w -= len(self.reorder["cols"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -270,15 +270,15 @@ class Diff:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
-    #if "cols" in self.reorder:
-    #  w -= len(self.reorder["cols"])
+    # if "cols" in self.reorder:
+    #   w -= len(self.reorder["cols"])
     # the height without the removed or added rows
     if "deleted_rows" in self.structure:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
-    #if "rows" in self.reorder:
-    #  h -= len(self.reorder["rows"])
+    # if "rows" in self.reorder:
+    #   h -= len(self.reorder["rows"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -292,8 +292,8 @@ class Diff:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
-    #if "cols" in self.reorder:
-    #  w -= len(self.reorder["cols"])
+    # if "cols" in self.reorder:
+    #   w -= len(self.reorder["cols"])
 
     cells = w * h
 
@@ -310,15 +310,15 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
-    #if "rows" in self.reorder:
-    #  h -= len(self.reorder["rows"])
+    # if "rows" in self.reorder:
+    #   h -= len(self.reorder["rows"])
     # the width without the deleted or removed cols
     if "deleted_cols" in self.structure:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
-    #if "cols" in self.reorder:
-    #  w -= len(self.reorder["cols"])
+    # if "cols" in self.reorder:
+    #   w -= len(self.reorder["cols"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -332,8 +332,8 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
-    #if "rows" in self.reorder:
-    #  h -= len(self.reorder["rows"])
+    # if "rows" in self.reorder:
+    #   h -= len(self.reorder["rows"])
 
     cells = w * h
 
