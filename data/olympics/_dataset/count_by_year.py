@@ -5,7 +5,7 @@ def writeCSV(year, medalType, fieldnames, medalsPerCountry):
     print('Invalid year -> file not written')
     return
 
-  filename = year + '_' + medalType + '.csv'
+  filename = 'olympics_' + year + '_' + medalType.lower() + '.csv'
   # sort countries by sum of all medals
   sortedBySum = sorted(medalsPerCountry.items(), key=lambda x: sum(x[1].values()), reverse=True)
 
