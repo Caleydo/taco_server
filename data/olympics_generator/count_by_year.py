@@ -45,7 +45,7 @@ def writeCSV(year, medalType, fieldnames, medalsPerCountry):
   stats['type'] = 'matrix'
   stats['size'] = [len(sortedBySum), len(fieldnames)-1] # -1 = CountryCode fieldname
   stats['rowtype'] = 'CountryCode'
-  stats['rowtype'] = 'SportEvent'
+  stats['coltype'] = 'SportEvent'
   stats['value'] = dict(type='real', range=[0, maxValue])
 
   createdCSVs.append(stats)
