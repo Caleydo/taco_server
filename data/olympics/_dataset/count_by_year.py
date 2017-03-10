@@ -6,16 +6,20 @@ def writeCSV(year, medalType, fieldnames, medalsPerCountry):
     return
 
   filename = year + '_' + medalType + '.csv'
+  # sort countries by sum of all medals
+  sortedBySum = sorted(medalsPerCountry.items(), key=lambda x: sum(x[1].values()), reverse=True)
 
   print('----------------')
   print('Write ' + filename)
   print(fieldnames)
-  print(medalsPerCountry)
+  print(sortedBySum)
 
   with open('../' + filename, 'wb') as output:
     writer = csv.DictWriter(output, fieldnames=fieldnames, restval='0', dialect='excel-tab')
     writer.writeheader()
-    writer.writerows(medalsPerCountry.values())
+    for k, v in sortedBySum:
+      v['CountryCode'] = k
+      writer.writerow(v)
 
   print('----------------')
 
@@ -46,7 +50,7 @@ def readCSV(medalType = 'Total'):
       if row['Medal'] == medalType or medalType is 'Total':
         if country not in medalsPerCountry:
           medalsPerCountry[country] = dict()
-          medalsPerCountry[country]['CountryCode'] = country
+          #medalsPerCountry[country]['CountryCode'] = country
 
         if row['Event'] not in medalsPerCountry[country]:
           medalsPerCountry[country][row['Event']] = 0
