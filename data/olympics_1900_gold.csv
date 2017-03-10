@@ -1,6 +1,6 @@
-CountryCode	100m Men	110m Hurdles Men	1500m Men	200m Men	400m Hurdles Men	400m Men	800m Men	Marathon Men	Eights Men	Single Sculls Men	200m Backstroke Men	200m Freestyle Men
-USA	1	1	0	1	1	1	0	0	1	0	0	0
-FRA	0	0	0	0	0	0	0	1	0	1	0	0
-GBR	0	0	1	0	0	0	1	0	0	0	0	0
-DEU	0	0	0	0	0	0	0	0	0	0	1	0
-AUS	0	0	0	0	0	0	0	0	0	0	0	1
+CountryCode,100m Men,110m Hurdles Men,1500m Men,200m Men,400m Hurdles Men,400m Men,800m Men,Marathon Men,Eights Men,Single Sculls Men,200m Backstroke Men,200m Freestyle Men
+USA,1,1,0,1,1,1,0,0,1,0,0,0
+FRA,0,0,0,0,0,0,0,1,0,1,0,0
+GBR,0,0,1,0,0,0,1,0,0,0,0,0
+DEU,0,0,0,0,0,0,0,0,0,0,1,0
+AUS,0,0,0,0,0,0,0,0,0,0,0,1

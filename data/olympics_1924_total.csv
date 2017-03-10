@@ -1,15 +1,15 @@
-CountryCode	10000m Men	100m Men	110m Hurdles Men	1500m Men	200m Men	3000m Steeplechase Men	400m Hurdles Men	400m Men	4x100m Relay Men	4x400m Relay Men	5000m Men	800m Men	Marathon Men	Coxless Fours Men	Coxless Pairs Men	Double Sculls Men	Eights Men	Single Sculls Men	100m Backstroke Men	100m Backstroke Women	100m Freestyle Men	100m Freestyle Women	1500m Freestyle Men	200m Breaststroke Men	200m Breaststroke Women	400m Freestyle Men	400m Freestyle Women	4x100m Freestyle Relay Women	4x200m Freestyle Relay Men
-USA	0	1	1	0	2	0	2	1	1	1	0	1	1	0	0	1	1	1	2	2	3	3	0	2	1	1	3	1	1
-GBR	0	1	0	1	1	0	0	2	1	0	0	1	0	1	0	0	0	1	0	1	0	0	0	0	2	0	0	1	0
-FIN	2	0	0	1	0	2	1	0	0	0	2	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-SWE	1	0	1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	0	1	1
-SUI	0	0	0	1	0	0	0	0	0	0	0	1	0	1	0	1	0	1	0	0	0	0	0	0	0	0	0	0	0
-AUS	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	2	0	0	1	0	0	1
-FRA	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0
-NED	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-KIT	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0
-CAN	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0
-BEL	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0
-SAF	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-HUN	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0
-NZL	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+CountryCode,10000m Men,100m Men,110m Hurdles Men,1500m Men,200m Men,3000m Steeplechase Men,400m Hurdles Men,400m Men,4x100m Relay Men,4x400m Relay Men,5000m Men,800m Men,Marathon Men,Coxless Fours Men,Coxless Pairs Men,Double Sculls Men,Eights Men,Single Sculls Men,100m Backstroke Men,100m Backstroke Women,100m Freestyle Men,100m Freestyle Women,1500m Freestyle Men,200m Breaststroke Men,200m Breaststroke Women,400m Freestyle Men,400m Freestyle Women,4x100m Freestyle Relay Women,4x200m Freestyle Relay Men
+USA,0,1,1,0,2,0,2,1,1,1,0,1,1,0,0,1,1,1,2,2,3,3,0,2,1,1,3,1,1
+GBR,0,1,0,1,1,0,0,2,1,0,0,1,0,1,0,0,0,1,0,1,0,0,0,0,2,0,0,1,0
+FIN,2,0,0,1,0,2,1,0,0,0,2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+SWE,1,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,1
+SUI,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0
+AUS,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1,0,0,1
+FRA,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+NED,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+KIT,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+CAN,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+BEL,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+SAF,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+HUN,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
+NZL,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

@@ -29,7 +29,7 @@ def writeCSV(year, medalType, fieldnames, medalsPerCountry):
   #minValue = float('inf') # does not work, because we fill empty cells with 0 by default
 
   with open('../' + filename, 'wb') as output:
-    writer = csv.DictWriter(output, fieldnames=fieldnames, restval='0', dialect='excel-tab')
+    writer = csv.DictWriter(output, fieldnames=fieldnames, restval='0', dialect='excel')
     writer.writeheader()
     for k, v in sortedBySum:
       values = list(v.values())

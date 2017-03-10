@@ -1,10 +1,10 @@
-CountryCode	100m Men	110m Hurdles Men	1500m Men	200m Men	400m Hurdles Men	400m Men	800m Men	Marathon Men	Coxless Fours Men	Coxless Pairs Men	Eights Men	Single Sculls Men	100m Backstroke Men	100m Freestyle Men	1500m Freestyle Men	200m Breaststroke Men	400m Freestyle Men	4x200m Freestyle Relay Men
-USA	0	1	0	1	0	0	0	1	0	0	0	0	0	0	0	0	0	1
-GBR	0	0	1	0	1	0	0	0	0	0	1	0	1	0	0	0	0	0
-DEU	0	0	0	0	0	0	1	0	0	1	0	1	0	0	0	0	0	0
-SWE	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	0	0
-HUN	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0
-CAN	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-NED	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0
-ANZ	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0
-AUT	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0
+CountryCode,100m Men,110m Hurdles Men,1500m Men,200m Men,400m Hurdles Men,400m Men,800m Men,Marathon Men,Coxless Fours Men,Coxless Pairs Men,Eights Men,Single Sculls Men,100m Backstroke Men,100m Freestyle Men,1500m Freestyle Men,200m Breaststroke Men,400m Freestyle Men,4x200m Freestyle Relay Men
+USA,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1
+GBR,0,0,1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0
+DEU,0,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,0,0
+SWE,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0
+HUN,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+CAN,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+NED,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+ANZ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+AUT,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
