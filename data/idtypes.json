@@ -1,12 +1,12 @@
 [
   {
-    "id": "a",
-    "name": "A",
-    "names": "A"
+    "id": "CountryCode",
+    "name": "Country Code",
+    "names": "Country Codes"
   },
   {
-    "id": "b",
-    "name": "B",
-    "names": "B"
+    "id": "SportEvent",
+    "name": "Sport Event",
+    "names": "Sport Events"
   }
 ]
