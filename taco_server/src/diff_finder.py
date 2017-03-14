@@ -144,7 +144,7 @@ class Diff:
     self.content = [] if content is None else content
     self.structure = {} if structure is None else structure
     self.merge = {} if merge is None else merge
-    self.reorder = {} if reorder is None else reorder
+    self.reorder = {'rows': [], 'cols': []} if reorder is None else reorder
     self.union = {} if union is None else union
 
   # todo decide if the union should be here or in the diff finder
@@ -163,6 +163,14 @@ class Diff:
         "reorder": self.reorder,
         "union": self.union
     }
+
+  def unserialize(self, json_obj):
+    self.content = [] if json_obj['content'] is None else json_obj['content']
+    self.structure = {} if json_obj['structure'] is None else json_obj['structure']
+    self.merge = {} if json_obj['merge'] is None else json_obj['merge']
+    self.reorder = {'rows': [], 'cols': []} if json_obj['reorder'] is None else json_obj['reorder']
+    self.union = {} if json_obj['union'] is None else json_obj['union']
+    return self
 
   def content_counts_percell(self):
     return float(len(self.content))
@@ -235,11 +243,15 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
+    # if "rows" in self.reorder:
+    #   h -= len(self.reorder["rows"])
     # the width without the deleted or removed cols
     if "deleted_cols" in self.structure:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
+    # if "cols" in self.reorder:
+    #   w -= len(self.reorder["cols"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -258,11 +270,15 @@ class Diff:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
+    # if "cols" in self.reorder:
+    #   w -= len(self.reorder["cols"])
     # the height without the removed or added rows
     if "deleted_rows" in self.structure:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
+    # if "rows" in self.reorder:
+    #   h -= len(self.reorder["rows"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -276,6 +292,8 @@ class Diff:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
+    # if "cols" in self.reorder:
+    #   w -= len(self.reorder["cols"])
 
     cells = w * h
 
@@ -292,11 +310,15 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
+    # if "rows" in self.reorder:
+    #   h -= len(self.reorder["rows"])
     # the width without the deleted or removed cols
     if "deleted_cols" in self.structure:
       w -= len(self.structure["deleted_cols"])
     if "added_cols" in self.structure:
       w -= len(self.structure["added_cols"])
+    # if "cols" in self.reorder:
+    #   w -= len(self.reorder["cols"])
     # the rest cells without the changed ones
     noc = (h * w) - len(self.content)
     return float(noc)
@@ -310,12 +332,41 @@ class Diff:
       h -= len(self.structure["deleted_rows"])
     if "added_rows" in self.structure:
       h -= len(self.structure["added_rows"])
+    # if "rows" in self.reorder:
+    #   h -= len(self.reorder["rows"])
 
     cells = w * h
 
     if counts is None:
       counts = self.nochange_cols_counts(width, height)
 
+    return counts / cells
+
+  def reorder_rows_counts(self, width, height):
+    return float(len(self.reorder['rows']))
+
+  def reorder_cols_counts(self, width, height):
+    return float(len(self.reorder['cols']))
+
+  def reorder_counts(self, width, height):
+    reordered_counts = 0
+    h = height
+    w = width
+
+    if "rows" in self.reorder:
+      reordered_counts += self.reorder_rows_counts(width, height) * w
+      h -= self.reorder_rows_counts(width, height)
+
+    if "cols" in self.reorder:
+      reordered_counts += self.reorder_cols_counts(width, height) * h
+      w -= self.reorder_cols_counts(width, height)
+
+    return float(reordered_counts)
+
+  def reorder_ratio(self, width, height, counts=None):
+    cells = width * height
+    if counts is None:
+      counts = self.reorder_counts(width, height)
     return counts / cells
 
   def aggregate(self, bins, bins_col=2):
@@ -515,13 +566,15 @@ class Diff:
       no_counts = self.nochange_counts(ucols, urows)
       scounts_a = self.struct_add_counts(ucols, urows)
       scounts_d = self.struct_del_counts(ucols, urows)
-      counts = Counts(ccounts, scounts_a, scounts_d, no_counts)
+      reorder_counts = self.reorder_counts(ucols, urows)
+      counts = Counts(ccounts, scounts_a, scounts_d, no_counts, reorder_counts)
 
       cratio = self.content_ratio_percell(union_cells, counts.c_counts)
       no_ratio = self.nochange_ratio(ucols, urows, counts.no_counts)
       sratio_a = self.struct_add_ratio(ucols, urows, counts.a_counts)
       sratio_d = self.struct_del_ratio(ucols, urows, counts.d_counts)
-      ratios = Ratios(cratio, sratio_a, sratio_d, no_ratio)
+      reorder_ratio = self.reorder_ratio(ucols, urows, counts.r_counts)
+      ratios = Ratios(cratio, sratio_a, sratio_d, no_ratio, reorder_ratio)
 
       return RatiosAndCounts(ratios, counts)
 
@@ -573,18 +626,22 @@ class Ratios:
   """
   Relative number of changes (aka ratios)
   """
-  def __init__(self, cr=0.0, ar=0.0, dr=0.0, no=100.0):
+  def __init__(self, cr=0.0, ar=0.0, dr=0.0, no=100.0, rr=0.0, mr=0.0):
     self.c_ratio = cr
     self.a_ratio = ar
     self.d_ratio = dr
     self.no_ratio = no
+    self.r_ratio = rr
+    self.m_ratio = mr
 
   def serialize(self):
     return {
         "c_ratio": self.c_ratio,
         "a_ratio": self.a_ratio,
         "d_ratio": self.d_ratio,
-        "no_ratio": self.no_ratio
+        "no_ratio": self.no_ratio,
+        "r_ratio": self.r_ratio,
+        "m_ratio": self.m_ratio
     }
 
 
@@ -592,18 +649,22 @@ class Counts:
   """
   Absolute number of changes (aka counts)
   """
-  def __init__(self, cc=0.0, ac=0.0, dc=0.0, no=100.0):
+  def __init__(self, cc=0.0, ac=0.0, dc=0.0, no=100.0, rc=0.0, mc=0.0):
     self.c_counts = cc
     self.a_counts = ac
     self.d_counts = dc
     self.no_counts = no
+    self.r_counts = rc
+    self.m_counts = mc
 
   def serialize(self):
     return {
         "c_counts": self.c_counts,
         "a_counts": self.a_counts,
         "d_counts": self.d_counts,
-        "no_counts": self.no_counts
+        "no_counts": self.no_counts,
+        "r_counts": self.r_counts,
+        "m_counts": self.m_counts
     }
 
 
@@ -739,6 +800,7 @@ class DiffFinder:
       self.diff.structure["deleted_" + e_type + "s"] = deleted_log
 
   # content changes
+  """
   def _compare_values1(self):
     for i in self.intersection["ir_ids"]:
       r1 = np.where(self._table1.row_ids == i)[0][0]
@@ -755,19 +817,22 @@ class DiffFinder:
           cpos = np.where(self.union["uc_ids"] == j)[0][0]
           self.diff.content += [{"row": str(i), "col": str(j), "diff_data": cell_diff, "rpos": rpos, "cpos": cpos}]
           # return diff_arrays
+  """
 
   # @disordered is an array of the IDs that are available in x and not in the matching position in y (or not available at all)
   # in case x and y are a result of the intersection then disordered is the list of disordered IDs in x
-  def _find_reorder(self, x, y, disordered):
+  def _find_reorder(self, x, y, disordered, direction):
     # todo this should be as the size of the original ids not just the intesection ids
     # x shape or y shape should be the same
     # or the shape of the IDs in the second table (original y)
     indices = np.arange(x.shape[0])
+    reordered = []
     for i in disordered:
       # todo check this with more than 2 changes
       old = np.where(x == i)[0][0]
       new = np.where(y == i)[0][0]
       # todo substitute this with the new one!
+      reordered.append({'id': i, 'from': old, 'to': new, 'diff': new - old})
       np.put(indices, old, new)
     # index = []
     # for i in x:
@@ -775,6 +840,7 @@ class DiffFinder:
     #         index += [np.where(y == i)[0][0]]
     #     else:
     #         index += [np.where(x == i)[0][0]]
+    self._reorder_to_json(direction, reordered)
     return indices
 
   def _compare_values(self):
@@ -807,7 +873,7 @@ class DiffFinder:
     inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
     if (rdis.shape[0] > 0):
       # todo do this in one step
-      r_indices = self._find_reorder(rids1, rids2, rdis)
+      r_indices = self._find_reorder(rids1, rids2, rdis, 'rows')
       inter2 = inter2[r_indices, :]
     # for columns
     cids1 = self._table1.col_ids[c_bo1]
@@ -826,7 +892,7 @@ class DiffFinder:
       return
     # if there's a disorder in the columns
     if (cdis.shape[0] > 0):
-      c_indices = self._find_reorder(cids1, cids2, cdis)
+      c_indices = self._find_reorder(cids1, cids2, cdis, 'cols')
       inter2 = inter2[:, c_indices]
     # at this point inter2 should look good hopefully!
     # diff work
@@ -839,6 +905,9 @@ class DiffFinder:
     self._content_to_json(normalized_diff)
     after = timeit.default_timer()
     _log.debug("TIMER: logging", after - before)
+
+  def _reorder_to_json(self, direction, disorder):
+    self.diff.reorder[direction] = disorder
 
   def _content_to_json(self, diff):
     # check if the diff is None (the case of all 0s diff)

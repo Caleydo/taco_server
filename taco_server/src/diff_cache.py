@@ -79,34 +79,41 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
   :param jsonit: If True return result as json string. Otherwise return Python object.
   :return:
   """
-  hash_name = create_hashname(id1, id2, 0, 0, direction, ops)
 
-  if jsonit:
-    t1 = timeit.default_timer()
-    json_result = get_diff_cache(hash_name)
-    t2 = timeit.default_timer()
-    _log.debug("TIMER: get diff: cache (json)", t2 - t1)
-    # it's not in the cache
-    if json_result is None:
-      # get one for the detail
-      diffobj = calc_diff(id1, id2, direction, ops)
-      if isinstance(diffobj, Diff):
-        # log the detail
-        json_result = ujson.dumps(diffobj.serialize())
-        set_diff_cache(hash_name, json_result)
-      else:
-        # todo later find a way to send the error
-        # e.g. there's no matching column in this case
-        json_result = ujson.dumps(diffobj)  # which is {} for now!
-        set_diff_cache(hash_name, json_result)
-    return json_result
-  else:
-    # not jsonit
-    # calc diff for the detail
+  # HACK: force calculation of everything. then we only do it once and use the cache in the future
+  all_ops = "structure,content,merge,reorder"
+
+  hash_name = create_hashname(id1, id2, 0, 0, direction, all_ops)
+
+  t1 = timeit.default_timer()
+  json_result = get_diff_cache(hash_name)
+  t2 = timeit.default_timer()
+  _log.debug("TIMER: get diff: cache (json)", t2 - t1)
+  diffobj = None
+
+  if json_result is None:
+    # get one for the detail
     t3 = timeit.default_timer()
-    diffobj = calc_diff(id1, id2, direction, ops)
+    diffobj = calc_diff(id1, id2, direction, all_ops)
     t4 = timeit.default_timer()
     _log.debug("TIMER: get diff: calc diff ", t4 - t3)
+
+    if isinstance(diffobj, Diff):
+      # log the detail
+      json_result = ujson.dumps(diffobj.serialize())
+      set_diff_cache(hash_name, json_result)
+    else:
+      # todo later find a way to send the error
+      # e.g. there's no matching column in this case
+      json_result = ujson.dumps(diffobj)  # which is {} for now!
+      set_diff_cache(hash_name, json_result)
+
+  elif jsonit is False:
+    diffobj = Diff().unserialize(ujson.loads(json_result))
+
+  if jsonit:
+    return json_result
+  else:
     return diffobj
 
 
@@ -165,18 +172,26 @@ def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
 
 # calc the detailed diff
 def calc_diff(id1, id2, direction, ops):
+  """
+  Calculate a detailed difference between two tables
+  :param id1:
+  :param id2:
+  :param direction:
+  :param ops:
+  :return:
+  """
   ds1 = dataset.get(id1)
   ds2 = dataset.get(id2)
   # create the table object
   table1 = Table(ds1.rows(), ds1.cols(), ds1.asnumpy())
   table2 = Table(ds2.rows(), ds2.cols(), ds2.asnumpy())
-  dfinder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, direction)
+  diff_finder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, direction)
   t2 = timeit.default_timer()
-  d = dfinder.generate_diff(ops)
+  d = diff_finder.generate_diff(ops)
   t3 = timeit.default_timer()
   _log.debug("TIMER: time to generate diff", t3 - t2)
   if isinstance(d, Diff):
-    d.add_union(dfinder.union)
+    d.add_union(diff_finder.union)
   return d
 
 
