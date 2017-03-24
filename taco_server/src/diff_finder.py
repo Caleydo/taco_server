@@ -342,36 +342,48 @@ class Diff:
 
     return counts / cells
 
-  def reorder_rows_counts(self, width, height):
-    return float(len(self.reorder['rows']))
+  def reorder_rows_counts(self):
+    """
+    Count only cells with content changes
+    :param width:
+    :param height:
+    :return:
+    """
+    ids = map(lambda r: r['id'], self.reorder['rows'])
+    filtered_content = filter(lambda r: r['row'] in ids, self.content)
+    return float(len(filtered_content))
 
-  def reorder_cols_counts(self, width, height):
-    return float(len(self.reorder['cols']))
+  def reorder_cols_counts(self):
+    """
+    Count only cells with content changes
+    :param width:
+    :param height:
+    :return:
+    """
+    ids = map(lambda r: r['id'], self.reorder['cols'])
+    filtered_content = filter(lambda r: r['col'] in ids, self.content)
+    return float(len(filtered_content))
 
-  def reorder_counts(self, width, height):
+  def reorder_counts(self):
     reordered_counts = 0
-    h = height
-    w = width
 
     if "rows" in self.reorder:
-      reordered_counts += self.reorder_rows_counts(width, height) * w
-      h -= self.reorder_rows_counts(width, height)
+      reordered_counts += self.reorder_rows_counts()
 
     if "cols" in self.reorder:
-      reordered_counts += self.reorder_cols_counts(width, height) * h
-      w -= self.reorder_cols_counts(width, height)
+      reordered_counts += self.reorder_cols_counts()
 
     return float(reordered_counts)
 
   def reorder_ratio(self, width, height, counts=None):
     cells = width * height
     if counts is None:
-      counts = self.reorder_counts(width, height)
+      counts = self.reorder_counts()
     return counts / cells
 
   def aggregate(self, bins, bins_col=2):
     if bins == 1:
-      _log.info('combined aggregation for LineUp')
+      _log.info('combined aggregation for timeline')
       # todo do we want to return it as an array of one element?
       # the ratios for line up
       # todo change this and remove the serialize
@@ -498,7 +510,6 @@ class Diff:
     return ratios_list
 
   def per_entity_ratios(self, dir):
-    # todo once for rows and once for columns
     # get a partial diff where every row is a diff
     # 1. Partition
     # get the direction
@@ -506,6 +517,7 @@ class Diff:
     union_cols = self.union['uc_ids']
     e_type = "rows"
     row_id = "row"
+
     if dir == D_COLS:
       # if it's the cols not the rows then switch
       union_rows = self.union['uc_ids']
@@ -513,7 +525,9 @@ class Diff:
       # todo handle the case of both rows and columns
       e_type = "cols"
       row_id = "col"
+
     ratios_list = []
+
     for i, id in enumerate(union_rows):
       # todo change this in case of columns
       punion = {
@@ -527,12 +541,12 @@ class Diff:
       pstructure["added_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["added_" + e_type])
       if len(pstructure["added_" + e_type]) != 0:
         # create a ratio where it's only added
-        partial_ratio = Ratios(0, 1, 0, 0)
+        ratio_counts = RatiosAndCounts(Ratios(0, 1, 0, 0), Counts(0, len(union_cols), 0, 0))
       else:
         # find the deleted
         pstructure["deleted_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["deleted_" + e_type])
         if len(pstructure["deleted_" + e_type]) != 0:
-          partial_ratio = Ratios(0, 0, 1, 0)
+          ratio_counts = RatiosAndCounts(Ratios(0, 0, 1, 0), Counts(0, 0, len(union_cols), 0))
         else:
           # find the content
           pcontent = filter(lambda obj: obj[row_id] == id, self.content)
@@ -544,9 +558,9 @@ class Diff:
                          direction=D_ROWS)
           # 3. calcualte the ratio for this part :|
           # todo remove the serialize
-          partial_ratio = partial.ratios()
-      ratios_list += [{"ratios": partial_ratio.ratios.serialize(),
-                       "counts": partial_ratio.counts.serialize(),
+          ratio_counts = partial.ratios()
+      ratios_list += [{"ratios": ratio_counts.ratios.serialize(),
+                       "counts": ratio_counts.counts.serialize(),
                        "id": id,
                        "pos": i}]
 
@@ -566,7 +580,7 @@ class Diff:
       no_counts = self.nochange_counts(ucols, urows)
       scounts_a = self.struct_add_counts(ucols, urows)
       scounts_d = self.struct_del_counts(ucols, urows)
-      reorder_counts = self.reorder_counts(ucols, urows)
+      reorder_counts = self.reorder_counts()
       counts = Counts(ccounts, scounts_a, scounts_d, no_counts, reorder_counts)
 
       cratio = self.content_ratio_percell(union_cells, counts.c_counts)
