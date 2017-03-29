@@ -49,11 +49,11 @@ def get_intersection(ids1, ids2):
 
 def get_union_ids(ids1, ids2):
   if ids1.shape[0] < ids2.shape[0]:
-    first = ids1
-    second = ids2
-  else:
     first = ids2
     second = ids1
+  else:
+    first = ids1
+    second = ids2
   if (second.dtype.itemsize < first.dtype.itemsize):
     itemsize = first.dtype.itemsize
   else:
