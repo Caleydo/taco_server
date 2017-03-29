@@ -395,18 +395,19 @@ class Diff:
 
   def aggregate(self, bins, bins_col=2):
     if bins == 1:
-      _log.info('combined aggregation for timeline')
+      _log.info('aggregation for timeline bar chart')
       # todo do we want to return it as an array of one element?
       # the ratios for line up
       # todo change this and remove the serialize
       return self.ratios(True)
 
     elif bins == -1:
-      _log.info('uncombined aggregation for 2D Histogram')
+      _log.info('aggregation for 2D ratio')
       # the ratios for the 2d histogram
       return self.ratios(False)
 
     else:
+      _log.info('aggregation for 2D ratio histogram')
       # it's the case of histogram or bar plot
       result = {}
       if self._direction == D_ROWS_COLS or self._direction == D_ROWS:
@@ -419,7 +420,9 @@ class Diff:
         else:
           # bins < max_height:
           # this is the case of histogram
-          result["rows"] = self.per_bin_ratios(bins, "rows")
+          # calculate the sqrt(rows) and take the smaller integer as number of bins
+          autobins = min(bins, int(np.math.floor(np.math.sqrt(len(union_rows)))))
+          result["rows"] = self.per_bin_ratios(autobins, "rows")
 
       # todo the rows might have different bins number than the cols
       if self._direction == D_ROWS_COLS or self._direction == D_COLS:
@@ -433,7 +436,10 @@ class Diff:
           result["cols"] = self.per_entity_ratios(D_COLS)
         else:  # bins < max_width:
           # this is the case of histogram
-          result["cols"] = self.per_bin_ratios(bins_col, "cols")
+          # calculate the sqrt(rows) and take the smaller integer as number of bins
+          autobins = min(bins_col, int(np.math.floor(np.math.sqrt(len(union_cols)))))
+          result["cols"] = self.per_bin_ratios(autobins, "cols")
+
       return result
 
   def per_bin_ratios(self, bins, e_type):
