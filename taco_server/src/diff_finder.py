@@ -852,7 +852,7 @@ class DiffFinder:
 
   # @disordered is an array of the IDs that are available in x and not in the matching position in y (or not available at all)
   # in case x and y are a result of the intersection then disordered is the list of disordered IDs in x
-  def _find_reorder(self, x, y, disordered, direction):
+  def _find_reorder(self, ids1, ids2, x, y, disordered, direction):
     # todo this should be as the size of the original ids not just the intesection ids
     # x shape or y shape should be the same
     # or the shape of the IDs in the second table (original y)
@@ -860,10 +860,13 @@ class DiffFinder:
     reordered = []
     for i in disordered:
       # todo check this with more than 2 changes
+      pos_table1 = np.where(ids1 == i)[0][0]
+      pos_table2 = np.where(ids2 == i)[0][0]
+      # todo substitute this with the new one!
+      reordered.append({'id': i, 'from': pos_table1, 'to': pos_table2, 'diff': pos_table2 - pos_table1})
+
       old = np.where(x == i)[0][0]
       new = np.where(y == i)[0][0]
-      # todo substitute this with the new one!
-      reordered.append({'id': i, 'from': old, 'to': new, 'diff': new - old})
       np.put(indices, old, new)
     # index = []
     # for i in x:
@@ -904,7 +907,7 @@ class DiffFinder:
     inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
     if (rdis.shape[0] > 0):
       # todo do this in one step
-      r_indices = self._find_reorder(rids1, rids2, rdis, 'rows')
+      r_indices = self._find_reorder(self._table1.row_ids, self._table2.row_ids, rids1, rids2, rdis, 'rows')
       inter2 = inter2[r_indices, :]
     # for columns
     cids1 = self._table1.col_ids[c_bo1]
@@ -923,7 +926,7 @@ class DiffFinder:
       return
     # if there's a disorder in the columns
     if (cdis.shape[0] > 0):
-      c_indices = self._find_reorder(cids1, cids2, cdis, 'cols')
+      c_indices = self._find_reorder(self._table1.col_ids, self._table2.col_ids, cids1, cids2, cdis, 'cols')
       inter2 = inter2[:, c_indices]
     # at this point inter2 should look good hopefully!
     # diff work
