@@ -54,34 +54,46 @@ def get_union_ids(ids1, ids2):
   else:
     first = ids1
     second = ids2
+
   if (second.dtype.itemsize < first.dtype.itemsize):
     itemsize = first.dtype.itemsize
   else:
     itemsize = second.dtype.itemsize
+
   u = np.array(second, dtype="S" + str(itemsize))
   # u = list(second)
+
   deleted = get_deleted_ids(first, second)
   for i in deleted:
     index1 = np.where(first == i)[0][0]
+
     if index1 == 0:
       # it's deleted from the first position
       # add it at position index1
       u = np.insert(u, 0, i)
+
     else:
       # it's somewhere in the middle, find the position of the one before
       index1 -= 1
       pre_element = first[index1]
+
       while pre_element not in u:
         index1 -= 1
         if index1 >= 0:
           pre_element = first[index1]
+
         else:
-          print("ERROR: there's no element before that exists in the list then just add it at 0!")
-          u = np.insert(u, 0, i)
-          return u
-      pre_index = np.where(u == pre_element)[0][0]
-      # insert the new element after the pre_element
-      u = np.insert(u, pre_index + 1, i)
+          print("CORNER CASE: there's no element before that exists in the list then just add it at 0!")
+          pre_element = None
+          break
+
+      if pre_element is not None:
+        pre_index = np.where(u == pre_element)[0][0]
+        # insert the new element after the pre_element
+        u = np.insert(u, pre_index + 1, i)
+      else:
+        u = np.insert(u, 0, i)
+
       # todo if the index is not available
   return u
 
