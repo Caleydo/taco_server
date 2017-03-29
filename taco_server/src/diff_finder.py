@@ -421,7 +421,7 @@ class Diff:
           # bins < max_height:
           # this is the case of histogram
           # calculate the sqrt(rows) and take the smaller integer as number of bins
-          autobins = min(bins, int(np.math.floor(np.math.sqrt(len(union_rows)))))
+          autobins = min(bins, len(union_rows))
           result["rows"] = self.per_bin_ratios(autobins, "rows")
 
       # todo the rows might have different bins number than the cols
@@ -437,7 +437,7 @@ class Diff:
         else:  # bins < max_width:
           # this is the case of histogram
           # calculate the sqrt(rows) and take the smaller integer as number of bins
-          autobins = min(bins_col, int(np.math.floor(np.math.sqrt(len(union_cols)))))
+          autobins = min(bins_col, len(union_cols))
           result["cols"] = self.per_bin_ratios(autobins, "cols")
 
       return result
@@ -461,46 +461,45 @@ class Diff:
       # todo handle the case of both rows and columns
     ratios_list = []
     length = len(union_rows)
-    mod = length % bins
-    items = length / bins  # by default in python you get the floor
     last_bin = bins - 1
-    index = 0
     bins_list = [0] * bins
+
+    indices = np.arange(length)
+    bin_range = np.linspace(1, length, bins)
+    index2bin = np.digitize(indices, bin_range)
 
     # todo handle the error here when there's no row !
     pcontent = [[] for x in xrange(bins)]
     for c in self.content:
       ci = union_rows.index(c[row])
-      c_index = ci / items
-      if c_index > last_bin:
-        c_index = last_bin
-      bins_list[c_index] += 1  # we don't add the value changes for now
-      pcontent[c_index] += [c]
+      bin_index = index2bin[ci]
+      if bin_index > last_bin:
+        bin_index = last_bin
+      bins_list[bin_index] += 1  # we don't add the value changes for now
+      pcontent[bin_index] += [c]
 
     # for structure changes
     pstructure = [{"added_" + e_type: [], "deleted_" + e_type: []} for x in xrange(bins)]
     # filter for the structure changes, because once there's a structure change, there's no need to find content #what!!
     for a in self.structure["added_" + e_type]:
       ai = union_rows.index(a['id'])
-      a_index = ai / items
+      a_index = index2bin[ai]
       if a_index > last_bin:
         a_index = last_bin
       pstructure[a_index]["added_" + e_type] += [a]
+
     # find the deleted
     for d in self.structure["deleted_" + e_type]:
       di = union_rows.index(d['id'])
-      d_index = di / items
+      d_index = index2bin[di]
       if d_index > last_bin:
         d_index = last_bin
       pstructure[d_index]["deleted_" + e_type] += [d]
 
+    # convert to np.array to use np.where
+    union_rows = np.array(union_rows)
     for i in xrange(bins):
-      # 1. Partition
-      if i != last_bin:
-        temp = union_rows[index:index + items]
-        index += items
-      else:
-        temp = union_rows[index:index + items + mod]
+      temp = union_rows[np.where(index2bin == i)[0]]
       if dir == D_ROWS:
         punion = {
             "ur_ids": temp,
