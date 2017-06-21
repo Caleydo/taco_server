@@ -1,4 +1,3 @@
 -e git+https://github.com/phovea/phovea_server.git@develop#egg=phovea_server
-ujson==1.35
 enum==0.4.6
 sklearn==0.0

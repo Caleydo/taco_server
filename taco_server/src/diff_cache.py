@@ -8,7 +8,7 @@ from diff_finder import Table, DiffFinder, Diff, Ratios
 import phovea_server.dataset as dataset
 import timeit
 import json
-import ujson
+import pandas.json as ujson
 import os
 import hashlib
 from collections import namedtuple
