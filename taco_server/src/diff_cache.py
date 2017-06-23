@@ -149,8 +149,11 @@ def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
     t2 = timeit.default_timer()
     _log.debug("TIMER: time to aggregate with ", bins, bins_col, t2 - t1)
     # todo find a better solution for this serialize thing :|
-    if bins == 1:
+    # bin == 1 -> timeline bar chart
+    # bin == -1 -> 2d ratio plot
+    if bins == 1 or bins == -1:
       json_ratios = ujson.dumps(ratios.serialize())
+    # bin > 1 -> 2d ratio histogram
     else:
       json_ratios = ujson.dumps(ratios)
 

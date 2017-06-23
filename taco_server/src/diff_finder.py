@@ -647,10 +647,7 @@ class Diff:
       c_no_ratio = self.nochange_cols_ratio(ucols, urows, col_counts.no_counts)
       col_ratio = Ratios(c_cratio, ca_ratio, cd_ratio, c_no_ratio)
 
-      return {
-          "rows": RatiosAndCounts(row_ratio, row_counts),
-          "cols": RatiosAndCounts(col_ratio, col_counts)
-      }
+      return RowsAndCols(RatiosAndCounts(row_ratio, row_counts), RatiosAndCounts(col_ratio, col_counts))
 
 
 class Ratios:
@@ -710,6 +707,16 @@ class RatiosAndCounts:
         "counts": self.counts.serialize()
     }
 
+class RowsAndCols:
+  def __init__(self, rows, cols):
+    self.rows = rows
+    self.cols = cols
+
+  def serialize(self):
+    return {
+      "rows": self.rows.serialize(),
+      "cols": self.cols.serialize()
+    }
 
 # DiffFinder class
 class DiffFinder:
