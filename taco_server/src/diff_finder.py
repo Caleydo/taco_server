@@ -707,6 +707,7 @@ class RatiosAndCounts:
         "counts": self.counts.serialize()
     }
 
+
 class RowsAndCols:
   def __init__(self, rows, cols):
     self.rows = rows
@@ -714,9 +715,10 @@ class RowsAndCols:
 
   def serialize(self):
     return {
-      "rows": self.rows.serialize(),
-      "cols": self.cols.serialize()
+        "rows": self.rows.serialize(),
+        "cols": self.cols.serialize()
     }
+
 
 # DiffFinder class
 class DiffFinder:
