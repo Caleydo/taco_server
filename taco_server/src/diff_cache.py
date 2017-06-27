@@ -186,30 +186,30 @@ def calc_diff(id1, id2, direction, ops):
   ds1 = dataset.get(id1)
   ds2 = dataset.get(id2)
 
-  def stratifyMatrix(m):
+  def stratify_matrix(m):
     # NOTE: ids must match with the hard-coded ones in taco/src/data_set_selector.ts -> prepareTCGAData()
-    rowStrat = dataset.get(m.id + '4CnmfClustering')
-    colStrat = dataset.get(m.id + 'TreeClusterer1')
+    row_strat = dataset.get(m.id + '4CnmfClustering')
+    col_strat = dataset.get(m.id + 'TreeClusterer1')
 
     data = m.asnumpy()
-    rows = m.rows() if rowStrat is None else rowStrat.rows()
-    cols = m.cols() if colStrat is None else colStrat.rows()
+    rows = m.rows() if row_strat is None else row_strat.rows()
+    cols = m.cols() if col_strat is None else col_strat.rows()
 
-    if rowStrat is not None:
+    if row_strat is not None:
       rowids = list(m.rowids())
-      row_indices = [rowids.index(o) for o in rowStrat.rowids()]
+      row_indices = [rowids.index(o) for o in row_strat.rowids()]
       data = data[row_indices, ...]
 
-    if colStrat is not None:
+    if col_strat is not None:
       colids = list(m.colids())
-      col_indices = [colids.index(o) for o in colStrat.rowids()]
+      col_indices = [colids.index(o) for o in col_strat.rowids()]
       data = data[..., col_indices]
 
     return Table(rows, cols, data)
 
   # create the table object
-  table1 = stratifyMatrix(ds1)
-  table2 = stratifyMatrix(ds2)
+  table1 = stratify_matrix(ds1)
+  table2 = stratify_matrix(ds2)
   diff_finder = DiffFinder(table1, table2, ds1.rowtype, ds2.coltype, direction)
   t2 = timeit.default_timer()
   d = diff_finder.generate_diff(ops)
