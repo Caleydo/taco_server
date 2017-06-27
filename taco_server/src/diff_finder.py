@@ -376,14 +376,29 @@ class Diff:
     filtered_content = filter(lambda r: r['col'] in ids, self.content)
     return float(len(filtered_content))
 
+  def reorder_rows_cols_counts(self):
+    """
+    Count only cells with content changes
+    :param width:
+    :param height:
+    :return:
+    """
+    row_ids = map(lambda r: r['id'], self.reorder['rows'])
+    col_ids = map(lambda r: r['id'], self.reorder['cols'])
+    filtered_content = filter(lambda r: r['col'] in col_ids and r['row'] in row_ids, self.content)
+    return float(len(filtered_content))
+
   def reorder_counts(self):
     reordered_counts = 0
 
-    if "rows" in self.reorder:
-      reordered_counts += self.reorder_rows_counts()
+    if "rows" in self.reorder and "cols" in self.reorder:
+      reordered_counts = self.reorder_rows_cols_counts()
 
-    if "cols" in self.reorder:
-      reordered_counts += self.reorder_cols_counts()
+    elif "rows" in self.reorder:
+      reordered_counts = self.reorder_rows_counts()
+
+    elif "cols" in self.reorder:
+      reordered_counts = self.reorder_cols_counts()
 
     return float(reordered_counts)
 
