@@ -931,7 +931,7 @@ class DiffFinder:
     inter2 = np.asmatrix(self._table2.content)[:, c_bo2][r_bo2, :]
     if (rdis.shape[0] > 0):
       # todo do this in one step
-      r_indices = self._find_reorder(self._table1.row_ids, self._table2.row_ids, rids1, rids2, rdis, 'rows')
+      r_indices = self._find_reorder(self._table2.row_ids, self._table1.row_ids, rids1, rids2, rdis, 'rows')
       inter2 = inter2[r_indices, :]
     # for columns
     cids1 = self._table1.col_ids[c_bo1]
@@ -950,11 +950,11 @@ class DiffFinder:
       return
     # if there's a disorder in the columns
     if (cdis.shape[0] > 0):
-      c_indices = self._find_reorder(self._table1.col_ids, self._table2.col_ids, cids1, cids2, cdis, 'cols')
+      c_indices = self._find_reorder(self._table2.col_ids, self._table1.col_ids, cids1, cids2, cdis, 'cols')
       inter2 = inter2[:, c_indices]
     # at this point inter2 should look good hopefully!
     # diff work
-    diff = inter1 - inter2
+    diff = inter2 - inter1
     # done :)
     # normalization
     normalized_diff = normalize_float_11(diff)
