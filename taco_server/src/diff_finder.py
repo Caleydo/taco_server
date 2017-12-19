@@ -22,7 +22,7 @@ class Levels(Enum):
 # reads a csv file (using full file path) and returns the data table with the IDs
 def get_full_table(file):
   # data = np.genfromtxt(file, dtype=None, delimiter=',', names=True)
-  data = np.genfromtxt(file, dtype=np.string_, delimiter=',')
+  data = np.genfromtxt(file, dtype=np.unicode_, delimiter=',')
   row_ids = data[1:][:, 0]
   col_ids = data[0, :][1:]
   table = data[1:, 1:]
@@ -60,7 +60,7 @@ def get_union_ids(ids1, ids2):
   else:
     itemsize = second.dtype.itemsize
 
-  u = np.array(second, dtype="S" + str(itemsize))
+  u = np.array(second, dtype=np.unicode_)
   # u = list(second)
 
   deleted = get_deleted_ids(first, second)
@@ -144,8 +144,8 @@ def generate_diff_from_files(file1, file2):
 # Table data structure
 class Table:
   def __init__(self, rows, cols, content):
-    self.row_ids = np.asarray(rows, np.string_)
-    self.col_ids = np.asarray(cols, np.string_)
+    self.row_ids = np.asarray(rows, np.unicode_)
+    self.col_ids = np.asarray(cols, np.unicode_)
     self.content = content
 
 
