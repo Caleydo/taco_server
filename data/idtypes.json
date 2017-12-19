@@ -8,5 +8,10 @@
     "id": "Discipline",
     "name": "Discipline",
     "names": "Disciplines"
+  },
+  {
+    "id": "Artist",
+    "name": "Artist",
+    "names": "Artists"
   }
 ]

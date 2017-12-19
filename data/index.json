@@ -1,1 +1,4260 @@
-[{"name": "Olympic Games 2012 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2012_total.csv", "type": "matrix", "size": [45, 89]}, {"name": "Olympic Games 2008 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2008_total.csv", "type": "matrix", "size": [46, 86]}, {"name": "Olympic Games 2004 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2004_total.csv", "type": "matrix", "size": [45, 86]}, {"name": "Olympic Games 2000 (Total Medals)", "value": {"range": [0, 2], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2000_total.csv", "type": "matrix", "size": [51, 86]}, {"name": "Olympic Games 1996 (Total Medals)", "value": {"range": [0, 2], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1996_total.csv", "type": "matrix", "size": [53, 85]}, {"name": "Olympic Games 1992 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1992_total.csv", "type": "matrix", "size": [42, 80]}, {"name": "Olympic Games 1988 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1988_total.csv", "type": "matrix", "size": [33, 80]}, {"name": "Olympic Games 1984 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1984_total.csv", "type": "matrix", "size": [29, 72]}, {"name": "Olympic Games 1980 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1980_total.csv", "type": "matrix", "size": [22, 66]}, {"name": "Olympic Games 1976 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1976_total.csv", "type": "matrix", "size": [26, 65]}, {"name": "Olympic Games 1972 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1972_total.csv", "type": "matrix", "size": [28, 64]}, {"name": "Olympic Games 1968 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1968_total.csv", "type": "matrix", "size": [26, 61]}, {"name": "Olympic Games 1964 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1964_total.csv", "type": "matrix", "size": [24, 50]}, {"name": "Olympic Games 1960 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1960_total.csv", "type": "matrix", "size": [26, 45]}, {"name": "Olympic Games 1956 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1956_total.csv", "type": "matrix", "size": [19, 41]}, {"name": "Olympic Games 1952 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1952_total.csv", "type": "matrix", "size": [26, 38]}, {"name": "Olympic Games 1948 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1948_total.csv", "type": "matrix", "size": [21, 38]}, {"name": "Olympic Games 1936 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1936_total.csv", "type": "matrix", "size": [19, 36]}, {"name": "Olympic Games 1932 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1932_total.csv", "type": "matrix", "size": [20, 32]}, {"name": "Olympic Games 1928 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1928_total.csv", "type": "matrix", "size": [17, 32]}, {"name": "Olympic Games 1924 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1924_total.csv", "type": "matrix", "size": [14, 29]}, {"name": "Olympic Games 1920 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1920_total.csv", "type": "matrix", "size": [13, 24]}, {"name": "Olympic Games 1912 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1912_total.csv", "type": "matrix", "size": [12, 21]}, {"name": "Olympic Games 1908 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1908_total.csv", "type": "matrix", "size": [12, 18]}, {"name": "Olympic Games 1906 (Total Medals)", "value": {"range": [0, 2], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1906_total.csv", "type": "matrix", "size": [9, 10]}, {"name": "Olympic Games 1904 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1904_total.csv", "type": "matrix", "size": [3, 14]}, {"name": "Olympic Games 1900 (Total Medals)", "value": {"range": [0, 3], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1900_total.csv", "type": "matrix", "size": [13, 12]}, {"name": "Olympic Games 1896 (Total Medals)", "value": {"range": [0, 2], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1896_total.csv", "type": "matrix", "size": [8, 7]}, {"name": "Olympic Games 2012 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2012_bronze.csv", "type": "matrix", "size": [30, 89]}, {"name": "Olympic Games 2008 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2008_bronze.csv", "type": "matrix", "size": [25, 86]}, {"name": "Olympic Games 2004 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2004_bronze.csv", "type": "matrix", "size": [34, 86]}, {"name": "Olympic Games 2000 (Bronze Medals)", "value": {"range": [0, 2], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2000_bronze.csv", "type": "matrix", "size": [32, 86]}, {"name": "Olympic Games 1996 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1996_bronze.csv", "type": "matrix", "size": [33, 85]}, {"name": "Olympic Games 1992 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1992_bronze.csv", "type": "matrix", "size": [26, 80]}, {"name": "Olympic Games 1988 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1988_bronze.csv", "type": "matrix", "size": [22, 80]}, {"name": "Olympic Games 1984 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1984_bronze.csv", "type": "matrix", "size": [23, 72]}, {"name": "Olympic Games 1980 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1980_bronze.csv", "type": "matrix", "size": [19, 66]}, {"name": "Olympic Games 1976 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1976_bronze.csv", "type": "matrix", "size": [14, 65]}, {"name": "Olympic Games 1972 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1972_bronze.csv", "type": "matrix", "size": [22, 64]}, {"name": "Olympic Games 1968 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1968_bronze.csv", "type": "matrix", "size": [20, 61]}, {"name": "Olympic Games 1964 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1964_bronze.csv", "type": "matrix", "size": [19, 50]}, {"name": "Olympic Games 1960 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1960_bronze.csv", "type": "matrix", "size": [20, 45]}, {"name": "Olympic Games 1956 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1956_bronze.csv", "type": "matrix", "size": [13, 41]}, {"name": "Olympic Games 1952 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1952_bronze.csv", "type": "matrix", "size": [15, 38]}, {"name": "Olympic Games 1948 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1948_bronze.csv", "type": "matrix", "size": [15, 38]}, {"name": "Olympic Games 1936 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1936_bronze.csv", "type": "matrix", "size": [15, 36]}, {"name": "Olympic Games 1932 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1932_bronze.csv", "type": "matrix", "size": [13, 32]}, {"name": "Olympic Games 1928 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1928_bronze.csv", "type": "matrix", "size": [11, 32]}, {"name": "Olympic Games 1924 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1924_bronze.csv", "type": "matrix", "size": [11, 29]}, {"name": "Olympic Games 1920 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1920_bronze.csv", "type": "matrix", "size": [12, 24]}, {"name": "Olympic Games 1912 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1912_bronze.csv", "type": "matrix", "size": [8, 21]}, {"name": "Olympic Games 1908 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1908_bronze.csv", "type": "matrix", "size": [9, 18]}, {"name": "Olympic Games 1906 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1906_bronze.csv", "type": "matrix", "size": [6, 10]}, {"name": "Olympic Games 1904 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1904_bronze.csv", "type": "matrix", "size": [1, 14]}, {"name": "Olympic Games 1900 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1900_bronze.csv", "type": "matrix", "size": [8, 12]}, {"name": "Olympic Games 1896 (Bronze Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1896_bronze.csv", "type": "matrix", "size": [5, 7]}, {"name": "Olympic Games 2012 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2012_silver.csv", "type": "matrix", "size": [32, 89]}, {"name": "Olympic Games 2008 (Silver Medals)", "value": {"range": [0, 2], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2008_silver.csv", "type": "matrix", "size": [34, 86]}, {"name": "Olympic Games 2004 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2004_silver.csv", "type": "matrix", "size": [32, 86]}, {"name": "Olympic Games 2000 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2000_silver.csv", "type": "matrix", "size": [36, 86]}, {"name": "Olympic Games 1996 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1996_silver.csv", "type": "matrix", "size": [32, 85]}, {"name": "Olympic Games 1992 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1992_silver.csv", "type": "matrix", "size": [27, 80]}, {"name": "Olympic Games 1988 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1988_silver.csv", "type": "matrix", "size": [24, 80]}, {"name": "Olympic Games 1984 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1984_silver.csv", "type": "matrix", "size": [20, 72]}, {"name": "Olympic Games 1980 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1980_silver.csv", "type": "matrix", "size": [17, 66]}, {"name": "Olympic Games 1976 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1976_silver.csv", "type": "matrix", "size": [17, 65]}, {"name": "Olympic Games 1972 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1972_silver.csv", "type": "matrix", "size": [20, 64]}, {"name": "Olympic Games 1968 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1968_silver.csv", "type": "matrix", "size": [17, 61]}, {"name": "Olympic Games 1964 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1964_silver.csv", "type": "matrix", "size": [15, 50]}, {"name": "Olympic Games 1960 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1960_silver.csv", "type": "matrix", "size": [15, 45]}, {"name": "Olympic Games 1956 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1956_silver.csv", "type": "matrix", "size": [9, 41]}, {"name": "Olympic Games 1952 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1952_silver.csv", "type": "matrix", "size": [16, 38]}, {"name": "Olympic Games 1948 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1948_silver.csv", "type": "matrix", "size": [14, 38]}, {"name": "Olympic Games 1936 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1936_silver.csv", "type": "matrix", "size": [14, 36]}, {"name": "Olympic Games 1932 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1932_silver.csv", "type": "matrix", "size": [12, 32]}, {"name": "Olympic Games 1928 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1928_silver.csv", "type": "matrix", "size": [12, 32]}, {"name": "Olympic Games 1924 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1924_silver.csv", "type": "matrix", "size": [11, 29]}, {"name": "Olympic Games 1920 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1920_silver.csv", "type": "matrix", "size": [10, 24]}, {"name": "Olympic Games 1912 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1912_silver.csv", "type": "matrix", "size": [8, 21]}, {"name": "Olympic Games 1908 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1908_silver.csv", "type": "matrix", "size": [7, 18]}, {"name": "Olympic Games 1906 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1906_silver.csv", "type": "matrix", "size": [5, 10]}, {"name": "Olympic Games 1904 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1904_silver.csv", "type": "matrix", "size": [3, 14]}, {"name": "Olympic Games 1900 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1900_silver.csv", "type": "matrix", "size": [6, 12]}, {"name": "Olympic Games 1896 (Silver Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1896_silver.csv", "type": "matrix", "size": [6, 7]}, {"name": "Olympic Games 2012 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2012_gold.csv", "type": "matrix", "size": [26, 89]}, {"name": "Olympic Games 2008 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2008_gold.csv", "type": "matrix", "size": [30, 86]}, {"name": "Olympic Games 2004 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2004_gold.csv", "type": "matrix", "size": [30, 86]}, {"name": "Olympic Games 2000 (Gold Medals)", "value": {"range": [0, 2], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_2000_gold.csv", "type": "matrix", "size": [27, 86]}, {"name": "Olympic Games 1996 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1996_gold.csv", "type": "matrix", "size": [31, 85]}, {"name": "Olympic Games 1992 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1992_gold.csv", "type": "matrix", "size": [21, 80]}, {"name": "Olympic Games 1988 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1988_gold.csv", "type": "matrix", "size": [18, 80]}, {"name": "Olympic Games 1984 (Gold Medals)", "value": {"range": [0, 2], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1984_gold.csv", "type": "matrix", "size": [17, 72]}, {"name": "Olympic Games 1980 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1980_gold.csv", "type": "matrix", "size": [12, 66]}, {"name": "Olympic Games 1976 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1976_gold.csv", "type": "matrix", "size": [17, 65]}, {"name": "Olympic Games 1972 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1972_gold.csv", "type": "matrix", "size": [12, 64]}, {"name": "Olympic Games 1968 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1968_gold.csv", "type": "matrix", "size": [17, 61]}, {"name": "Olympic Games 1964 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1964_gold.csv", "type": "matrix", "size": [13, 50]}, {"name": "Olympic Games 1960 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1960_gold.csv", "type": "matrix", "size": [13, 45]}, {"name": "Olympic Games 1956 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1956_gold.csv", "type": "matrix", "size": [12, 41]}, {"name": "Olympic Games 1952 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1952_gold.csv", "type": "matrix", "size": [15, 38]}, {"name": "Olympic Games 1948 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1948_gold.csv", "type": "matrix", "size": [11, 38]}, {"name": "Olympic Games 1936 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1936_gold.csv", "type": "matrix", "size": [11, 36]}, {"name": "Olympic Games 1932 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1932_gold.csv", "type": "matrix", "size": [9, 32]}, {"name": "Olympic Games 1928 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1928_gold.csv", "type": "matrix", "size": [12, 32]}, {"name": "Olympic Games 1924 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1924_gold.csv", "type": "matrix", "size": [5, 29]}, {"name": "Olympic Games 1920 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1920_gold.csv", "type": "matrix", "size": [7, 24]}, {"name": "Olympic Games 1912 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1912_gold.csv", "type": "matrix", "size": [7, 21]}, {"name": "Olympic Games 1908 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1908_gold.csv", "type": "matrix", "size": [5, 18]}, {"name": "Olympic Games 1906 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1906_gold.csv", "type": "matrix", "size": [5, 10]}, {"name": "Olympic Games 1904 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1904_gold.csv", "type": "matrix", "size": [1, 14]}, {"name": "Olympic Games 1900 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1900_gold.csv", "type": "matrix", "size": [5, 12]}, {"name": "Olympic Games 1896 (Gold Medals)", "value": {"range": [0, 1], "type": "real"}, "rowtype": "Country", "coltype": "Discipline", "path": "olympics_1896_gold.csv", "type": "matrix", "size": [4, 7]}]
+[
+  {
+    "name": "Olympic Games 2012 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2012_total.csv",
+    "type": "matrix",
+    "size": [
+      45,
+      89
+    ]
+  },
+  {
+    "name": "Olympic Games 2008 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2008_total.csv",
+    "type": "matrix",
+    "size": [
+      46,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 2004 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2004_total.csv",
+    "type": "matrix",
+    "size": [
+      45,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 2000 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        2
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2000_total.csv",
+    "type": "matrix",
+    "size": [
+      51,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 1996 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        2
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1996_total.csv",
+    "type": "matrix",
+    "size": [
+      53,
+      85
+    ]
+  },
+  {
+    "name": "Olympic Games 1992 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1992_total.csv",
+    "type": "matrix",
+    "size": [
+      42,
+      80
+    ]
+  },
+  {
+    "name": "Olympic Games 1988 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1988_total.csv",
+    "type": "matrix",
+    "size": [
+      33,
+      80
+    ]
+  },
+  {
+    "name": "Olympic Games 1984 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1984_total.csv",
+    "type": "matrix",
+    "size": [
+      29,
+      72
+    ]
+  },
+  {
+    "name": "Olympic Games 1980 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1980_total.csv",
+    "type": "matrix",
+    "size": [
+      22,
+      66
+    ]
+  },
+  {
+    "name": "Olympic Games 1976 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1976_total.csv",
+    "type": "matrix",
+    "size": [
+      26,
+      65
+    ]
+  },
+  {
+    "name": "Olympic Games 1972 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1972_total.csv",
+    "type": "matrix",
+    "size": [
+      28,
+      64
+    ]
+  },
+  {
+    "name": "Olympic Games 1968 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1968_total.csv",
+    "type": "matrix",
+    "size": [
+      26,
+      61
+    ]
+  },
+  {
+    "name": "Olympic Games 1964 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1964_total.csv",
+    "type": "matrix",
+    "size": [
+      24,
+      50
+    ]
+  },
+  {
+    "name": "Olympic Games 1960 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1960_total.csv",
+    "type": "matrix",
+    "size": [
+      26,
+      45
+    ]
+  },
+  {
+    "name": "Olympic Games 1956 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1956_total.csv",
+    "type": "matrix",
+    "size": [
+      19,
+      41
+    ]
+  },
+  {
+    "name": "Olympic Games 1952 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1952_total.csv",
+    "type": "matrix",
+    "size": [
+      26,
+      38
+    ]
+  },
+  {
+    "name": "Olympic Games 1948 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1948_total.csv",
+    "type": "matrix",
+    "size": [
+      21,
+      38
+    ]
+  },
+  {
+    "name": "Olympic Games 1936 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1936_total.csv",
+    "type": "matrix",
+    "size": [
+      19,
+      36
+    ]
+  },
+  {
+    "name": "Olympic Games 1932 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1932_total.csv",
+    "type": "matrix",
+    "size": [
+      20,
+      32
+    ]
+  },
+  {
+    "name": "Olympic Games 1928 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1928_total.csv",
+    "type": "matrix",
+    "size": [
+      17,
+      32
+    ]
+  },
+  {
+    "name": "Olympic Games 1924 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1924_total.csv",
+    "type": "matrix",
+    "size": [
+      14,
+      29
+    ]
+  },
+  {
+    "name": "Olympic Games 1920 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1920_total.csv",
+    "type": "matrix",
+    "size": [
+      13,
+      24
+    ]
+  },
+  {
+    "name": "Olympic Games 1912 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1912_total.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      21
+    ]
+  },
+  {
+    "name": "Olympic Games 1908 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1908_total.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      18
+    ]
+  },
+  {
+    "name": "Olympic Games 1906 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        2
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1906_total.csv",
+    "type": "matrix",
+    "size": [
+      9,
+      10
+    ]
+  },
+  {
+    "name": "Olympic Games 1904 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1904_total.csv",
+    "type": "matrix",
+    "size": [
+      3,
+      14
+    ]
+  },
+  {
+    "name": "Olympic Games 1900 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        3
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1900_total.csv",
+    "type": "matrix",
+    "size": [
+      13,
+      12
+    ]
+  },
+  {
+    "name": "Olympic Games 1896 (Total Medals)",
+    "value": {
+      "range": [
+        0,
+        2
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1896_total.csv",
+    "type": "matrix",
+    "size": [
+      8,
+      7
+    ]
+  },
+  {
+    "name": "Olympic Games 2012 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2012_bronze.csv",
+    "type": "matrix",
+    "size": [
+      30,
+      89
+    ]
+  },
+  {
+    "name": "Olympic Games 2008 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2008_bronze.csv",
+    "type": "matrix",
+    "size": [
+      25,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 2004 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2004_bronze.csv",
+    "type": "matrix",
+    "size": [
+      34,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 2000 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        2
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2000_bronze.csv",
+    "type": "matrix",
+    "size": [
+      32,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 1996 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1996_bronze.csv",
+    "type": "matrix",
+    "size": [
+      33,
+      85
+    ]
+  },
+  {
+    "name": "Olympic Games 1992 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1992_bronze.csv",
+    "type": "matrix",
+    "size": [
+      26,
+      80
+    ]
+  },
+  {
+    "name": "Olympic Games 1988 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1988_bronze.csv",
+    "type": "matrix",
+    "size": [
+      22,
+      80
+    ]
+  },
+  {
+    "name": "Olympic Games 1984 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1984_bronze.csv",
+    "type": "matrix",
+    "size": [
+      23,
+      72
+    ]
+  },
+  {
+    "name": "Olympic Games 1980 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1980_bronze.csv",
+    "type": "matrix",
+    "size": [
+      19,
+      66
+    ]
+  },
+  {
+    "name": "Olympic Games 1976 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1976_bronze.csv",
+    "type": "matrix",
+    "size": [
+      14,
+      65
+    ]
+  },
+  {
+    "name": "Olympic Games 1972 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1972_bronze.csv",
+    "type": "matrix",
+    "size": [
+      22,
+      64
+    ]
+  },
+  {
+    "name": "Olympic Games 1968 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1968_bronze.csv",
+    "type": "matrix",
+    "size": [
+      20,
+      61
+    ]
+  },
+  {
+    "name": "Olympic Games 1964 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1964_bronze.csv",
+    "type": "matrix",
+    "size": [
+      19,
+      50
+    ]
+  },
+  {
+    "name": "Olympic Games 1960 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1960_bronze.csv",
+    "type": "matrix",
+    "size": [
+      20,
+      45
+    ]
+  },
+  {
+    "name": "Olympic Games 1956 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1956_bronze.csv",
+    "type": "matrix",
+    "size": [
+      13,
+      41
+    ]
+  },
+  {
+    "name": "Olympic Games 1952 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1952_bronze.csv",
+    "type": "matrix",
+    "size": [
+      15,
+      38
+    ]
+  },
+  {
+    "name": "Olympic Games 1948 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1948_bronze.csv",
+    "type": "matrix",
+    "size": [
+      15,
+      38
+    ]
+  },
+  {
+    "name": "Olympic Games 1936 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1936_bronze.csv",
+    "type": "matrix",
+    "size": [
+      15,
+      36
+    ]
+  },
+  {
+    "name": "Olympic Games 1932 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1932_bronze.csv",
+    "type": "matrix",
+    "size": [
+      13,
+      32
+    ]
+  },
+  {
+    "name": "Olympic Games 1928 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1928_bronze.csv",
+    "type": "matrix",
+    "size": [
+      11,
+      32
+    ]
+  },
+  {
+    "name": "Olympic Games 1924 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1924_bronze.csv",
+    "type": "matrix",
+    "size": [
+      11,
+      29
+    ]
+  },
+  {
+    "name": "Olympic Games 1920 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1920_bronze.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      24
+    ]
+  },
+  {
+    "name": "Olympic Games 1912 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1912_bronze.csv",
+    "type": "matrix",
+    "size": [
+      8,
+      21
+    ]
+  },
+  {
+    "name": "Olympic Games 1908 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1908_bronze.csv",
+    "type": "matrix",
+    "size": [
+      9,
+      18
+    ]
+  },
+  {
+    "name": "Olympic Games 1906 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1906_bronze.csv",
+    "type": "matrix",
+    "size": [
+      6,
+      10
+    ]
+  },
+  {
+    "name": "Olympic Games 1904 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1904_bronze.csv",
+    "type": "matrix",
+    "size": [
+      1,
+      14
+    ]
+  },
+  {
+    "name": "Olympic Games 1900 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1900_bronze.csv",
+    "type": "matrix",
+    "size": [
+      8,
+      12
+    ]
+  },
+  {
+    "name": "Olympic Games 1896 (Bronze Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1896_bronze.csv",
+    "type": "matrix",
+    "size": [
+      5,
+      7
+    ]
+  },
+  {
+    "name": "Olympic Games 2012 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2012_silver.csv",
+    "type": "matrix",
+    "size": [
+      32,
+      89
+    ]
+  },
+  {
+    "name": "Olympic Games 2008 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        2
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2008_silver.csv",
+    "type": "matrix",
+    "size": [
+      34,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 2004 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2004_silver.csv",
+    "type": "matrix",
+    "size": [
+      32,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 2000 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2000_silver.csv",
+    "type": "matrix",
+    "size": [
+      36,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 1996 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1996_silver.csv",
+    "type": "matrix",
+    "size": [
+      32,
+      85
+    ]
+  },
+  {
+    "name": "Olympic Games 1992 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1992_silver.csv",
+    "type": "matrix",
+    "size": [
+      27,
+      80
+    ]
+  },
+  {
+    "name": "Olympic Games 1988 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1988_silver.csv",
+    "type": "matrix",
+    "size": [
+      24,
+      80
+    ]
+  },
+  {
+    "name": "Olympic Games 1984 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1984_silver.csv",
+    "type": "matrix",
+    "size": [
+      20,
+      72
+    ]
+  },
+  {
+    "name": "Olympic Games 1980 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1980_silver.csv",
+    "type": "matrix",
+    "size": [
+      17,
+      66
+    ]
+  },
+  {
+    "name": "Olympic Games 1976 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1976_silver.csv",
+    "type": "matrix",
+    "size": [
+      17,
+      65
+    ]
+  },
+  {
+    "name": "Olympic Games 1972 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1972_silver.csv",
+    "type": "matrix",
+    "size": [
+      20,
+      64
+    ]
+  },
+  {
+    "name": "Olympic Games 1968 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1968_silver.csv",
+    "type": "matrix",
+    "size": [
+      17,
+      61
+    ]
+  },
+  {
+    "name": "Olympic Games 1964 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1964_silver.csv",
+    "type": "matrix",
+    "size": [
+      15,
+      50
+    ]
+  },
+  {
+    "name": "Olympic Games 1960 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1960_silver.csv",
+    "type": "matrix",
+    "size": [
+      15,
+      45
+    ]
+  },
+  {
+    "name": "Olympic Games 1956 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1956_silver.csv",
+    "type": "matrix",
+    "size": [
+      9,
+      41
+    ]
+  },
+  {
+    "name": "Olympic Games 1952 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1952_silver.csv",
+    "type": "matrix",
+    "size": [
+      16,
+      38
+    ]
+  },
+  {
+    "name": "Olympic Games 1948 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1948_silver.csv",
+    "type": "matrix",
+    "size": [
+      14,
+      38
+    ]
+  },
+  {
+    "name": "Olympic Games 1936 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1936_silver.csv",
+    "type": "matrix",
+    "size": [
+      14,
+      36
+    ]
+  },
+  {
+    "name": "Olympic Games 1932 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1932_silver.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      32
+    ]
+  },
+  {
+    "name": "Olympic Games 1928 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1928_silver.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      32
+    ]
+  },
+  {
+    "name": "Olympic Games 1924 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1924_silver.csv",
+    "type": "matrix",
+    "size": [
+      11,
+      29
+    ]
+  },
+  {
+    "name": "Olympic Games 1920 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1920_silver.csv",
+    "type": "matrix",
+    "size": [
+      10,
+      24
+    ]
+  },
+  {
+    "name": "Olympic Games 1912 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1912_silver.csv",
+    "type": "matrix",
+    "size": [
+      8,
+      21
+    ]
+  },
+  {
+    "name": "Olympic Games 1908 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1908_silver.csv",
+    "type": "matrix",
+    "size": [
+      7,
+      18
+    ]
+  },
+  {
+    "name": "Olympic Games 1906 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1906_silver.csv",
+    "type": "matrix",
+    "size": [
+      5,
+      10
+    ]
+  },
+  {
+    "name": "Olympic Games 1904 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1904_silver.csv",
+    "type": "matrix",
+    "size": [
+      3,
+      14
+    ]
+  },
+  {
+    "name": "Olympic Games 1900 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1900_silver.csv",
+    "type": "matrix",
+    "size": [
+      6,
+      12
+    ]
+  },
+  {
+    "name": "Olympic Games 1896 (Silver Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1896_silver.csv",
+    "type": "matrix",
+    "size": [
+      6,
+      7
+    ]
+  },
+  {
+    "name": "Olympic Games 2012 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2012_gold.csv",
+    "type": "matrix",
+    "size": [
+      26,
+      89
+    ]
+  },
+  {
+    "name": "Olympic Games 2008 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2008_gold.csv",
+    "type": "matrix",
+    "size": [
+      30,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 2004 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2004_gold.csv",
+    "type": "matrix",
+    "size": [
+      30,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 2000 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        2
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_2000_gold.csv",
+    "type": "matrix",
+    "size": [
+      27,
+      86
+    ]
+  },
+  {
+    "name": "Olympic Games 1996 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1996_gold.csv",
+    "type": "matrix",
+    "size": [
+      31,
+      85
+    ]
+  },
+  {
+    "name": "Olympic Games 1992 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1992_gold.csv",
+    "type": "matrix",
+    "size": [
+      21,
+      80
+    ]
+  },
+  {
+    "name": "Olympic Games 1988 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1988_gold.csv",
+    "type": "matrix",
+    "size": [
+      18,
+      80
+    ]
+  },
+  {
+    "name": "Olympic Games 1984 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        2
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1984_gold.csv",
+    "type": "matrix",
+    "size": [
+      17,
+      72
+    ]
+  },
+  {
+    "name": "Olympic Games 1980 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1980_gold.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      66
+    ]
+  },
+  {
+    "name": "Olympic Games 1976 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1976_gold.csv",
+    "type": "matrix",
+    "size": [
+      17,
+      65
+    ]
+  },
+  {
+    "name": "Olympic Games 1972 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1972_gold.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      64
+    ]
+  },
+  {
+    "name": "Olympic Games 1968 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1968_gold.csv",
+    "type": "matrix",
+    "size": [
+      17,
+      61
+    ]
+  },
+  {
+    "name": "Olympic Games 1964 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1964_gold.csv",
+    "type": "matrix",
+    "size": [
+      13,
+      50
+    ]
+  },
+  {
+    "name": "Olympic Games 1960 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1960_gold.csv",
+    "type": "matrix",
+    "size": [
+      13,
+      45
+    ]
+  },
+  {
+    "name": "Olympic Games 1956 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1956_gold.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      41
+    ]
+  },
+  {
+    "name": "Olympic Games 1952 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1952_gold.csv",
+    "type": "matrix",
+    "size": [
+      15,
+      38
+    ]
+  },
+  {
+    "name": "Olympic Games 1948 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1948_gold.csv",
+    "type": "matrix",
+    "size": [
+      11,
+      38
+    ]
+  },
+  {
+    "name": "Olympic Games 1936 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1936_gold.csv",
+    "type": "matrix",
+    "size": [
+      11,
+      36
+    ]
+  },
+  {
+    "name": "Olympic Games 1932 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1932_gold.csv",
+    "type": "matrix",
+    "size": [
+      9,
+      32
+    ]
+  },
+  {
+    "name": "Olympic Games 1928 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1928_gold.csv",
+    "type": "matrix",
+    "size": [
+      12,
+      32
+    ]
+  },
+  {
+    "name": "Olympic Games 1924 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1924_gold.csv",
+    "type": "matrix",
+    "size": [
+      5,
+      29
+    ]
+  },
+  {
+    "name": "Olympic Games 1920 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1920_gold.csv",
+    "type": "matrix",
+    "size": [
+      7,
+      24
+    ]
+  },
+  {
+    "name": "Olympic Games 1912 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1912_gold.csv",
+    "type": "matrix",
+    "size": [
+      7,
+      21
+    ]
+  },
+  {
+    "name": "Olympic Games 1908 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1908_gold.csv",
+    "type": "matrix",
+    "size": [
+      5,
+      18
+    ]
+  },
+  {
+    "name": "Olympic Games 1906 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1906_gold.csv",
+    "type": "matrix",
+    "size": [
+      5,
+      10
+    ]
+  },
+  {
+    "name": "Olympic Games 1904 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1904_gold.csv",
+    "type": "matrix",
+    "size": [
+      1,
+      14
+    ]
+  },
+  {
+    "name": "Olympic Games 1900 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1900_gold.csv",
+    "type": "matrix",
+    "size": [
+      5,
+      12
+    ]
+  },
+  {
+    "name": "Olympic Games 1896 (Gold Medals)",
+    "value": {
+      "range": [
+        0,
+        1
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Discipline",
+    "path": "olympics_1896_gold.csv",
+    "type": "matrix",
+    "size": [
+      4,
+      7
+    ]
+  },
+  {
+    "name": "last.fm 2005-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        17
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        60
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        122
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        212
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        367
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        129
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        428
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        304
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        672
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        306
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        434
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2005-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        873
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2005-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        773
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        592
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        697
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        526
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        911
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        769
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1077
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1329
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1028
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        649
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1010
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2006-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        820
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2006-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        713
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        933
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1125
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1200
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4843
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1140
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        906
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1007
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1437
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2492
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2618
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2007-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2159
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2007-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1467
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2820
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2579
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        3192
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2521
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2943
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2159
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2187
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2855
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2832
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        9083
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2008-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        8686
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2008-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6282
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6429
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6299
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6299
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        3805
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        3338
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        5621
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        3419
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        3715
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4604
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        5156
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2009-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4697
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2009-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4839
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4178
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4903
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4380
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4980
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        5482
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        5802
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        8776
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6678
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7124
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7505
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2010-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6924
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2010-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6488
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        5675
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7426
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6225
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7240
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7623
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        5334
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7835
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        9965
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        8668
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        10992
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2011-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        11234
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2011-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        11057
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        12037
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        10981
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        13315
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        14353
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        12428
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        15017
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        8674
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        30083
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        10430
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        13714
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2012-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        12752
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2012-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        9575
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7242
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        11463
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7659
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        13921
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        12610
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        7880
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        10746
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        13568
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-10",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        11780
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m10.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-11",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        13921
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m11.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2013-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        12968
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2013-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-01",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        15298
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m1.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-02",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        11791
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m2.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-03",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        11806
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m3.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-04",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        6376
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m4.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-05",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2006
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m5.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-06",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        4695
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m6.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-07",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        3819
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m7.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-08",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        2495
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m8.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-09",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        15
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m9.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  },
+  {
+    "name": "last.fm 2014-12",
+    "separator": "\t",
+    "value": {
+      "range": [
+        0,
+        1526
+      ],
+      "type": "real"
+    },
+    "rowtype": "Country",
+    "coltype": "Artist",
+    "path": "CAM_y2014-m12.csv",
+    "type": "matrix",
+    "size": [
+      207,
+      1632
+    ]
+  }
+]
