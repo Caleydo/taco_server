@@ -55,11 +55,6 @@ def get_union_ids(ids1, ids2):
     first = ids1
     second = ids2
 
-  if (second.dtype.itemsize < first.dtype.itemsize):
-    itemsize = first.dtype.itemsize
-  else:
-    itemsize = second.dtype.itemsize
-
   u = np.array(second, dtype=np.unicode_)
   # u = list(second)
 
