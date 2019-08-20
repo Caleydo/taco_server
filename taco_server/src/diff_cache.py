@@ -3,8 +3,7 @@
 # detail (as detail), middle (as count), overview (as ratios)
 
 
-from __future__ import print_function
-from diff_finder import Table, DiffFinder, Diff, Ratios
+from .diff_finder import Table, DiffFinder, Diff, Ratios
 import phovea_server.dataset as dataset
 import timeit
 import json
@@ -36,6 +35,7 @@ def create_cache_dir():
 
   else:
     _log.info('use existing cache directory: ' + _cache_directory)
+
 
 # run immediately!
 create_cache_dir()
@@ -237,7 +237,7 @@ def create_hashname(id1, id2, bins, bins_col, direction, ops):
 
 def ratio_from_json(jsonobj):
   # idk
-  r = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+  r = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', list(d.keys()))(*list(d.values())))
   # todo find a smarter way, really
   cr = 0 if not hasattr(r, "c_ratio") else r.c_ratio
   ar = 0 if not hasattr(r, "a_ratio") else r.a_ratio

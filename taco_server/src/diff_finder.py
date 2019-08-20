@@ -356,8 +356,8 @@ class Diff:
     :param height:
     :return:
     """
-    ids = map(lambda r: r['id'], self.reorder['rows'])
-    filtered_content = filter(lambda r: r['row'] in ids, self.content)
+    ids = [r['id'] for r in self.reorder['rows']]
+    filtered_content = [r for r in self.content if r['row'] in ids]
     return float(len(filtered_content))
 
   def reorder_cols_counts(self):
@@ -367,8 +367,8 @@ class Diff:
     :param height:
     :return:
     """
-    ids = map(lambda r: r['id'], self.reorder['cols'])
-    filtered_content = filter(lambda r: r['col'] in ids, self.content)
+    ids = [r['id'] for r in self.reorder['cols']]
+    filtered_content = [r for r in self.content if r['col'] in ids]
     return float(len(filtered_content))
 
   def reorder_rows_cols_counts(self):
@@ -378,9 +378,9 @@ class Diff:
     :param height:
     :return:
     """
-    row_ids = map(lambda r: r['id'], self.reorder['rows'])
-    col_ids = map(lambda r: r['id'], self.reorder['cols'])
-    filtered_content = filter(lambda r: r['col'] in col_ids and r['row'] in row_ids, self.content)
+    row_ids = [r['id'] for r in self.reorder['rows']]
+    col_ids = [r['id'] for r in self.reorder['cols']]
+    filtered_content = [r for r in self.content if r['col'] in col_ids and r['row'] in row_ids]
     return float(len(filtered_content))
 
   def reorder_counts(self):
@@ -479,7 +479,7 @@ class Diff:
     index2bin = np.digitize(indices, bin_range)
 
     # todo handle the error here when there's no row !
-    pcontent = [[] for x in xrange(bins)]
+    pcontent = [[] for x in range(bins)]
     for c in self.content:
       ci = union_rows.index(c[row])
       bin_index = index2bin[ci]
@@ -489,7 +489,7 @@ class Diff:
       pcontent[bin_index] += [c]
 
     # for structure changes
-    pstructure = [{"added_" + e_type: [], "deleted_" + e_type: []} for x in xrange(bins)]
+    pstructure = [{"added_" + e_type: [], "deleted_" + e_type: []} for x in range(bins)]
     # filter for the structure changes, because once there's a structure change, there's no need to find content #what!!
     for a in self.structure["added_" + e_type]:
       ai = union_rows.index(a['id'])
@@ -508,7 +508,7 @@ class Diff:
 
     # convert to np.array to use np.where
     union_rows = np.array(union_rows)
-    for i in xrange(bins):
+    for i in range(bins):
       temp = union_rows[np.where(index2bin == i)[0]]
       if dir == D_ROWS:
         punion = {
@@ -565,18 +565,18 @@ class Diff:
       pstructure = {}
       # filter for the structure changes, because once there's a structure change, there's no need to find content
       # idk why but obj is Diff!
-      pstructure["added_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["added_" + e_type])
+      pstructure["added_" + e_type] = [obj for obj in self.structure["added_" + e_type] if obj['id'] == id]
       if len(pstructure["added_" + e_type]) != 0:
         # create a ratio where it's only added
         ratio_counts = RatiosAndCounts(Ratios(0, 1, 0, 0), Counts(0, len(union_cols), 0, 0))
       else:
         # find the deleted
-        pstructure["deleted_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["deleted_" + e_type])
+        pstructure["deleted_" + e_type] = [obj for obj in self.structure["deleted_" + e_type] if obj['id'] == id]
         if len(pstructure["deleted_" + e_type]) != 0:
           ratio_counts = RatiosAndCounts(Ratios(0, 0, 1, 0), Counts(0, 0, len(union_cols), 0))
         else:
           # find the content
-          pcontent = filter(lambda obj: obj[row_id] == id, self.content)
+          pcontent = [obj for obj in self.content if obj[row_id] == id]
           if len(pcontent) == 0:
             pcontent = None
           # more resonable in the case of subtable
@@ -838,7 +838,7 @@ class DiffFinder:
         merged_ids = str(j).split(merge_delimiter)
         for s in merged_ids:
           # delete the delete operations related to those IDs
-          deleted_log = filter(lambda obj: obj['id'] != s, deleted_log)
+          deleted_log = [obj for obj in deleted_log if obj['id'] != s]
           merged_log += [{"id": s, "pos": np.where(u_ids == s)[0][0], "merge_id": merge_id, "is_added": False}]
         merge_id += 1  # increment it
     # log
@@ -937,7 +937,7 @@ class DiffFinder:
       # fixing an ungly bug when there are NO unique ids!
       # ## warning! bug ###
       # this happens when one of the tables does NOT have unique ids and the sizes are different... couldn't fix
-      print("Oops! it seems that sizes are not matching", cids1.shape[0], cids2.shape[0])
+      print(("Oops! it seems that sizes are not matching", cids1.shape[0], cids2.shape[0]))
       set_boolean = (np.array(list(set(cids1))) != np.array(list(set(cids2))))
       cdis = cids1[set_boolean]
       # ignore and leave
