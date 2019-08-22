@@ -80,19 +80,19 @@ def randomly_change_table(table):
   if change_type == ADD_ROW:
     index = random.randint(0, len(table))
     if len(table) > 0:
-      new_row = random.sample(list(range(min_data, max_data)), len(table[0]))
+      new_row = random.sample(range(min_data, max_data), len(table[0]))
     else:
       # table is empty
-      new_row = random.sample(list(range(min_data, max_data)), random.randint(1, largest_row))
+      new_row = random.sample(range(min_data, max_data), random.randint(1, largest_row))
     print(("log: add a row in ", index, new_row))
     table = add_row(table, index, new_row)
   elif change_type == ADD_COL:
     if len(table) > 0:
       index = random.randint(0, len(table[0]))
-      new_col = random.sample(list(range(min_data, max_data)), len(table))
+      new_col = random.sample(range(min_data, max_data), len(table))
     else:
       index = 0
-      new_col = random.sample(list(range(min_data, max_data)), random.randint(1, largest_col))
+      new_col = random.sample(range(min_data, max_data), random.randint(1, largest_col))
     print(("log: add a col in ", index, new_col))
     table = add_col(table, index, new_col)
   elif change_type == CH_CELL:
