@@ -12,9 +12,9 @@ def phovea(registry):
   """
   # generator-phovea:begin
   registry.append('namespace', 'taco', 'taco_server.api',
-                  {
-                      'namespace': '/api/taco'
-                  })
+    {
+      'namespace': '/api/taco'
+    })
   # generator-phovea:end
   pass
 
