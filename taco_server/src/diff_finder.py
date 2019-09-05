@@ -509,7 +509,7 @@ class Diff:
     # convert to np.array to use np.where
     union_rows = np.array(union_rows)
     for i in range(bins):
-      temp = union_rows[np.where(index2bin == i)[0]]
+      temp = union_rows[np.where(index2bin == i)[0]].astype('str').tolist()
       if dir == D_ROWS:
         punion = {
             "ur_ids": temp,
@@ -872,6 +872,7 @@ class DiffFinder:
   # @disordered is an array of the IDs that are available in x and not in the matching position in y (or not available at all)
   # in case x and y are a result of the intersection then disordered is the list of disordered IDs in x
   def _find_reorder(self, ids1, ids2, x, y, disordered, direction):
+    import numpy
     # todo this should be as the size of the original ids not just the intesection ids
     # x shape or y shape should be the same
     # or the shape of the IDs in the second table (original y)
@@ -879,20 +880,25 @@ class DiffFinder:
     reordered = []
     for i in disordered:
       # todo check this with more than 2 changes
-      pos_table1 = np.where(ids1 == i)[0][0]
-      pos_table2 = np.where(ids2 == i)[0][0]
+      if isinstance(i, numpy.ndarray):
+        i = i[0]
+      try:
+        pos_table1 = np.where(ids1 == i)[0][0]
+        pos_table2 = np.where(ids2 == i)[0][0]
+      except IndexError:
+        print('index error')
       # todo substitute this with the new one!
       reordered.append({'id': i, 'from': pos_table1, 'to': pos_table2, 'diff': pos_table2 - pos_table1})
 
       old = np.where(x == i)[0][0]
       new = np.where(y == i)[0][0]
       np.put(indices, old, new)
-    # index = []
-    # for i in x:
-    #     if i != y[np.where(x == i)[0][0]]:
-    #         index += [np.where(y == i)[0][0]]
-    #     else:
-    #         index += [np.where(x == i)[0][0]]
+      # index = []
+      # for i in x:
+      #     if i != y[np.where(x == i)[0][0]]:
+      #         index += [np.where(y == i)[0][0]]
+      #     else:
+      #         index += [np.where(x == i)[0][0]]
     self._reorder_to_json(direction, reordered)
     return indices
 
@@ -934,7 +940,7 @@ class DiffFinder:
     try:
       cdis = cids1[cids1 != cids2]
     except ValueError:
-      # fixing an ungly bug when there are NO unique ids!
+      # fixing an ungly bug when there are NO  unique ids!
       # ## warning! bug ###
       # this happens when one of the tables does NOT have unique ids and the sizes are different... couldn't fix
       print(("Oops! it seems that sizes are not matching", cids1.shape[0], cids2.shape[0]))
@@ -949,7 +955,7 @@ class DiffFinder:
       inter2 = inter2[:, c_indices]
     # at this point inter2 should look good hopefully!
     # diff work
-    diff = inter2 - inter1
+    diff = inter2.astype('float') - inter1.astype('float')
     # done :)
     # normalization
     normalized_diff = normalize_float_11(diff)
