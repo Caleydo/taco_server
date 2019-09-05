@@ -199,12 +199,12 @@ def calc_diff(id1, id2, direction, ops):
     if row_strat is not None:
       rowids = list(m.rowids())
       row_indices = [rowids.index(o) for o in row_strat.rowids()]
-      data = data[row_indices, ...]
+      data = data[row_indices, ...].astype('str')
 
     if col_strat is not None:
       colids = list(m.colids())
       col_indices = [colids.index(o) for o in col_strat.rowids()]
-      data = data[..., col_indices]
+      data = data[..., col_indices].astype('str')
 
     return Table(rows, cols, data)
 
