@@ -13,11 +13,11 @@ class JsonEncoder(json.JSONEncoder):
             return int(obj)
         elif isinstance(obj, bytes):
             return obj.decode('utf-8')
-        elif isinstance(obj, numpy.bytes_):
+        elif isinstance(obj, numpy.bytes):
             return obj.decode('utf-8')
         elif isinstance(obj, numpy.floating):
             return float(obj)
         elif isinstance(obj, numpy.ndarray):
-            return obj.tolist()
+            return obj.astype(str)
         else:
             return super(JsonEncoder, self).default(obj)
