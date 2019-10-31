@@ -172,11 +172,11 @@ class Diff:
     }
 
   def unserialize(self, json_obj):
-    self.content = [] if json_obj['content'] is None else json_obj['content']
-    self.structure = {} if json_obj['structure'] is None else json_obj['structure']
-    self.merge = {} if json_obj['merge'] is None else json_obj['merge']
-    self.reorder = {'rows': [], 'cols': []} if json_obj['reorder'] is None else json_obj['reorder']
-    self.union = {} if json_obj['union'] is None else json_obj['union']
+    self.content = json_obj['content'] if 'content' in list(json_obj.keys()) else []
+    self.structure = json_obj['structure'] if 'structure' in list(json_obj.keys()) else {}
+    self.merge = json_obj['merge'] if 'merge' in list(json_obj.keys()) else {}
+    self.reorder = json_obj['reorder'] if 'reorder' in list(json_obj.keys()) else {'rows': [], 'cols': []}
+    self.union = json_obj['union'] if 'union' in list(json_obj.keys()) else {}
     return self
 
   def content_counts_percell(self):
@@ -421,7 +421,7 @@ class Diff:
       # it's the case of histogram or bar plot
       result = {}
       if self._direction == D_ROWS_COLS or self._direction == D_ROWS:
-        union_rows = self.union['ur_ids']
+        union_rows = self.union['ur_ids'] if 'ur_ids' in list(self.union.keys()) else []
         max_height = len(union_rows)
         if bins >= max_height:
           # this is the case of bar plot
@@ -437,7 +437,7 @@ class Diff:
       # todo the rows might have different bins number than the cols
       if self._direction == D_ROWS_COLS or self._direction == D_COLS:
         # if it's the cols not the rows then switch
-        union_cols = self.union['uc_ids']
+        union_cols = self.union['uc_ids'] if 'uc_ids' in list(self.union.keys()) else []
         max_width = len(union_cols)
         if bins_col >= max_width:
           # todo handle the > alone or?
@@ -540,15 +540,15 @@ class Diff:
     # get a partial diff where every row is a diff
     # 1. Partition
     # get the direction
-    union_rows = self.union['ur_ids']
-    union_cols = self.union['uc_ids']
+    union_rows = self.union['ur_ids'] if 'ur_ids' in list(self.union.keys()) else []
+    union_cols = self.union['uc_ids'] if 'uc_ids' in list(self.union.keys()) else []
     e_type = "rows"
     row_id = "row"
 
     if dir == D_COLS:
       # if it's the cols not the rows then switch
-      union_rows = self.union['uc_ids']
-      union_cols = self.union['ur_ids']
+      union_rows = self.union['uc_ids'] if 'uc_ids' in list(self.union.keys()) else []
+      union_cols = self.union['ur_ids'] if 'ur_ids' in list(self.union.keys()) else []
       # todo handle the case of both rows and columns
       e_type = "cols"
       row_id = "col"
