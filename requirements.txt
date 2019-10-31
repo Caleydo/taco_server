@@ -1,2 +1,2 @@
--e git+https://github.com/phovea/phovea_server.git@python_3.7#egg=phovea_server
+-e git+https://github.com/phovea/phovea_server.git@flask_1.1.1#egg=phovea_server
 sklearn==0.0
