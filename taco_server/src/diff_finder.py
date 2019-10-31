@@ -740,7 +740,7 @@ class DiffFinder:
     self.diff = Diff(direction=self._direction)
     self.union = {}
     self.intersection = {}  # we only need this for rows when we have content changes
-    self.intersection["ic_ids"] = get_intersection(self._table1.col_ids, self._table2.col_ids)
+    self.intersection["ic_ids"] = get_intersection(self._table1.col_ids, self._table2.col_ids.astype(str))
     if self.intersection["ic_ids"].shape[0] > 0:
       # there's at least one common column between the tables
       # otherwise there's no need to calculate the unions
