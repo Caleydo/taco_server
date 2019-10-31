@@ -100,7 +100,7 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
 
     if isinstance(diffobj, Diff):
       # log the detail
-      serialize = Diff.serialize
+      serialize = Diff.serialize # noqa E121
       json_result = (json.dumps(diffobj.__dict__, cls=json_encoder.JsonEncoder))
       set_diff_cache(hash_name, json_result)
     else:
