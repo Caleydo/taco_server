@@ -3,21 +3,22 @@ import json
 
 createdCSVs = []
 
-def writeIndexJson():
+
+def write_index_json():
   with open('../index.json', 'w') as outfile:
     json.dump(createdCSVs, outfile)
 
 
-def writeCSV(year, medalType, fieldnames, medalsPerCountry):
+def write_csv(year, medal_type, fieldnames, medals_per_country):
   if year is None:
     print('Invalid year -> file not written')
     return
 
-  name = 'Olympic Games ' + year + ' (' + medalType + ' Medals)'
-  filename = 'olympics_' + year + '_' + medalType.lower() + '.csv'
+  name = 'Olympic Games ' + year + ' (' + medal_type + ' Medals)'
+  filename = 'olympics_' + year + '_' + medal_type.lower() + '.csv'
 
   # sort countries by sum of all medals
-  sortedBySum = sorted(medalsPerCountry.items(), key=lambda x: sum(x[1].values()), reverse=True)
+  sortedBySum = sorted(medals_per_country.items(), key=lambda x: sum(x[1].values()), reverse=True)
 
   print('----------------')
   print('Write ' + filename)
@@ -26,7 +27,7 @@ def writeCSV(year, medalType, fieldnames, medalsPerCountry):
 
   # get min and max value of the whole csv for the range
   maxValue = float('-inf')
-  #minValue = float('inf') # does not work, because we fill empty cells with 0 by default
+  # minValue = float('inf') # does not work, because we fill empty cells with 0 by default
 
   with open('../' + filename, 'wb') as output:
     writer = csv.DictWriter(output, fieldnames=fieldnames, restval='0', dialect='excel')
@@ -34,7 +35,7 @@ def writeCSV(year, medalType, fieldnames, medalsPerCountry):
     for k, v in sortedBySum:
       values = list(v.values())
       maxValue = max(maxValue, max(values))
-      #minValue = min(minValue, min(values))
+      # minValue = min(minValue, min(values))
       v['CountryCode'] = k
       writer.writerow(v)
 
@@ -43,7 +44,7 @@ def writeCSV(year, medalType, fieldnames, medalsPerCountry):
   stats['name'] = name
   stats['path'] = filename
   stats['type'] = 'matrix'
-  stats['size'] = [len(sortedBySum), len(fieldnames)-1] # -1 = CountryCode fieldname
+  stats['size'] = [len(sortedBySum), len(fieldnames)-1]  # -1 = CountryCode fieldname
   stats['rowtype'] = 'Country'
   stats['coltype'] = 'Discipline'
   stats['value'] = dict(type='real', range=[0, maxValue])
@@ -52,48 +53,50 @@ def writeCSV(year, medalType, fieldnames, medalsPerCountry):
 
   print('----------------')
 
-def readCSV(medalType = 'Total'):
+
+def read_csv(medal_type='Total'):
   with open('./MedalData1.csv', 'rb') as csvfile:
-    reader = csv.DictReader(csvfile, fieldnames=['Games','Sport','Event','Athlete(s)','CountryCode','CountryName','Medal','ResultInSeconds'], dialect='excel-tab')
+    reader = csv.DictReader(csvfile, fieldnames=['Games', 'Sport', 'Event', 'Athlete(s)', 'CountryCode', 'CountryName', 'Medal', 'ResultInSeconds'], dialect='excel-tab')
     next(reader)
 
     lastGames = None
     fieldnames = ['CountryCode']
-    medalsPerCountry = dict()
+    medals_per_country = dict()
 
     for row in reader:
       if row['Games'] != lastGames:
         # write old year when a new year is detected
-        writeCSV(lastGames, medalType, fieldnames, medalsPerCountry)
+        write_csv(lastGames, medal_type, fieldnames, medals_per_country)
 
         # clean up variables
         fieldnames = ['CountryCode']
-        medalsPerCountry = dict()
+        medals_per_country = dict()
 
       lastGames = row['Games']
-      country = row['CountryCode'] # short-cut
+      country = row['CountryCode']  # short-cut
 
       if row['Event'] not in fieldnames:
         fieldnames.append(row['Event'])
 
-      if row['Medal'] == medalType or medalType is 'Total':
-        if country not in medalsPerCountry:
-          medalsPerCountry[country] = dict()
-          #medalsPerCountry[country]['CountryCode'] = country
+      if row['Medal'] == medal_type or medal_type == 'Total':
+        if country not in medals_per_country:
+          medals_per_country[country] = dict()
+          # medals_per_country[country]['CountryCode'] = country
 
-        if row['Event'] not in medalsPerCountry[country]:
-          medalsPerCountry[country][row['Event']] = 0
+        if row['Event'] not in medals_per_country[country]:
+          medals_per_country[country][row['Event']] = 0
 
-        medalsPerCountry[country][row['Event']] += 1
+        medals_per_country[country][row['Event']] += 1
 
-      #print(row['Games'], row['Event'], country, row['Medal'])
+      # print(row['Games'], row['Event'], country, row['Medal'])
 
     # write the last file
-    writeCSV(lastGames, medalType, fieldnames, medalsPerCountry)
+    write_csv(lastGames, medal_type, fieldnames, medals_per_country)
 
-readCSV('Total')
-readCSV('Bronze')
-readCSV('Silver')
-readCSV('Gold')
 
-writeIndexJson()
+read_csv('Total')
+read_csv('Bronze')
+read_csv('Silver')
+read_csv('Gold')
+
+write_index_json()
