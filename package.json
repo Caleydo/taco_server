@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/caleydo/taco_server.git"
+    "url": "https://github.com/Caleydo/taco_server.git"
   },
   "files": [
     "taco_server",
@@ -26,13 +26,13 @@
     "docker_packages.txt"
   ],
   "scripts": {
-    "check": "flake8",
+    "check": "flake8 --exclude=.git,venv,deploy,docs,__pycache__,node_modules",
     "pretest": "npm run check",
     "test": "test ! -d tests || python setup.py test",
     "prebuild": "node -e \"process.exit(process.env.PHOVEA_SKIP_TESTS === undefined?1:0)\" || npm run test",
-    "build": "python build.py",
+    "build": "rm -rf build/source && find . -name '*.pyc' -delete && node buildPython.js && cp -r ./taco_server build/source/",
     "predist": "npm run build && npm run docs",
-    "dist": "python setup.py bdist_egg && cd build && tar cvzf ../dist/taco_server.tar.gz *",
+    "dist": "python setup.py sdist bdist_wheel && cd build && tar cvzf ../dist/taco_server.tar.gz *",
     "docs": "sphinx-apidoc -o docs -f ./taco_server && sphinx-build ./docs build/docs"
   }
 }
