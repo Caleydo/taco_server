@@ -106,7 +106,7 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
     else:
       # todo later find a way to send the error
       # e.g. there's no matching column in this case
-      json_result = json.dumps(diffobj)  # which is {} for now!
+      json_result = json.dumps(diffobj, cls=json_encoder.JsonEncoder)  # which is {} for now!
       set_diff_cache(hash_name, json_result)
 
   elif jsonit is False:
@@ -153,10 +153,10 @@ def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
     # bin == 1 -> timeline bar chart
     # bin == -1 -> 2d ratio plot
     if bins == 1 or bins == -1:
-      json_ratios = json.dumps(ratios.serialize())
+      json_ratios = json.dumps(ratios.serialize(), cls=json_encoder.JsonEncoder)
     # bin > 1 -> 2d ratio histogram
     else:
-      json_ratios = json.dumps(ratios)
+      json_ratios = json.dumps(ratios, cls=json_encoder.JsonEncoder)
 
     # cache this as overview
     set_diff_cache(hashname, json_ratios)
