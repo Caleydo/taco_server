@@ -139,8 +139,8 @@ def generate_diff_from_files(file1, file2):
 # Table data structure
 class Table:
   def __init__(self, rows, cols, content):
-    self.row_ids = np.asarray(rows, 'object')
-    self.col_ids = np.asarray(cols, 'object')
+    self.row_ids = np.asarray(rows, 'object').astype(str)
+    self.col_ids = np.asarray(cols, 'object').astype(str)
     self.content = content
 
 
