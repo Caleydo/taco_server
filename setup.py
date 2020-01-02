@@ -41,11 +41,12 @@ def to_version(v):
 
 
 setup(
-  name=pkg['name'],
+  name=pkg['name'].lower(),
   version=to_version(pkg['version']),
   url=pkg['homepage'],
   description=pkg['description'],
   long_description=read_it('README.md'),
+  long_description_content_type='text/markdown',
   keywords=pkg.get('keywords', ''),
   author=pkg['author']['name'],
   author_email=pkg['author']['email'],
