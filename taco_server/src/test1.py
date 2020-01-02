@@ -39,7 +39,7 @@ def del_row(my_array, index):
   array_length = len(my_array)
   # check if the table is empty
   if array_length == 0:
-    print("Error: list is empty, can't delete a row", index)
+    print(("Error: list is empty, can't delete a row", index))
     return my_array
   else:
     if index < array_length:
@@ -53,7 +53,7 @@ def del_col(my_array, index):
   array_length = len(my_array)
   # check if the table is empty
   if array_length == 0:
-    print("Error: list is empty, can't delete a row", index)
+    print(("Error: list is empty, can't delete a row", index))
     return my_array
   else:
     row_length = len(my_array[0])
@@ -84,7 +84,7 @@ def randomly_change_table(table):
     else:
       # table is empty
       new_row = random.sample(range(min_data, max_data), random.randint(1, largest_row))
-    print("log: add a row in ", index, new_row)
+    print(("log: add a row in ", index, new_row))
     table = add_row(table, index, new_row)
   elif change_type == ADD_COL:
     if len(table) > 0:
@@ -93,24 +93,24 @@ def randomly_change_table(table):
     else:
       index = 0
       new_col = random.sample(range(min_data, max_data), random.randint(1, largest_col))
-    print("log: add a col in ", index, new_col)
+    print(("log: add a col in ", index, new_col))
     table = add_col(table, index, new_col)
   elif change_type == CH_CELL:
     if len(table) > 0:
       i = random.randint(0, len(table) - 1)
       j = random.randint(0, len(table[0]) - 1)
       new_value = random.uniform(min_data, max_data)
-      print("log: change something somewhere ", i, j, new_value)
+      print(("log: change something somewhere ", i, j, new_value))
       table = change_cell(table, i, j, new_value)
     else:
       print("log: there's nothing to change")
   elif change_type == DEL_ROW:
     index = random.randint(0, len(table) - 1)
-    print("log: delete row ", index)
+    print(("log: delete row ", index))
     table = del_row(table, index)
   elif change_type == DEL_COL:
     index = random.randint(0, len(table[0]) - 1)
-    print("log: delete col ", index)
+    print(("log: delete col ", index))
     table = del_col(table, index)
   return table
 
@@ -152,13 +152,13 @@ table_2 = np.array([[13, 0.1], [7.1, 3], [1, 4], [2, 3], [3, 3]])
 # table_3 might be from a file as it has to be big
 input_file = '../../data/small_table_in.csv'
 my_date = np.genfromtxt(input_file, delimiter=',')
-print("this is my data", my_date)
+print(("this is my data", my_date))
 output_file = "../../data/small_table_out.csv"
 
 random.seed(100)
 num_of_changes = random.randint(2, 20)
-print("num of changes is ", num_of_changes - 1)
-for i in xrange(1, num_of_changes):
+print(("num of changes is ", num_of_changes - 1))
+for i in range(1, num_of_changes):
   my_date = randomly_change_table(my_date)
   print(my_date)
 # print(table_2)

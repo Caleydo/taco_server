@@ -6,12 +6,12 @@ __author__ = 'Reem'
 
 # creates an array with random float values within a range with size
 def random_floats_array(low, high, size):
-  return [random.uniform(low, high) for _ in xrange(size)]
+  return [random.uniform(low, high) for _ in range(size)]
 
 
 # creates an array with random int values within a range with size
 def random_int_array(low, high, size):
-  return [random.randint(low, high) for _ in xrange(size)]
+  return [random.randint(low, high) for _ in range(size)]
 
 
 # creates a homogeneous table

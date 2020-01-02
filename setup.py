@@ -3,7 +3,7 @@
 # Copyright (c) The Caleydo Team. All rights reserved.
 # Licensed under the new BSD license, available at http://caleydo.org/license
 ###############################################################################
-from __future__ import with_statement, print_function
+
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
@@ -26,12 +26,12 @@ with open(path.join(here, 'package.json'), encoding='utf-8') as json_data:
 def packaged(*files):
   r = {}
   global pkg
-  r[pkg['name'].encode('ascii')] = list(files)
+  r[pkg['name']] = list(files)
   return r
 
 
 def requirements(file):
-  return [r.strip().encode('ascii') for r in read_it(file).strip().split('\n') if not r.startswith('-e git+https://')]
+  return [r.strip() for r in read_it(file).strip().split('\n') if not r.startswith('-e git+https://')]
 
 
 def to_version(v):

@@ -1,6 +1,6 @@
 from phovea_server import ns
 import timeit
-from src import diff_cache
+from .src import diff_cache
 import logging
 
 
@@ -101,6 +101,7 @@ def create():
   :return:
   """
   return app
+
 
 if __name__ == '__main__':
   app.debug = True

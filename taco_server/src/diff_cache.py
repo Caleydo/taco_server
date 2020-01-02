@@ -3,12 +3,11 @@
 # detail (as detail), middle (as count), overview (as ratios)
 
 
-from __future__ import print_function
-from diff_finder import Table, DiffFinder, Diff, Ratios
+from .diff_finder import Table, DiffFinder, Diff, Ratios
 import phovea_server.dataset as dataset
 import timeit
 import json
-import pandas.json as ujson
+from . import json_encoder
 import os
 import hashlib
 from collections import namedtuple
@@ -37,6 +36,7 @@ def create_cache_dir():
   else:
     _log.info('use existing cache directory: ' + _cache_directory)
 
+
 # run immediately!
 create_cache_dir()
 
@@ -50,7 +50,7 @@ def get_diff_cache(filename):
   file_name = _cache_directory + filename + '.json'
   if os.path.isfile(file_name):
     with open(file_name) as data_file:
-      data = ujson.load(data_file)
+      data = json.load(data_file)
     return data
   # if the file doesn't exist
   return None
@@ -100,16 +100,17 @@ def get_diff_table(id1, id2, direction, ops, jsonit=True):
 
     if isinstance(diffobj, Diff):
       # log the detail
-      json_result = ujson.dumps(diffobj.serialize())
+      serialize = Diff.serialize # noqa E121
+      json_result = (json.dumps(diffobj.__dict__, cls=json_encoder.JsonEncoder))
       set_diff_cache(hash_name, json_result)
     else:
       # todo later find a way to send the error
       # e.g. there's no matching column in this case
-      json_result = ujson.dumps(diffobj)  # which is {} for now!
+      json_result = json.dumps(diffobj, cls=json_encoder.JsonEncoder)  # which is {} for now!
       set_diff_cache(hash_name, json_result)
 
   elif jsonit is False:
-    diffobj = Diff().unserialize(ujson.loads(json_result))
+    diffobj = Diff().unserialize(json.loads(json_result))
 
   if jsonit:
     return json_result
@@ -152,10 +153,10 @@ def get_ratios(id1, id2, direction, ops, bins=1, bins_col=1, jsonit=True):
     # bin == 1 -> timeline bar chart
     # bin == -1 -> 2d ratio plot
     if bins == 1 or bins == -1:
-      json_ratios = ujson.dumps(ratios.serialize())
+      json_ratios = json.dumps(ratios.serialize(), cls=json_encoder.JsonEncoder)
     # bin > 1 -> 2d ratio histogram
     else:
-      json_ratios = ujson.dumps(ratios)
+      json_ratios = json.dumps(ratios, cls=json_encoder.JsonEncoder)
 
     # cache this as overview
     set_diff_cache(hashname, json_ratios)
@@ -198,12 +199,12 @@ def calc_diff(id1, id2, direction, ops):
     if row_strat is not None:
       rowids = list(m.rowids())
       row_indices = [rowids.index(o) for o in row_strat.rowids()]
-      data = data[row_indices, ...]
+      data = data[row_indices, ...].astype('str')
 
     if col_strat is not None:
       colids = list(m.colids())
       col_indices = [colids.index(o) for o in col_strat.rowids()]
-      data = data[..., col_indices]
+      data = data[..., col_indices].astype('str')
 
     return Table(rows, cols, data)
 
@@ -232,12 +233,12 @@ def create_hashname(id1, id2, bins, bins_col, direction, ops):
   :return:
   """
   name = str(id1) + '_' + str(id2) + '_' + str(bins) + '_' + str(bins_col) + '_' + str(direction) + '_' + str(ops)
-  return hashlib.md5(name).hexdigest()
+  return hashlib.md5(name.encode('utf-8')).hexdigest()
 
 
 def ratio_from_json(jsonobj):
   # idk
-  r = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+  r = json.loads(jsonobj, object_hook=lambda d: namedtuple('X', d.keys())(*list(d.values())))
   # todo find a smarter way, really
   cr = 0 if not hasattr(r, "c_ratio") else r.c_ratio
   ar = 0 if not hasattr(r, "a_ratio") else r.a_ratio
