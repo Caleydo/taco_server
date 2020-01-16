@@ -1,7 +1,7 @@
 import numpy as np
 import random
-import generator as gen
-import logger as log
+from . import generator as gen
+from . import logger as log
 
 __author__ = 'Reem'
 
@@ -44,7 +44,7 @@ def del_row(my_array, index):
   array_length = len(my_array)
   # check if the table is empty
   if array_length == 0:
-    print("Error: list is empty, can't delete a row", index)
+    print(("Error: list is empty, can't delete a row", index))
     return my_array
   else:
     if index < array_length:
@@ -58,7 +58,7 @@ def del_col(my_array, index):
   array_length = len(my_array)
   # check if the table is empty
   if array_length == 0:
-    print("Error: list is empty, can't delete a col", index)
+    print(("Error: list is empty, can't delete a col", index))
     return my_array
   else:
     row_length = len(my_array[0])
@@ -165,7 +165,7 @@ def merge_columns(full_table, merge_array):
   # update the IDs
   col_ids.insert(merge_array[0], merged_id)
   log.message("merge", "column", merged_id, merge_array)
-  print(merged_id, cols, merged_col, table)
+  print((merged_id, cols, merged_col, table))
   return {"table": table, "col_ids": col_ids, "row_ids": row_ids}
 
 
@@ -189,7 +189,7 @@ def merge_rows(full_table, merge_array):
   # update the IDs
   row_ids.insert(merge_array[0], merged_id)
   log.message("merge", "row", merged_id, merge_array)
-  print(merged_id, rows, merged_row, table)
+  print((merged_id, rows, merged_row, table))
   return {"table": table, "col_ids": col_ids, "row_ids": row_ids}
 
 
@@ -202,27 +202,27 @@ def change_table(full_table, min_data, max_data, operations):
   new_row_id = latest_row_id + 1
   new_col_id = latest_col_id + 1
   # first delete the rows
-  for r in xrange(operations['del_row']):
+  for r in range(operations['del_row']):
     full_table = randomly_change_table(full_table, min_data, max_data, DEL_ROW)
   # then delete the cols
-  for c in xrange(operations['del_col']):
+  for c in range(operations['del_col']):
     full_table = randomly_change_table(full_table, min_data, max_data, DEL_COL)
   # then add rows
-  for r in xrange(operations['add_row']):
+  for r in range(operations['add_row']):
     full_table = randomly_change_table(full_table, min_data, max_data, ADD_ROW, new_row_id)
     new_row_id += 1
   # then add cols
-  for c in xrange(operations['add_col']):
+  for c in range(operations['add_col']):
     full_table = randomly_change_table(full_table, min_data, max_data, ADD_COL, new_col_id)
     new_col_id += 1
   # finally change the cells
-  for c in xrange(operations['ch_cell']):
+  for c in range(operations['ch_cell']):
     full_table = randomly_change_table(full_table, min_data, max_data, CH_CELL)
   # merge operation
   # the order of this operation might change later
   for mc in operations['me_col']:
     # full_table = merge_col(full_table)
-    print ('merge col', mc)
+    print(('merge col', mc))
     full_table = merge_columns(full_table, mc)
   for mr in operations['me_row']:
     full_table = merge_rows(full_table, mr)
@@ -277,7 +277,7 @@ for i in range(ch_count):
   gen.save_table(result['table'], result['row_ids'], result['col_ids'],
                  data_directory + file_name + str(i + 1) + '_out.csv')
   # just print the size to add it manually to index.json
-  print (result['table'].shape[0], result['table'].shape[1], i)
+  print((result['table'].shape[0], result['table'].shape[1], i))
   # update the ... for next round
   operations_count = {
       'del_row': random.randint(0, 25),

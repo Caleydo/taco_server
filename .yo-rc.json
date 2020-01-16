@@ -27,6 +27,12 @@
       "debianPackages": [],
       "redhatPackages": []
     },
-    "today": "Tue, 08 Nov 2016 08:36:05 GMT"
+    "today": "Tue, 08 Nov 2016 08:36:05 GMT",
+    "promptValues": {
+      "authorName": "The Caleydo Team",
+      "authorEmail": "contact@caleydo.org",
+      "authorUrl": "https://caleydo.org",
+      "githubAccount": "caleydo"
+    }
   }
 }

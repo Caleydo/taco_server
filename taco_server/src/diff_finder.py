@@ -139,8 +139,8 @@ def generate_diff_from_files(file1, file2):
 # Table data structure
 class Table:
   def __init__(self, rows, cols, content):
-    self.row_ids = np.asarray(rows, 'object')
-    self.col_ids = np.asarray(cols, 'object')
+    self.row_ids = np.asarray(rows, 'object').astype(str)
+    self.col_ids = np.asarray(cols, 'object').astype(str)
     self.content = content
 
 
@@ -172,11 +172,11 @@ class Diff:
     }
 
   def unserialize(self, json_obj):
-    self.content = [] if json_obj['content'] is None else json_obj['content']
-    self.structure = {} if json_obj['structure'] is None else json_obj['structure']
-    self.merge = {} if json_obj['merge'] is None else json_obj['merge']
-    self.reorder = {'rows': [], 'cols': []} if json_obj['reorder'] is None else json_obj['reorder']
-    self.union = {} if json_obj['union'] is None else json_obj['union']
+    self.content = json_obj['content'] if 'content' in list(json_obj.keys()) else []
+    self.structure = json_obj['structure'] if 'structure' in list(json_obj.keys()) else {}
+    self.merge = json_obj['merge'] if 'merge' in list(json_obj.keys()) else {}
+    self.reorder = json_obj['reorder'] if 'reorder' in list(json_obj.keys()) else {'rows': [], 'cols': []}
+    self.union = json_obj['union'] if 'union' in list(json_obj.keys()) else {}
     return self
 
   def content_counts_percell(self):
@@ -356,8 +356,8 @@ class Diff:
     :param height:
     :return:
     """
-    ids = map(lambda r: r['id'], self.reorder['rows'])
-    filtered_content = filter(lambda r: r['row'] in ids, self.content)
+    ids = [r['id'] for r in self.reorder['rows']]
+    filtered_content = [r for r in self.content if r['row'] in ids]
     return float(len(filtered_content))
 
   def reorder_cols_counts(self):
@@ -367,8 +367,8 @@ class Diff:
     :param height:
     :return:
     """
-    ids = map(lambda r: r['id'], self.reorder['cols'])
-    filtered_content = filter(lambda r: r['col'] in ids, self.content)
+    ids = [r['id'] for r in self.reorder['cols']]
+    filtered_content = [r for r in self.content if r['col'] in ids]
     return float(len(filtered_content))
 
   def reorder_rows_cols_counts(self):
@@ -378,9 +378,9 @@ class Diff:
     :param height:
     :return:
     """
-    row_ids = map(lambda r: r['id'], self.reorder['rows'])
-    col_ids = map(lambda r: r['id'], self.reorder['cols'])
-    filtered_content = filter(lambda r: r['col'] in col_ids and r['row'] in row_ids, self.content)
+    row_ids = [r['id'] for r in self.reorder['rows']]
+    col_ids = [r['id'] for r in self.reorder['cols']]
+    filtered_content = [r for r in self.content if r['col'] in col_ids and r['row'] in row_ids]
     return float(len(filtered_content))
 
   def reorder_counts(self):
@@ -421,7 +421,7 @@ class Diff:
       # it's the case of histogram or bar plot
       result = {}
       if self._direction == D_ROWS_COLS or self._direction == D_ROWS:
-        union_rows = self.union['ur_ids']
+        union_rows = self.union['ur_ids'] if 'ur_ids' in list(self.union.keys()) else []
         max_height = len(union_rows)
         if bins >= max_height:
           # this is the case of bar plot
@@ -437,7 +437,7 @@ class Diff:
       # todo the rows might have different bins number than the cols
       if self._direction == D_ROWS_COLS or self._direction == D_COLS:
         # if it's the cols not the rows then switch
-        union_cols = self.union['uc_ids']
+        union_cols = self.union['uc_ids'] if 'uc_ids' in list(self.union.keys()) else []
         max_width = len(union_cols)
         if bins_col >= max_width:
           # todo handle the > alone or?
@@ -479,7 +479,7 @@ class Diff:
     index2bin = np.digitize(indices, bin_range)
 
     # todo handle the error here when there's no row !
-    pcontent = [[] for x in xrange(bins)]
+    pcontent = [[] for x in range(bins)]
     for c in self.content:
       ci = union_rows.index(c[row])
       bin_index = index2bin[ci]
@@ -489,7 +489,7 @@ class Diff:
       pcontent[bin_index] += [c]
 
     # for structure changes
-    pstructure = [{"added_" + e_type: [], "deleted_" + e_type: []} for x in xrange(bins)]
+    pstructure = [{"added_" + e_type: [], "deleted_" + e_type: []} for x in range(bins)]
     # filter for the structure changes, because once there's a structure change, there's no need to find content #what!!
     for a in self.structure["added_" + e_type]:
       ai = union_rows.index(a['id'])
@@ -508,8 +508,8 @@ class Diff:
 
     # convert to np.array to use np.where
     union_rows = np.array(union_rows)
-    for i in xrange(bins):
-      temp = union_rows[np.where(index2bin == i)[0]]
+    for i in range(bins):
+      temp = union_rows[np.where(index2bin == i)[0]].astype('str').tolist()
       if dir == D_ROWS:
         punion = {
             "ur_ids": temp,
@@ -540,15 +540,15 @@ class Diff:
     # get a partial diff where every row is a diff
     # 1. Partition
     # get the direction
-    union_rows = self.union['ur_ids']
-    union_cols = self.union['uc_ids']
+    union_rows = self.union['ur_ids'] if 'ur_ids' in list(self.union.keys()) else []
+    union_cols = self.union['uc_ids'] if 'uc_ids' in list(self.union.keys()) else []
     e_type = "rows"
     row_id = "row"
 
     if dir == D_COLS:
       # if it's the cols not the rows then switch
-      union_rows = self.union['uc_ids']
-      union_cols = self.union['ur_ids']
+      union_rows = self.union['uc_ids'] if 'uc_ids' in list(self.union.keys()) else []
+      union_cols = self.union['ur_ids'] if 'ur_ids' in list(self.union.keys()) else []
       # todo handle the case of both rows and columns
       e_type = "cols"
       row_id = "col"
@@ -565,18 +565,18 @@ class Diff:
       pstructure = {}
       # filter for the structure changes, because once there's a structure change, there's no need to find content
       # idk why but obj is Diff!
-      pstructure["added_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["added_" + e_type])
+      pstructure["added_" + e_type] = [obj for obj in self.structure["added_" + e_type] if obj['id'] == id]
       if len(pstructure["added_" + e_type]) != 0:
         # create a ratio where it's only added
         ratio_counts = RatiosAndCounts(Ratios(0, 1, 0, 0), Counts(0, len(union_cols), 0, 0))
       else:
         # find the deleted
-        pstructure["deleted_" + e_type] = filter(lambda obj: obj['id'] == id, self.structure["deleted_" + e_type])
+        pstructure["deleted_" + e_type] = [obj for obj in self.structure["deleted_" + e_type] if obj['id'] == id]
         if len(pstructure["deleted_" + e_type]) != 0:
           ratio_counts = RatiosAndCounts(Ratios(0, 0, 1, 0), Counts(0, 0, len(union_cols), 0))
         else:
           # find the content
-          pcontent = filter(lambda obj: obj[row_id] == id, self.content)
+          pcontent = [obj for obj in self.content if obj[row_id] == id]
           if len(pcontent) == 0:
             pcontent = None
           # more resonable in the case of subtable
@@ -740,7 +740,7 @@ class DiffFinder:
     self.diff = Diff(direction=self._direction)
     self.union = {}
     self.intersection = {}  # we only need this for rows when we have content changes
-    self.intersection["ic_ids"] = get_intersection(self._table1.col_ids, self._table2.col_ids)
+    self.intersection["ic_ids"] = get_intersection(self._table1.col_ids, self._table2.col_ids.astype(str))
     if self.intersection["ic_ids"].shape[0] > 0:
       # there's at least one common column between the tables
       # otherwise there's no need to calculate the unions
@@ -838,7 +838,7 @@ class DiffFinder:
         merged_ids = str(j).split(merge_delimiter)
         for s in merged_ids:
           # delete the delete operations related to those IDs
-          deleted_log = filter(lambda obj: obj['id'] != s, deleted_log)
+          deleted_log = [obj for obj in deleted_log if obj['id'] != s]
           merged_log += [{"id": s, "pos": np.where(u_ids == s)[0][0], "merge_id": merge_id, "is_added": False}]
         merge_id += 1  # increment it
     # log
@@ -872,6 +872,7 @@ class DiffFinder:
   # @disordered is an array of the IDs that are available in x and not in the matching position in y (or not available at all)
   # in case x and y are a result of the intersection then disordered is the list of disordered IDs in x
   def _find_reorder(self, ids1, ids2, x, y, disordered, direction):
+    import numpy
     # todo this should be as the size of the original ids not just the intesection ids
     # x shape or y shape should be the same
     # or the shape of the IDs in the second table (original y)
@@ -879,20 +880,25 @@ class DiffFinder:
     reordered = []
     for i in disordered:
       # todo check this with more than 2 changes
-      pos_table1 = np.where(ids1 == i)[0][0]
-      pos_table2 = np.where(ids2 == i)[0][0]
+      if isinstance(i, numpy.ndarray):
+        i = i[0]
+      try:
+        pos_table1 = np.where(ids1 == i)[0][0]
+        pos_table2 = np.where(ids2 == i)[0][0]
+      except IndexError:
+        print('index error')
       # todo substitute this with the new one!
       reordered.append({'id': i, 'from': pos_table1, 'to': pos_table2, 'diff': pos_table2 - pos_table1})
 
       old = np.where(x == i)[0][0]
       new = np.where(y == i)[0][0]
       np.put(indices, old, new)
-    # index = []
-    # for i in x:
-    #     if i != y[np.where(x == i)[0][0]]:
-    #         index += [np.where(y == i)[0][0]]
-    #     else:
-    #         index += [np.where(x == i)[0][0]]
+      # index = []
+      # for i in x:
+      #     if i != y[np.where(x == i)[0][0]]:
+      #         index += [np.where(y == i)[0][0]]
+      #     else:
+      #         index += [np.where(x == i)[0][0]]
     self._reorder_to_json(direction, reordered)
     return indices
 
@@ -934,10 +940,10 @@ class DiffFinder:
     try:
       cdis = cids1[cids1 != cids2]
     except ValueError:
-      # fixing an ungly bug when there are NO unique ids!
+      # fixing an ungly bug when there are NO  unique ids!
       # ## warning! bug ###
       # this happens when one of the tables does NOT have unique ids and the sizes are different... couldn't fix
-      print("Oops! it seems that sizes are not matching", cids1.shape[0], cids2.shape[0])
+      print(("Oops! it seems that sizes are not matching", cids1.shape[0], cids2.shape[0]))
       set_boolean = (np.array(list(set(cids1))) != np.array(list(set(cids2))))
       cdis = cids1[set_boolean]
       # ignore and leave
@@ -949,7 +955,7 @@ class DiffFinder:
       inter2 = inter2[:, c_indices]
     # at this point inter2 should look good hopefully!
     # diff work
-    diff = inter2 - inter1
+    diff = inter2.astype('float') - inter1.astype('float')
     # done :)
     # normalization
     normalized_diff = normalize_float_11(diff)
