@@ -1,2 +1,2 @@
--e git+https://github.com/phovea/phovea_server.git@develop#egg=phovea_server
+-e git+https://github.com/phovea/phovea_server.git@update_requirements#egg=phovea_server
 sklearn==0.0
