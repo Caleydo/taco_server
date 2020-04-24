@@ -42,7 +42,7 @@ This repository is part of **[Phovea](http://phovea.caleydo.org/)**, a platform 
 [phovea-url]: https://phovea.caleydo.org
 [npm-image]: https://badge.fury.io/js/taco_server.svg
 [npm-url]: https://npmjs.org/package/taco_server
-[travis-image]: https://travis-ci.org/caleydo/taco_server.svg?branch=master
-[travis-url]: https://travis-ci.org/caleydo/taco_server
+[circleci-image]: https://circleci.com/gh/Caleydo/taco_server.svg?style=shield
+[circleci-url]: https://circleci.com/gh/Caleydo/taco_server
 [daviddm-image]: https://david-dm.org/caleydo/taco_server/status.svg
 [daviddm-url]: https://david-dm.org/caleydo/taco_server
