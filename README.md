@@ -1,5 +1,7 @@
-TACO Server [![Phovea][phovea-image]][phovea-url] [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+TACO Server 
 =====================
+[![Phovea][phovea-image]][phovea-url] [![Build Status][circleci-image]][circleci-url]
+
 
 TACO (for **Ta**ble **Co**mparison) is an interactive comparison tool that effectively visualizes the differences between multiple tables at various levels of granularity.
 
@@ -40,9 +42,5 @@ This repository is part of **[Phovea](http://phovea.caleydo.org/)**, a platform 
 
 [phovea-image]: https://img.shields.io/badge/Phovea-Server%20Plugin-10ACDF.svg
 [phovea-url]: https://phovea.caleydo.org
-[npm-image]: https://badge.fury.io/js/taco_server.svg
-[npm-url]: https://npmjs.org/package/taco_server
 [circleci-image]: https://circleci.com/gh/Caleydo/taco_server.svg?style=shield
 [circleci-url]: https://circleci.com/gh/Caleydo/taco_server
-[daviddm-image]: https://david-dm.org/caleydo/taco_server/status.svg
-[daviddm-url]: https://david-dm.org/caleydo/taco_server
