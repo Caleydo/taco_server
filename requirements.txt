@@ -1,2 +1,2 @@
-phovea_server>=5.0.0,<6.0.0
 sklearn==0.0
+phovea_server>=6.0.0,<7.0.0
