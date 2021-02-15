@@ -1,7 +1,7 @@
 {
   "name": "taco_server",
   "description": "The server part for comparing large tabular data using Phovea",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "author": {
     "name": "The Caleydo Team",
     "email": "contact@caleydo.org",
