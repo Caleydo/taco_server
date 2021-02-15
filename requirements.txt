@@ -1,2 +1,2 @@
 sklearn==0.0
-phovea_server>=7.0.0,<8.0.0
+-e git+https://github.com/phovea/phovea_server.git@develop#egg=phovea_server
